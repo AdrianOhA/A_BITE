@@ -1,5 +1,4 @@
 *.class
-*.jar
 *.project
 *.settings
 src/main/webapp/WEB-INF/classes
