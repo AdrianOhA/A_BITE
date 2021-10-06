@@ -1,0 +1,68 @@
+<project name="GardenUs" default="compile" basedir="..">
+    <property name="src"            location="src"/>
+    <property name="resources"      location="src/main/resources"/>
+    <property name="build"          location="${deploy}/src/main/webapp/WEB-INF/classes"/>
+    <property name="script"         location="${deploy}/src/main/webapp/WEB-INF/script"/>
+    <property name="libs"           location="${deploy}/src/main/webapp/WEB-INF/lib"/>
+	<property name="deploy"         location="../../../www-deploy/GardenUs"/>
+	<property name="deploy.classes" 	location="${deploy}/src/main/webapp/WEB-INF/classes" />
+	<property name="deploy.lib" 		location="${deploy}/src/main/webapp/WEB-INF/lib" />
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${deploy}"/>
+		<mkdir dir="${deploy.classes}"/>
+		<mkdir dir="${deploy.lib}"/>
+	</target>
+
+	<target name="compile" depends="init" description="compile the source " >
+		<javac destdir="${deploy.classes}" fork="yes" executable="/usr/bin/javac" compiler="javac1.8" debug="true">
+			<src path="${src}"/>
+			<classpath>
+				<pathelement path="${classpath}"/>
+				<fileset dir="src/main/webapp/WEB-INF/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<fileset dir="/usr/local/tomcat/apache-tomcat-8.5.50/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="src/main/webapp/WEB-INF/classes"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="copyRoot">
+		<copy todir="${deploy}/src/main/webapp">
+			<fileset dir="src/main/webapp">
+				<include name="**/*"/>
+				<exclude name="**/.gitignore"/>
+				<exclude name="WEB-INF/classes/**"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="copyResource">
+		<copy todir="${deploy.classes}">
+			<fileset dir="${resources}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+		<copy file="src/main/resources/log4j/log4j-web.xml" tofile="${deploy}/src/main/webapp/WEB-INF/classes/log4j/log4j-web.xm" overwrite="true" />
+		<copy file="src/main/resources/properties/server.xml" tofile="${deploy}/src/main/webapp/WEB-INF/classes/properties/server.xml" overwrite="true" />
+	</target>
+
+	<target name="copyLib">
+		<copy todir="${libs}">
+			<fileset dir="src/main/webapp/WEB-INF/lib">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="dist" depends="clean, compile, copyResource, copyRoot, copyLib" description="clean up" ></target>
+
+	<target name="clean" description="clean up" >
+		<delete dir="${deploy.classes}"/>
+		<delete dir="${libs}"/>
+	</target>
+</project>

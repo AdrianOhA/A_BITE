@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd"
+>
+
+<tiles-definitions>
+	<!-- 웹 레이아웃 -->
+	<definition name="abite.def" template="/WEB-INF/tiles/abite/layout.jsp">
+		<put-attribute name="top"		value="/WEB-INF/tiles/abite/top.jsp" />
+		<put-attribute name="middle"	value="" />
+		<put-attribute name="bottom"	value="/WEB-INF/tiles/abite/bottom.jsp" />
+	</definition>
+
+	<definition name="/*/*/*.do" extends="abite.def">
+		<put-attribute name="middle"	value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	</definition>
+
+	<!-- 프랜차이즈 모바일 레이아웃 -->
+	<definition name="moabite.def" template="/WEB-INF/tiles/mo_abite/layout.jsp">
+		<put-attribute name="top"		value="/WEB-INF/tiles/mo_abite/top.jsp" />
+		<put-attribute name="middle"	value="" />
+		<put-attribute name="bottom"	value="/WEB-INF/tiles/mo_abite/bottom.jsp" />
+	</definition>
+
+	<definition name="/mo/*/*.do" extends="moabite.def">
+		<put-attribute name="middle"	value="/WEB-INF/views/mo/{2}/{3}.jsp" />
+	</definition>	
+</tiles-definitions>

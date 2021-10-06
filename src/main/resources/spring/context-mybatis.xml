@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://mybatis.org/schema/mybatis-spring
+		http://mybatis.org/schema/mybatis-spring.xsd"
+>
+	<mybatis:scan
+		base-package="com.abite.web.mapper,com.abite.mo.mapper"
+		factory-ref="sqlSessionFactory-abite"
+		annotation="org.springframework.stereotype.Repository" />
+		
+	<bean id="sqlSessionFactory-abite" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource"			ref="dataSource-abite" />
+		<property name="mapperLocations">
+  			<array>
+  				<value>classpath*:sql/mapper/abite/web/*.xml</value>
+  				<value>classpath*:sql/mapper/abite/mo/*.xml</value>
+  			</array>
+  		</property>
+	</bean>
+</beans>
