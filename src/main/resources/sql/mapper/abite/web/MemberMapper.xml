@@ -4,7 +4,7 @@
 <!--
 가드너스 회원 
 -->
-<mapper namespace="kr.gardenus.web.mapper.GuMemberMapper">
+<mapper namespace="com.abite.web.mapper.MemberMapper">
 
 <!-- 목록,정보 공통 칼럼 -->
 <sql id="MemberColumns">
@@ -18,7 +18,7 @@
 
 <select id="getMember" parameterType="map" resultType="int">
 	/* FcMemberMapper.getMember */
-	SELECT	COUNT(*)
-	FROM	gd_member gm	
+	SELECT	'1' A
+	FROM	DUAL	
 </select>
 </mapper>

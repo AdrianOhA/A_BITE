@@ -33,8 +33,9 @@
 		<param-value>
 			classpath:spring/context-aop.xml
 			classpath:spring/context-bean.xml
+			classpath:spring/context-redis.xml
 			classpath:spring/context-datasource.xml 
-			 classpath:spring/context-mybatis.xml 
+			classpath:spring/context-mybatis.xml 
 			classpath:spring/context-tiles.xml
 			classpath:spring/context-transaction.xml
 		</param-value>
@@ -85,7 +86,15 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	<filter>
+	    <filter-name>springSessionRepositoryFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+	   <filter-name>springSessionRepositoryFilter</filter-name>
+	   <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	  
 	<error-page>
 		<error-code>404</error-code>
 		<location>/error/404.jsp</location>
