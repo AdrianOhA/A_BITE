@@ -12,7 +12,7 @@ body {
     background: #e5e5e5;
     width: 100%;
     text-align: center;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto';
     font-weight: 600;
     letter-spacing: 1px;
 }
@@ -20,7 +20,6 @@ body {
 .bg_wrap{
 	width: 100%;
 	height: 100vh;
-	/* background:url('https://picsum.photos/1000/1500?image=827')  #fff; */
 	background: rgb(255,237,225);
     background-repeat:no-repeat;
     background-position: top center;
@@ -49,6 +48,8 @@ form{
 	background:#fff;
     height: 600px;
     padding: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .panel-switch{
@@ -64,18 +65,21 @@ form{
     margin: 0px 10px 50px;
     border: none;
     color: #fff;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto';
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 2px;
     font-size: 0.8em;
-    
     transition: background-color 0.2s , color:0.2s , opacity:0.2s;
 }
 
 .panel-switch button:active{
     background: #b52773;
     color: #c9c9c9;
+}
+
+.small_font{
+	font-size: 0.7em;
 }
 
 .active-button{
@@ -88,7 +92,7 @@ button , .button , a {
 
 form h1{
     color: #acacac;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto';
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 4px;
@@ -98,6 +102,11 @@ form h1{
 
 fieldset{
     border: none;
+}
+
+.thumbnail{
+	width: 45px;
+    height: 45px;
 }
 
 .animate1 , .animate2 , .animate3 , .animate4{
@@ -134,6 +143,41 @@ fieldset{
     -webkit-animation-delay: 2.2s;
     -moz-animation-delay: 2.2s;
 }
+
+#google_btn {
+  display: inline-block;
+  background: white;
+  color: #444;
+  width: 183px;
+  border-radius: 5px;
+  border: thin solid #e5e5e5;
+  white-space: nowrap;
+}
+#google_btn:hover {
+  cursor: pointer;
+}
+span.label {
+  font-family: serif;
+  font-weight: normal;
+}
+span.icon {
+  background: url('../images/g-normal.png') transparent 5px 50% no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+}
+span.buttonText {
+  display: inline-block;
+  vertical-align: middle;
+  /* padding-left: 42px; */
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+  /* Use the Roboto font that is loaded in the <head> */
+  font-family: 'Roboto', sans-serif;
+}
+
 
 @-webkit-keyframes fadeInUp {
   from {
@@ -172,7 +216,7 @@ fieldset input{
     margin: 10px 0;
     padding: 20px;
     text-indent: 10px;
-    color: #fff;
+    color: #000;
     font-weight: 600;
 }
 
@@ -188,6 +232,13 @@ fieldset input:focus {
     margin: 9px 0;
 }
 
+.valid {
+    outline:;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 5em;
+    margin: 9px 0;
+}
+
 .login_form{
     position: relative;
     bottom:0;
@@ -198,15 +249,35 @@ fieldset input:focus {
     border-radius: 10em;
     background: #7B6341;
     color: #fff;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto';
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 2px;
     z-index: 1;
-    
     transition: background-color 0.2s , color:0.2s;
 }
 
+.signup_form{
+	position: relative;
+    bottom:0;
+    width: 70%;
+    height: 4em;
+    border: none;
+    border-radius: 10em;
+    background: #7B6341;
+    margin-top: 15px;
+    color: #fff;
+    font-family: 'Roboto';
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    z-index: 1;
+    transition: background-color 0.2s , color:0.2s;
+}
+
+.reset_login{
+	float: right;
+}
 #login-form-submit:active{
     background: #b52773;
     color: #c9c9c9;
@@ -292,4 +363,31 @@ a{
         bottom:0;
         width: 70%;
     }
+    
+    fieldset input{
+	    background: rgba(255, 255, 255, 0.2);
+	    border: none;
+	    border-radius: 5em;
+	    height: 20px;
+	    width: 90%;
+	    margin: 10px 0;
+	    padding: 10px;
+	    padding-top: 15px;
+	    padding-bottom: 15px;
+	    text-indent: 10px;
+	    color: #000;
+	    font-weight: 600;
+	}
+	
+	fieldset input::placeholder {
+	    color: #c7c6c6;
+	}
+	
+	
+	fieldset input:focus {
+	    outline:;
+	    border: 1px solid rgba(0, 0, 0, 0.2);
+	    border-radius: 5em;
+	    margin: 9px 0;
+	}
 } 	

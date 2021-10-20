@@ -1,4 +1,7 @@
 package com.abite.common.constant;
+
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * 
  *  모바일, web 공통 적용 
@@ -8,7 +11,7 @@ package com.abite.common.constant;
  * 
  * */
 public class Server {
-
+	
 	/**
 	 * 생성자.
 	 */
@@ -61,6 +64,8 @@ public class Server {
 
 	/** 쿠키:암호화키 (모바일사용자) */
 	public static String			COOKIE_KEY_MO;
+	
+	public static String 			KAKAO_DOMIN;
 	//#########################################################################
 	// 갯수 관련
 	//#########################################################################

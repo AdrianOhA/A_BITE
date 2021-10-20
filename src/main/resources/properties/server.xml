@@ -9,8 +9,12 @@
 <!-- debug -->
 <entry key="DEBUG">true</entry>
 
+<entry key="DOMAIN">http://localhost:8080/</entry>
+
 <!-- 이미지 -->
 <entry key="DIR_IMAGE">/home/DATA/www-deploy/abite/src/main/webapp/images</entry>
-
+<entry key="KAKAO_AUTH_DOMAIN">https://kauth.kakao.com</entry>
+<entry key="KAKAO_API_DOMAIN">https://kapi.kakao.com</entry>
+<entry key="KAKAO_API_KEY">5f85b8bbdad232cf4d9c4fb2bd07dad9</entry>
 
 </properties>

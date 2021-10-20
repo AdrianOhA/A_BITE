@@ -1,7 +1,8 @@
 package com.abite.web.mapper;
 
+import java.util.HashMap;
+
 import org.springframework.stereotype.Repository;
-import org.springframework.ui.ModelMap;
 
 /**
  * 가드너스 회원 관련 mapper
@@ -13,5 +14,9 @@ import org.springframework.ui.ModelMap;
 @Repository
 public interface MemberMapper {
 	
-	int getMember(ModelMap map);
+	int getMember(HashMap<String, Object> map);
+	
+	int exsistMember(HashMap<String, Object> map);
+	
+	long addMember(HashMap<String, Object> map);
 }
