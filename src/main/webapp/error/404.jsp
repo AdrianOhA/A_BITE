@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
-<title>GardenUs</title>
+<title>한입만 - A_BITE</title>
 </head>
 
 <body>

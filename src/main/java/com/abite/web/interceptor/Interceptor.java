@@ -1,8 +1,12 @@
 package com.abite.web.interceptor;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -13,22 +17,17 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * @since	2020-01-06
  */
 public class Interceptor extends HandlerInterceptorAdapter{
+	
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean preHandle (HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception
 	{
-		String uri = req.getRequestURI();
-		System.out.println(uri);
-//		LoginVO login = LoginVO.of(LoginManager.getFC(req));  
-//		ValidateTool.isTrue(login.isLogined(), new LoginRequiredException());
-//		ValidateTool.isTrue(login.isFranchiseHqOrStaff() == true || login.isAdminGlobal() == true, new AuthenticationException());
-		
-		// 쿠키 갱신
-//		LoginManager.setFC(res, login);
-		// top.jsp에서 사용. menu 
-//		req.setAttribute (Server.KEY_LOGIN, null);	
-			
-		return true;
+		boolean flag = true;
+		HttpSession session = req.getSession(); 
+		Map<String, Object> user_info = (Map<String, Object>) session.getAttribute("USER_INFO");
+		if(ObjectUtils.isEmpty(user_info)) {
+			flag = false;
+		}
+		return flag;
 	}
-	
-	
 }

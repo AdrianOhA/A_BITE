@@ -1,6 +1,7 @@
 package com.abite.web.mapper;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,6 @@ public interface MemberMapper {
 	int exsistMember(HashMap<String, Object> map);
 	
 	long addMember(HashMap<String, Object> map);
+	
+	Map<String, Object> getMemberInfo(HashMap<String, Object> map);
 }

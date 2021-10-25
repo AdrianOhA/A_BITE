@@ -35,7 +35,8 @@
 				</div>
 				<fieldset id="login-fieldset">
 					<input class="login animated fadeInUp animate2" name="email" type="textbox" required placeholder="Email" value="" ng-model="login.email">
-					<input class="login animated fadeInUp animate3" name="password" type="password" required placeholder="Password" value="">
+					<input class="login animated fadeInUp animate3" name="password" type="password" required placeholder="Password" value="" ng-model="login.password">
+					<span id="login_msg" style="display: none;color:red;"  class="small_font"></span>
 				</fieldset>
 				<fieldset id="signup-fieldset-sns" class="hidden animated fadeInUp animate2">
 					<div id="gSignInWrapper">

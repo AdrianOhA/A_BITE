@@ -30,7 +30,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
 		
 		String module = req.getRequestURI().split("/")[1];
-		
+		print(req);
 		if (Server.NOCACHE) {
 			// request 마다 랜덤한 숫자를 발급하여 "?1234567890" 형태로
 			// request의 attribute로 추가하여 JSP(header.include)에서 사용하도록 한다.

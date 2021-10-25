@@ -7,157 +7,145 @@
   text-decoration: underline;
 }
 </style>
+<header class="header-area" ng-controller="headerCtrl" ng-init=init() ng-app="A_BITE_App">
+    <!-- Top Header Area -->
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(img/bg-img/header.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-between">
+                <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
+                    <!-- Top Search Area -->
+                    <div class="top-search-area">
+                        <form action="#" method="post">
+                            <input type="search" name="top-search" placeholder="Search">
+                            <button type="button" class="btn" ng-click="search()"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<%-- Left Menu --%>
-<div class="header" ng-controller="menuController" ng-init="startup(${accordion.active}, ${accordion.index})">
-	<div id="menu_area" ng-show="data.showMenu">
-		<ul class="depth" id="accordion">
-			<c:if test="${login.franchiseHqOrStaff}">
-			<c:forEach var="menu" items="${menuList}">
-					<li>
-						<a href="${menu.menuUri }" class="title">${menu.menuTitle }</a>
-						<ul class="depth2">
-							<c:forEach var="subMenu" items="${menu.subMenuList}">
-								<li><a href="${subMenu.menuUri}">${subMenu.menuTitle}</a></li>
-							</c:forEach>
-						</ul>
-					</li>
+    <!-- Logo Area -->
+    <div class="logo-area">
+        <a href="/"><img src="img/core-img/logo.png" alt=""></a>
+    </div>
 
-					<%-- 			
-					<c:if test="${(menu.menuTitle != '출고 관리' || (login.wms && menu.menuTitle == '출고 관리')) && fc:hasCategory(login.menu, menu.menuNo)}">
-					<li>
-						<a href="${menu.menuUri }" class="title">${menu.menuTitle }</a>
-						<ul class="depth2">
-							<c:forEach var="subMenu" items="${menu.subMenuList}">
-								<c:if test="${fc:hasReadRole(request, subMenu.menuUri)}">
-								<li><a href="${subMenu.menuUri}">${subMenu.menuTitle}</a></li>
-								</c:if>
-							</c:forEach>
-						</ul>
-					</li>
-					</c:if>
-					--%>
-			</c:forEach>
-			</c:if>
-			<c:if test="${login.adminGlobal}">
-			<c:forEach var="menu" items="${menuList}">
-					<li>
-						<a href="${menu.menuUri }" class="title">${menu.menuTitle }</a>
-						<ul class="depth2">
-							<c:forEach var="subMenu" items="${menu.subMenuList}">
-								<li><a href="${subMenu.menuUri}">${subMenu.menuTitle}</a></li>
-							</c:forEach>
-						</ul>
-					</li>
-			</c:forEach>
-			
-			<%-- 
-			<li>
-				<a href="javascript:void(0)" class="title">멤버 관리</a>
-				<ul class="depth2">
-					<li><a href="/fc/gnmember/indexPage.do">관리자 목록</a></li>
-					<li><a href="/fc/fcmember/indexPage.do">fc본사 목록</a></li>
-					<!-- 
-					<li><a href="/fc/waitingtrader/indexPage.do">승인 대기 가맹점 목록</a></li>
-					 -->
-				</ul>
-			</li>
-			
-			<li>
-				<a href="javascript:void(0)" class="title">정산 관리</a>
-				<ul class="depth2">
-					<li><a href="/fc/calculateOfHq/indexPage.do">본사 정산 관리</a></li>
-					<li><a href="/fc/actualExpense/indexPage.do">실비 정산</a></li>
-				</ul>
-			</li>
-			--%>
-			
-			<%--  
-			<li>
-				<a href="javascript:void(0)" class="title">발주 관리</a>
-				<ul class="depth2">
-					<li><a href="/fc/tplordering/indexPage.do">발주 진행 목록</a></li>
-					<li><a href="/fc/tplordercancel/indexPage.do">발주 취소 목록</a></li>
-					<li><a href="/fc/tplorderdelivery/indexPage.do">배송 완료 목록</a></li>
-				</ul>
-			</li>
-			--%>
-			
-			</c:if>
-			<%-- 
-			<c:if test="${login.tpl}">
-			<li>
-				<a href="javascript:void(0)" class="title">발주 관리</a>
-				<ul class="depth2">
-					<li><a href="/fc/tplordering/indexPage.do">발주 진행 목록</a></li>
-					<li><a href="/fc/tplordercancel/indexPage.do">발주 취소 목록</a></li>
-					<li><a href="/fc/tplorderdelivery/indexPage.do">배송 완료 목록</a></li>
-				</ul>
-			</li>
-			</c:if>
-			--%>
-		</ul>
-	</div>
-	<c:if test="${login.franchiseHqOrMasterStaff}">
-		<span id="menuDisplay" ng-click="menuDisplay()" ng-mouseover="hover.inSide()" ng-mouseleave="hover.outSide()"><img src="/img/red_arrow_left.png" style="width: 28px;height: 28px;float: right;margin-top: 5px;"></span>
-	</c:if>
-</div>
+    <!-- Navbar Area -->
+    <div class="bueno-main-menu" id="sticker">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="buenoNav">
 
-<%-- Top --%>
-<div class="my_info after" ng-controller="headerController" ng-init="startup()">
-	<c:choose>
-		<c:when test="${login.franchiseHqOrMasterStaff}">
-			<c:set var="logo_link" value="/fc/order/indexPage.do" />
-		</c:when>
-		<c:when test="${login.staff}">
-			<c:set var="logo_link" value="" />
-		</c:when>
-		<c:when test="${login.adminGlobal}">
-			<c:set var="logo_link" value="/fc/gnmember/indexPage.do" />
-		</c:when>
-		<%-- 
-		<c:when test="${login.tpl}">
-			<c:set var="logo_link" value="/fc/tplordering/indexPage.do" />
-		</c:when>
-		--%>
-		<c:otherwise>
-			<c:set var="logo_link" value="" />
-		</c:otherwise>
-	</c:choose>
-	<h1>
-	<a href="${logo_link}" style="display: inline-block;"><img src="/img/logo.png" alt="발주왕로고" /></a>
-	<%--  공지사항, 푸시관리, 문자관리  --%>
-	<span class="top-menu">
-		<c:forEach var="menu" items="${topMenuList}">
-			<span class='${menu.on}'><a href="${menu.defaultUri}">${menu.title}</a></span>
-		</c:forEach>
-		<c:if test="${login.franchiseHqOrStaff}">
-			<span ng-show="data.notice.noticeNo > 0" style="font-size: 14px;"> 공지사항 : <a href="javascript:void(0)" ng-click="openNotice()" class="notice-link">{{data.notice.title}} ({{ data.notice.regDate.substring(0,10) }})</a></span>
-		</c:if>
-	</span>
-	
-	</h1>
-	<div class="user_info">
-		<span class="user">${login.id}</span>
-		<button type="button" class="btn black" ng-click="logout()">로그아웃</button>
-	</div>
-	
-	<div id="noticeModal" class="popup_comm_st" style="width: 400px;">
-		<div class="box">
-			<div style="text-align:center; line-height: 32px;">공지사항 <span></div>
-			<div style="text-align:center; font-weight: bold; font-size: 1.2em; line-height: 32px;"><span>{{ data.notice.title }} ({{ data.notice.regDate.substring(0,10) }})</span></div>
-			<table class="comm_td">
-				<tbody>
-					<tr>
-						<th ng-bind-html="data.notice.content"></th>
-					</tr>
-				</tbody>
-			</table>
-			
-			<div class="bnt_box">
-				<button type="button" class="list_go black" ng-click="closeNotice()">닫기</button>
-			</div>
-		</div>
-	</div>
-	
-</div> <!-- my_info -->
+                    <!-- Toggler -->
+                    <div id="toggler"><img src="img/core-img/ranking.png" alt="" style="width: 30px;height: 30px;"></div>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- Close Button -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/">Home</a></li>
+                                        <li><a href="catagory.do">Catagory</a></li>
+                                        <li><a href="catagory-post.do">Catagory Post</a></li>
+                                        <li><a href="single-post.do">Single Post</a></li>
+                                        <li><a href="receipe.do">Recipe</a></li>
+                                        <li><a href="contact.do">Contact</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Recipes</a>
+                                    <div class="megamenu">
+                                        <ul class="single-mega cn-col-4">
+                                            <li><a href="#">- Recipe</a></li>
+                                            <li><a href="#">- Bread</a></li>
+                                            <li><a href="#">- Breakfast</a></li>
+                                            <li><a href="#">- Meat</a></li>
+                                            <li><a href="#">- Fastfood</a></li>
+                                            <li><a href="#">- Salad</a></li>
+                                            <li><a href="#">- Soup</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-4">
+                                            <li><a href="#">- Recipe</a></li>
+                                            <li><a href="#">- Bread</a></li>
+                                            <li><a href="#">- Breakfast</a></li>
+                                            <li><a href="#">- Meat</a></li>
+                                            <li><a href="#">- Fastfood</a></li>
+                                            <li><a href="#">- Salad</a></li>
+                                            <li><a href="#">- Soup</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-4">
+                                            <li><a href="#">- Recipe</a></li>
+                                            <li><a href="#">- Bread</a></li>
+                                            <li><a href="#">- Breakfast</a></li>
+                                            <li><a href="#">- Meat</a></li>
+                                            <li><a href="#">- Fastfood</a></li>
+                                            <li><a href="#">- Salad</a></li>
+                                            <li><a href="#">- Soup</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-4">
+                                            <li><a href="#">- Recipe</a></li>
+                                            <li><a href="#">- Bread</a></li>
+                                            <li><a href="#">- Breakfast</a></li>
+                                            <li><a href="#">- Meat</a></li>
+                                            <li><a href="#">- Fastfood</a></li>
+                                            <li><a href="#">- Salad</a></li>
+                                            <li><a href="#">- Soup</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="/single-post.do">Blog</a></li>
+                                <li><a href="contact.do">Contact</a></li>
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery-2.2.4 js -->
+    <script type="text/javascript" src="../js/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script type="text/javascript" src="../js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/angular_1.6.9.min.js"></script>
+    <!-- All Plugins js -->
+    <script type="text/javascript" src="../js/plugins.js"></script>
+    <script type="text/javascript" src="../js/WOW.js"></script>
+    <!-- Active js -->
+    <script type="text/javascript" src="../js/active.js"></script>
+
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script>
+    "use strict";
+    var mainApp = window.mainApp || (window.mainApp = angular.module("A_BITE_App", []));
+    mainApp.controller("headerCtrl", function($scope){
+        $scope.init = function(){
+            $scope.setEvent();
+        };
+        $scope.setEvent = function(){
+            
+        };
+        $scope.search = function(){
+            alert("search btn click");
+        };
+    });
+    </script>
+</header>

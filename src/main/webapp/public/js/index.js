@@ -57,27 +57,13 @@ mainApp.controller("mainCtrl", function($scope) {
         $("#signup_email").focusout(function(){
         	var _id = $("#signup_email").val() || "";
         	if (_id == "") return;
-        	$.ajax({
-                type: 'POST',
-                url: '/Auth/isExistsForMember.json',
-                contentType: "application/json; charset=UTF-8",
-                data: JSON.stringify({email: _id}),
-                async: true,
-                success: function(res) {
-                	if(res.COUNT == 0) {
-                		$("#checkid").css('color', 'black');
-                		$("#signup_email").removeClass('valid');
-                		$("#checkid").text("사용 가능합니다.");
-                		$("#checkid").show();
-                	} else {
-                		$("#checkid").css('color', 'red');
-                		$("#checkid").text("이미 등록된 email 입니다.");
-                		$("#checkid").show();
-                	}
-                },
-            });	
+        	checkEmail(_id);
         });
-
+        
+        $(".login").focusout(function(){
+        	$("#login_msg").hide();
+        });
+        
         $("#log_in").click(function() {
             // when click Log In button, hide the Sign Up elements, and display the Log In elements
             $("#title-thumbnail").toggleClass("hidden", true);
@@ -100,11 +86,10 @@ mainApp.controller("mainCtrl", function($scope) {
         });
 
         $("#signup-form-submit").click(function() {
-        	if(!$("#checkid").is(':visible') || "이미 등록된 email 입니다." == $("#checkid").text()) {
+        	if($("#checkid").is(':visible') && "이미 등록된 email 입니다." == $("#checkid").text()) {
         		$("#signup_email").addClass('valid');
         		return;
         	}
-        	
             if (!$("#title-thumbnail").is(':visible')) {
                 $scope.showSignUpForm($scope.profile);
             } else {
@@ -125,6 +110,16 @@ mainApp.controller("mainCtrl", function($scope) {
                         		$scope.login.email = $scope.profile.email;
                         		$scope.$apply();
                         		$("#log_in").click();
+                        		$scope.profile = {};
+                        	} else {
+                        		if(res.RESULT_CODE == "E") {
+                        			if(res.RESULT_MSG == "No Same Password") {
+                        				$("#checkpwd").show();
+                            			return;
+                        			} else {
+                        				checkEmail($scope.profile.email);
+                        			}
+                        		}
                         	}
                         },
                     });	
@@ -134,20 +129,22 @@ mainApp.controller("mainCtrl", function($scope) {
 
         $("#login-form-submit").click(function() {
         	if(checkValidation("login")){
-        		
+        		 $.ajax({
+                     type: 'POST',
+                     url: '/Auth/login.json',
+                     data: JSON.stringify($scope.login),
+                     contentType: "application/json; charset=UTF-8",
+                     async: true,
+                     success: function(res) {
+                     	if(res.RESULT_CODE == "E") {
+                     		$("#login_msg").text(res.RESULT_MSG);
+                     		$("#login_msg").show();
+                     	} else {
+                     		location.href = res.REDIRECT_URL || "";
+                     	}
+                     },
+                 });
         	}
-            /*$.ajax({
-                type: 'POST',
-                url: '/web/main/loginPage.do',
-                contentType: "application/json; charset=UTF-8",
-                data: JSON.stringify({
-                    TEST: "TEST"
-                }),
-                async: true,
-                success: function(res) {
-
-                },
-            });*/
         });
         
         $(".signup, .login").keyup(function(){
@@ -259,7 +256,7 @@ mainApp.controller("mainCtrl", function($scope) {
         $("#signup-fieldset").toggleClass("hidden", false);
         $("#signup-form-submit").toggleClass("hidden", false);
         $("#title-thumbnail").toggleClass("hidden", false);
-        
+        checkEmail($scope.profile.email);
         $scope.$apply();
     };
 
@@ -322,5 +319,37 @@ mainApp.controller("mainCtrl", function($scope) {
     		_flag = true;
     	} 
     	return _flag;
+    }
+    
+    function checkEmail(_id){
+    	if(_id) {
+    		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 검증에 사용할 정규식 변수 regExp에 저장
+        	if (_id.match(regExp) == null) {
+        		$("#checkid").css('color', 'red');
+        		$("#checkid").text("email 형식이 맞지 않아요!");
+        		$("#checkid").show();
+        		return;
+        	}
+        	
+        	$.ajax({
+                type: 'POST',
+                url: '/Auth/isExistsForMember.json',
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify({email: _id}),
+                async: true,
+                success: function(res) {
+                	if(res.COUNT == 0) {
+                		$("#checkid").css('color', 'black');
+                		$("#signup_email").removeClass('valid');
+                		$("#checkid").text("사용 가능합니다.");
+                		$("#checkid").show();
+                	} else {
+                		$("#checkid").css('color', 'red');
+                		$("#checkid").text("이미 등록된 email 입니다.");
+                		$("#checkid").show();
+                	}
+                },
+            });	
+    	}
     }
 });

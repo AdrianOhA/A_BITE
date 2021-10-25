@@ -12,8 +12,8 @@
 		<put-attribute name="bottom"	value="/WEB-INF/tiles/abite/bottom.jsp" />
 	</definition>
 
-	<definition name="/*/*/*.do" extends="abite.def">
-		<put-attribute name="middle"	value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	<definition name="/web/*.do" extends="abite.def">
+		<put-attribute name="middle"	value="/WEB-INF/views/web/{1}.jsp" />
 	</definition>
 
 	<!-- 프랜차이즈 모바일 레이아웃 -->
@@ -23,7 +23,7 @@
 		<put-attribute name="bottom"	value="/WEB-INF/tiles/mo_abite/bottom.jsp" />
 	</definition>
 
-	<definition name="/mo/*/*.do" extends="moabite.def">
-		<put-attribute name="middle"	value="/WEB-INF/views/mo/{2}/{3}.jsp" />
+	<definition name="/mo/*.do" extends="moabite.def">
+		<put-attribute name="middle"	value="/WEB-INF/views/mo/{1}.jsp" />
 	</definition>	
 </tiles-definitions>
