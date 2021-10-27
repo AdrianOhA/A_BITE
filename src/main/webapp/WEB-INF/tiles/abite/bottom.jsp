@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Preloader -->
 <div class="preloader d-flex align-items-center justify-content-center">
     <div class="preloader-content">

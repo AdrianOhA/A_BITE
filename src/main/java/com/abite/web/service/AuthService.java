@@ -116,10 +116,9 @@ public class AuthService {
 				map.put("RESULT_CODE", "E");
 				map.put("RESULT_MSG", "등록되지 않은 사용자 이거나, 비밀번호가 달라요!");
 			} else {
+				session.setAttribute("USER_INFO", userInfo);
 				map.put("RESULT_CODE", "S");
 				map.put("RESULT_MSG", "로그인 성공");
-			
-				session.setAttribute("USER_INFO", userInfo);
 			}
 		}
 		return map;

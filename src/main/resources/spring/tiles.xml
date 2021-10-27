@@ -7,12 +7,13 @@
 <tiles-definitions>
 	<!-- 웹 레이아웃 -->
 	<definition name="abite.def" template="/WEB-INF/tiles/abite/layout.jsp">
+		<put-attribute name="title" 	value="한입만 - A_BITE" />
 		<put-attribute name="top"		value="/WEB-INF/tiles/abite/top.jsp" />
-		<put-attribute name="middle"	value="" />
+		<put-attribute name="footer"	value="/WEB-INF/tiles/abite/footer.jsp" />
 		<put-attribute name="bottom"	value="/WEB-INF/tiles/abite/bottom.jsp" />
 	</definition>
 
-	<definition name="/web/*.do" extends="abite.def">
+	<definition name="/web/*" extends="abite.def">
 		<put-attribute name="middle"	value="/WEB-INF/views/web/{1}.jsp" />
 	</definition>
 
@@ -23,7 +24,7 @@
 		<put-attribute name="bottom"	value="/WEB-INF/tiles/mo_abite/bottom.jsp" />
 	</definition>
 
-	<definition name="/mo/*.do" extends="moabite.def">
+	<definition name="/mo/*" extends="moabite.def">
 		<put-attribute name="middle"	value="/WEB-INF/views/mo/{1}.jsp" />
 	</definition>	
 </tiles-definitions>

@@ -1,15 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<%-- <%@ include file="/WEB-INF/views/fc/import.include" %>
-<%@ include file="/WEB-INF/views/common/taglib.include" %> --%>
-
-<style>
-.notice-link {
-  text-decoration: underline;
-}
-</style>
-<header class="header-area" ng-controller="headerCtrl" ng-init=init() ng-app="A_BITE_App">
+<header class="header-area" ng-controller="headerCtrl" ng-init="init()">
     <!-- Top Header Area -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(img/bg-img/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../public/images/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
@@ -27,7 +18,7 @@
 
     <!-- Logo Area -->
     <div class="logo-area">
-        <a href="/"><img src="img/core-img/logo.png" alt=""></a>
+        <a href="/"><img src="../public/images/logo.png" alt=""></a>
     </div>
 
     <!-- Navbar Area -->
@@ -38,7 +29,7 @@
                 <nav class="classy-navbar justify-content-between" id="buenoNav">
 
                     <!-- Toggler -->
-                    <div id="toggler"><img src="img/core-img/ranking.png" alt="" style="width: 30px;height: 30px;"></div>
+                    <div id="toggler"><img src="../public/images/ranking.png" alt="" style="width: 30px;height: 30px;"></div>
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
@@ -119,33 +110,21 @@
             </div>
         </div>
     </div>
-    <!-- jQuery-2.2.4 js -->
-    <script type="text/javascript" src="../js/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script type="text/javascript" src="../js/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../js/angular_1.6.9.min.js"></script>
-    <!-- All Plugins js -->
-    <script type="text/javascript" src="../js/plugins.js"></script>
-    <script type="text/javascript" src="../js/WOW.js"></script>
-    <!-- Active js -->
-    <script type="text/javascript" src="../js/active.js"></script>
-
-    <script type="text/javascript" src="../js/common.js"></script>
-    <script>
-    "use strict";
-    var mainApp = window.mainApp || (window.mainApp = angular.module("A_BITE_App", []));
-    mainApp.controller("headerCtrl", function($scope){
-        $scope.init = function(){
-            $scope.setEvent();
-        };
-        $scope.setEvent = function(){
-            
-        };
-        $scope.search = function(){
-            alert("search btn click");
-        };
-    });
-    </script>
+   
 </header>
+
+<script>
+"use strict";
+var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
+mainApp.controller("headerCtrl", function($scope){
+    $scope.init = function(){
+        $scope.setEvent();
+    };
+    $scope.setEvent = function(){
+        
+    };
+    $scope.search = function(){
+        alert("search btn click");
+    };
+});
+</script>

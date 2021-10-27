@@ -35,7 +35,7 @@
 			classpath:spring/context-redis.xml
 			classpath:spring/context-datasource.xml 
 			classpath:spring/context-mybatis.xml 
-			classpath:spring/context-tiles.xml
+			<!-- classpath:spring/context-tiles.xml -->
 			classpath:spring/context-transaction.xml
 		</param-value>
 	</context-param>
@@ -54,7 +54,6 @@
 	</servlet>
 
 
-	<!-- *.do : page forward *.json : json response *.file : 파일 다운로드 -->
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
