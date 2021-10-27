@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html ng-app="ABite_App">
 <head>
@@ -19,6 +19,7 @@
   <script src="../public/js/index.js"></script>
 </head>
 <body ng-controller="mainCtrl" ng-init="init()">
+	
 	<div class="bg_wrap">
 		<div class="top_wrap"></div>
 		<div class="panel shadow1">
@@ -63,4 +64,12 @@
 		</div>
 	</div>
 </body>
+<script>
+<% 
+	Map<String, Object> user_info = (Map<String, Object>) session.getAttribute("USER_INFO");
+	if(user_info != null) {
+		response.sendRedirect("/dev/main.do");  
+	}
+%>
+</script>
 </html>

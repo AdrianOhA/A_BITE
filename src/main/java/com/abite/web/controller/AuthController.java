@@ -10,8 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mobile.device.Device;
-import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -125,13 +123,8 @@ public class AuthController {
 		logger.info("login form : "+ param);
 		Map<String, Object> login_info = service.login(param, session);
 		
-		Device device = DeviceUtils.getCurrentDevice(req);
-		if(device.isMobile() || device.isTablet()) {
-			login_info.put("REDIRECT_URL", "/mo/main.do");
-		} else {
-			login_info.put("REDIRECT_URL", "/web/main.do");
-		}
-
+		login_info.put("REDIRECT_URL", "/dev/main.do");
+		
 		return ret.addAllAttributes(login_info);
 	}
 }
