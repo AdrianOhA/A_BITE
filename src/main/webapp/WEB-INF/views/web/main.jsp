@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <div ng-controller="mainCtrl" ng-init="init()">
 	<!-- ##### Treading Post Area Start ##### -->
     <div class="treading-post-area" id="treadingPost">

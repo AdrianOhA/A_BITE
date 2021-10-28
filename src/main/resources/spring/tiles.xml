@@ -10,7 +10,7 @@
 		<put-attribute name="title" 	value="한입만 - A_BITE" />
 		<put-attribute name="top"		value="/WEB-INF/tiles/abite/top.jsp" />
 		<put-attribute name="footer"	value="/WEB-INF/tiles/abite/footer.jsp" />
-		<put-attribute name="bottom"	value="/WEB-INF/tiles/abite/bottom.jsp" />
+		<put-attribute name="preload"	value="/WEB-INF/tiles/abite/preload.jsp" />
 	</definition>
 
 	<definition name="/web/*" extends="abite.def">
@@ -21,7 +21,7 @@
 	<definition name="moabite.def" template="/WEB-INF/tiles/mo_abite/layout.jsp">
 		<put-attribute name="top"		value="/WEB-INF/tiles/mo_abite/top.jsp" />
 		<put-attribute name="middle"	value="" />
-		<put-attribute name="bottom"	value="/WEB-INF/tiles/mo_abite/bottom.jsp" />
+		<put-attribute name="preload"	value="/WEB-INF/tiles/mo_abite/preload.jsp" />
 	</definition>
 
 	<definition name="/mo/*" extends="moabite.def">

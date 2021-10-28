@@ -11,7 +11,7 @@
 
 <script type="text/javascript" src="../public/js/WOW.js"></script>
 <!-- Active js -->
-<script type="text/javascript" src="../public/js/active.js"></script>
+<script type="text/javascript" src="../public/js/active.js" async defer></script>
 <!-- All Plugins js -->
 <script type="text/javascript" src="../public/js/plugins.js"></script>
 
