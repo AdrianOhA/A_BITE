@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abite.web.mapper.MenuMapper">
+
+<!-- 검색 조건 -->
+<sql id="searchCondition">
+
+</sql>
+
+<select id="getMainMenuList" parameterType="HashMap" resultType="HashMap">
+	SELECT MENU_NO, MENU_TYPE, MENU_SEQ, MENU_PATH, MENU_LEVEL,
+		   MENU_NAME, PARENT_MENU_NO, MENU_THUMBNAIL
+	FROM  T_MENU	   
+	WHERE MENU_TYPE = #{DEVICE}	AND MENU_LEVEL = 1  
+	ORDER BY MENU_SEQ ASC
+</select>
+
+
+<select id="getSubMenuList" parameterType="HashMap" resultType="HashMap">
+	SELECT MENU_NO, MENU_TYPE, MENU_SEQ, MENU_PATH, MENU_LEVEL,
+		   MENU_NAME, PARENT_MENU_NO, MENU_THUMBNAIL
+	FROM  T_MENU	   
+	WHERE MENU_TYPE = #{DEVICE}	AND PARENT_MENU_NO IS NOT NULL
+	ORDER BY PARENT_MENU_NO ASC, MENU_SEQ ASC
+</select>
+
+</mapper>

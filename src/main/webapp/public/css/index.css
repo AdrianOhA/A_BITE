@@ -19,11 +19,10 @@ body {
 
 .bg_wrap{
 	width: 100%;
-	height: 100vh;
 	background: rgb(255,237,225);
     background-repeat:no-repeat;
     background-position: top center;
-    background-size: cover;	
+    min-height: 100vh;	
 }
 
 .top_wrap{

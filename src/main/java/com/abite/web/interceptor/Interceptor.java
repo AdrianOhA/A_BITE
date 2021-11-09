@@ -27,6 +27,7 @@ public class Interceptor extends HandlerInterceptorAdapter{
 		Map<String, Object> user_info = (Map<String, Object>) session.getAttribute("USER_INFO");
 		if(ObjectUtils.isEmpty(user_info)) {
 			flag = false;
+			res.sendRedirect("/");
 		}
 		return flag;
 	}

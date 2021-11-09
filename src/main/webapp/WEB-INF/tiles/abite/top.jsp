@@ -50,65 +50,17 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li><a href="/">Home</a></li>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="/">Home</a></li>
-                                        <li><a href="catagory.do">Catagory</a></li>
-                                        <li><a href="catagory-post.do">Catagory Post</a></li>
-                                        <li><a href="single-post.do">Single Post</a></li>
-                                        <li><a href="receipe.do">Recipe</a></li>
-                                        <li><a href="contact.do">Contact</a></li>
-                                    </ul>
+                                <li ng-repeat="menu in menuList" class="chk_after">
+                                	<a href="{{menu.MENU_PATH}}">{{menu.MENU_NAME}}</a>
+	                               	 <div ng-if="menu.SUB_MENU_LIST.length > 0" class="megamenu">
+		                               	 <ul class="single-mega cn-col-4" ng-repeat="smenu in menu.SUB_MENU_LIST">
+		                               	    <li><a href="{{smenu.MENU_PATH}}" style="text-align: center;"><img ng-src="{{smenu.MENU_THUMBNAIL}}" style="width: 200px;height: 130px" /><br><span>{{smenu.MENU_NAME}}</span></a></li>
+		                                 </ul>
+	                                 </div>
                                 </li>
-                                <li><a href="#">Recipes</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="#">- Recipe</a></li>
-                                            <li><a href="#">- Bread</a></li>
-                                            <li><a href="#">- Breakfast</a></li>
-                                            <li><a href="#">- Meat</a></li>
-                                            <li><a href="#">- Fastfood</a></li>
-                                            <li><a href="#">- Salad</a></li>
-                                            <li><a href="#">- Soup</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="#">- Recipe</a></li>
-                                            <li><a href="#">- Bread</a></li>
-                                            <li><a href="#">- Breakfast</a></li>
-                                            <li><a href="#">- Meat</a></li>
-                                            <li><a href="#">- Fastfood</a></li>
-                                            <li><a href="#">- Salad</a></li>
-                                            <li><a href="#">- Soup</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="#">- Recipe</a></li>
-                                            <li><a href="#">- Bread</a></li>
-                                            <li><a href="#">- Breakfast</a></li>
-                                            <li><a href="#">- Meat</a></li>
-                                            <li><a href="#">- Fastfood</a></li>
-                                            <li><a href="#">- Salad</a></li>
-                                            <li><a href="#">- Soup</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="#">- Recipe</a></li>
-                                            <li><a href="#">- Bread</a></li>
-                                            <li><a href="#">- Breakfast</a></li>
-                                            <li><a href="#">- Meat</a></li>
-                                            <li><a href="#">- Fastfood</a></li>
-                                            <li><a href="#">- Salad</a></li>
-                                            <li><a href="#">- Soup</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="/single-post.do">Blog</a></li>
-                                <li><a href="contact.do">Contact</a></li>
-                            </ul>
+                            </ul>  
                         </div>
-                        <!-- Nav End -->
-
-                    </div>
+ 					</div>
                 </nav>
             </div>
         </div>
@@ -120,14 +72,32 @@
 "use strict";
 var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
 mainApp.controller("headerCtrl", function($scope){
-    $scope.init = function(){
+	$scope.init = function(){
+		$scope.menuList = [];
+    	$scope.search_menu();
         $scope.setEvent();
     };
     $scope.setEvent = function(){
         
     };
-    $scope.search = function(){
-        alert("search btn click");
+    $scope.search_menu = function(){
+    	$.ajax({
+            type: 'POST',
+            url: '/dev/getMenuList.json',
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify({DEVICE: "WEB"}),
+            async: true,
+            success: function(res) {
+            	$scope.menuList = res.MENU_LIST;
+            	$scope.$apply();
+            	$(".chk_after").each(function(){
+            	 	var sub_menu_length = $(this).find('div').find('ul').length;
+            		if(sub_menu_length == 0) {
+            			$(this).removeClass('megamenu-item');
+            		}
+            	});            	
+            },
+        });	
     };
 });
 </script>

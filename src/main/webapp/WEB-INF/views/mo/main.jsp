@@ -1,46 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	 <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Title -->
-    <title>한입만 - A_BITE</title>
-    <!-- Favicon -->
-    <link rel="icon" href="../public/images/favicon.ico">
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="../public/css/style.css">  
-</head>
-
-<body>
-
-  <div class="preloader d-flex align-items-center justify-content-center">
-    <div class="preloader-content">
-        <h3>음식 쉐어 플랫폼<br>한입만</h3>
-        <div id="cooking">
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div id="area">
-                <div id="sides">
-                    <div id="pan"></div>
-                    <div id="handle"></div>
-                </div>
-                <div id="pancake">
-                    <div id="pastry"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    <!-- ##### Treading Post Area Start ##### -->
+	
+<!-- ##### Treading Post Area Start ##### -->
     <div class="treading-post-area" id="treadingPost">
         <div class="close-icon">
             <i class="fa fa-times"></i>
@@ -570,7 +531,3 @@
             <a href="../public/images/insta10.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
     </div>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-</body>
-
-</html>
