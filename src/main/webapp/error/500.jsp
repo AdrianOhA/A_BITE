@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<head>GardenUs</head>
+<head>한입만</head>
 <body class="">
 	<div class="error_table">
 		<div class="error_cell">

@@ -543,11 +543,13 @@ h3 {
         padding: 0 10px;
         color: #404040; }
         .header-area .bueno-main-menu .classy-navbar .classynav ul li a:hover, .header-area .bueno-main-menu .classy-navbar .classynav ul li a:focus {
-          color: #7B6341; }
+          color: #7B6341;
+          font-size: 16px;
+         }
       .header-area .bueno-main-menu .classy-navbar .classynav ul li ul li a {
         color: #404040;
         font-size: 14px;
-        padding: 0 20px; }
+        padding: 0 20px;}
     .header-area .bueno-main-menu .login-area {
       position: relative;
       z-index: 1;
@@ -1671,4 +1673,31 @@ h3 {
         height: 300px; } }
 
 /* ====== The End ====== */
+	/* nav design */
+	.chk_after a.title::before{
+		content: " ";
+	    /* position: relative; */
+	    display: inline-block;
+	    width: 12px;
+	    left: -5px;
+	    position: relative;
+	    height: 12px;
+	    border-radius:50%;
+	    background: #7B6341;
+	    /* linear-gradient(108deg, rgba(232,99,46,1) 0%, rgba(254,229,79,1) 50%, rgba(123,99,65,1) 100%); */
+	}
+	
+	.chk_after span.title::before{
+		content: " ";
+	    /* position: relative; */
+	    display: inline-block;
+	    width: 12px;
+	    left: -5px;
+	    position: relative;
+	    height: 12px;
+	    border-radius:50%;
+	    background: linear-gradient(to bottom, #e6f0a3 0%,#d2e638 50%,#c3d825 51%,#dbf043 100%);
+	    /*  */
+	}
 
+}
