@@ -56,7 +56,7 @@
                                 	 <div ng-if="menu.SUB_MENU_LIST.length > 0" style="padding-left:20px;padding-right:20px;">
 		                               	 <div class="megamenu">
 			                               	 <ul class="single-mega cn-col-4" ng-repeat="smenu in menu.SUB_MENU_LIST">
-			                               	    <li class="image_hover"><a href="{{smenu.MENU_PATH}}" style="text-align: center;" ><img ng-src="{{smenu.MENU_THUMBNAIL}}" style="width: 200px;height: 130px;-webkit-filter: blur(1px);-moz-filter: blur(1px);-o-filter: blur(1px);-ms-filter: blur(1px);filter: blur(1px);" /><br><span class="title">{{smenu.MENU_NAME}}</span></a></li>
+			                               	    <li class="image_hover"><a href="{{smenu.MENU_PATH}}" style="text-align: center;" ><img ng-src="{{smenu.MENU_THUMBNAIL}}" style="width: 200px;height: 130px;-webkit-filter: grayscale(50%);-moz-filter: grayscale(50%);-o-filter: grayscale(50%);-ms-filter: grayscale(50%);filter: grayscale(50%);" /><br><span class="title">{{smenu.MENU_NAME}}</span></a></li>
 			                                 </ul>
 		                                 </div>
 	                                 </div>
@@ -84,20 +84,20 @@ mainApp.controller("headerCtrl", function($scope){
     $scope.setEvent = function(){
    		$(document).on('mouseenter', 'li.image_hover', function(){
    			$(this).find('img').css({
-   				"filter": "none",
-	   			"-webkit-filter": "none",
-	   			"-moz-filter": "none",
-	   			"-o-filter": "none",
-	   			"-ms-filter":"none"
+   				"filter": "grayscale(0)",
+	   			"-webkit-filter": "grayscale(0)",
+	   			"-moz-filter": "grayscale(0)",
+	   			"-o-filter": "grayscale(0)",
+	   			"-ms-filter":"grayscale(0)"
    			});
    		});
    		$(document).on('mouseleave', 'li.image_hover', function(){
    			$(this).find('img').css({
-   				"filter": "blur(1px)",
-   				"-webkit-filter": "blur(1px)",
-   				"-moz-filter": "blur(1px)",
-   				"-o-filter": "blur(1px)",
-   				"-ms-filter":"blur(1px)"
+   				"filter": "grayscale(50%)",
+   				"-webkit-filter": "grayscale(50%)",
+   				"-moz-filter": "grayscale(50%)",
+   				"-o-filter": "grayscale(50%)",
+   				"-ms-filter":"grayscale(50%)"
    			})
    		});
     };
