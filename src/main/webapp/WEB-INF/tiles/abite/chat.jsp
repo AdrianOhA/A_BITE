@@ -1,30 +1,32 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.Map" %>
+<% Map<String, Object> user_info = (Map<String, Object>) session.getAttribute("USER_INFO"); %>
 
-<div class='chat_container' ng-controller='chatCtrl' ng-cloak='true' ng-init="init()">
+<div class='chat_container' ng-controller='chatCtrl' ng-init="init()">
    <div class='inbox'>
      <aside>
        <ul>
          <div ng-repeat='chat in chats'>
-           <li ng-click='uid(chat.id)'>
+           <li ng-click='click_profile(chat.id)'>
              <img class='avatar' ng-src='{{chat.avatar}}'> 
              <p class='username'>{{chat.username}}</p>
            </li>
          </div>
        </ul>
      </aside>
-     <main ng-controller='chatCtrl as chat'>
+     <main>
+       <span class="close"></span>
        <div class='init'>
-         <span class="close"></span>
          <i class='fa fa-inbox'></i>
-         <h4>Choose a conversation from the left</h4>
+         <h4 id="chat_result">Choose a conversation from the left</h4>
        </div>
        <div class='loader'>
          <p></p>
          <h4>Loading</h4>
        </div>
        <!-- Set A Ng Repeat For Our Messages || Check To See If Our Value (Which Is Set Via Ng Click) Is Equal To The Id Of The Message List We Want To Show -->
-       <div class='message-wrap' ng-repeat='message in chats' ng-show='value == message.id'>
+       <div class='message-wrap' ng-repeat='message in chats' ng-show='checkID == message.id'>
          <!-- Repeat Each Item In The Array Seperately -->
          <div class='message' ng-repeat='i in message.messages track by $index'>
            <p>{{i}}</p>
@@ -32,8 +34,8 @@
          </div>
        </div>
        <footer>
-         <form ng-submit='add()'>
-           <input ng-model='text' placeholder='Enter a message' type='text'>
+         <form ng-submit='add()' id="chatForm">
+           <input ng-model='text' placeholder='Enter a message' type='text' id="message">
            <input type='submit' value='Send'>
          </form>
        </footer>
@@ -44,16 +46,18 @@
  "use strict";
  var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
  mainApp.controller("chatCtrl", function($scope, $timeout){
-	var index = 0;
+	var sock = new SockJS("/dev/echo.do");
+	$scope.checkID = null;
+	sock.onmessage = function(e){
+		alert(e.data );
+		$("#chat_result").append(e.data + "<br/>");
+	}
+	sock.onclose = function(){
+		$("#chat_result").append("연결 종료");
+	}
 	$scope.init = function(){
-		var sock = new SockJS("/dev/echo.do");
-		sock.onmessage = function(e){
-			$("#chat").append(e.data + "<br/>");
-		}
-		
-		sock.onclose = function(){
-			$("#chat").append("연결 종료");
-		}
+		// Setting The Value Scope Equal To The Chat.id Which Is Retrieved Via Ng Click - We Pass The Chat.id Through The Function
+		$scope.setEvent();
 		$scope.chats = [{
 			  id: 0,
 			  username: "Leela",
@@ -99,77 +103,63 @@
 			    "Now, now. Perfectly symmetrical violence never solved anything",
 			    "Dissect its brain"
 			  ]
-			}];
+		}];
 
-			// Assign Pushed Messages To A User
-			$scope.text;
-			$scope.add = function() {
-			  var vlu = $scope.value;
-			  if($scope.text) {
-			    $scope.chats[vlu].messages.push(this.text);
-			    $scope.text = '';
-			    console.log(vlu);
-			  }
-			}
+		// Assign Pushed Messages To A User
+		$scope.text;
+		$scope.add = function() {
+		  var vlu = $scope.checkID;
+		  if($scope.text) {
+		    $scope.chats[vlu].messages.push(this.text);
+		    $scope.text = '';
+		    console.log(vlu);
+		  }
+		}
 
-			// Setting The Value Scope Equal To The Chat.id Which Is Retrieved Via Ng Click - We Pass The Chat.id Through The Function
-			$scope.value;
-			$scope.uid = function(ix) {
-			  console.log(ix);
-
-			  function ixy() {
-			    $rootScope.value = ix;
-			  }
-			  // Delay Our Scope Change To Create A Smoother Transition
-			  $timeout(ixy, 750);
-			}
-		$scope.setEvent();	
+		$scope.click_profile = function(ix) {
+		  $scope.checkID = ix;
+		  $(".init").show();
+		  $(".loader").show();
+		  $(".init").css({
+			 'opacity': '0'
+		  });
+		  $(".loader").delay(300).animate({
+			'opacity': '1'
+		  });
+		  $(".message-wrap").css({
+			  'opacity': '0'
+		  });
+		  function ixy() {
+		    $(".message-wrap").css({
+			  'opacity': '1'
+		    });
+			$(".message-wrap").find(".message").css({
+		  	   'opacity': '1'
+		    });
+			$(".init").hide();
+			$(".loader").hide();
+			$scope.$apply();
+		  }
+		  $timeout(ixy, 1500);
+		  
+		  var msg = {
+			type: "register",
+			userid : "<%= user_info.get("USER_ID") %>"
+		  }
+		  
+		  sock.send(JSON.stringify(msg));
+	    };
 	};
 	$scope.setEvent = function(){
 		$("input[type='submit']").click(function() {
-		  scroll();
+			scroll();
 		});
-
-		$("aside").find("li").click(function() {
-		  initScroll();
-		  $(".init").animate({
-		    'opacity': '0'
-		  }, 500);
-		});
-
-		$("aside").find("li").click(function() {
-		  if (index == 1) {
-		    index = 0;
-		    $(".message-wrap").find(".message").css({
-		      'opacity': '1'
-		    });
-		  } else {
-		    index = 0;
-		    $(".message-wrap").find(".message").css({
-		      'opacity': '0'
-		    });
-		    $(".loader").delay(500).animate({
-		      'opacity': '1'
-		    });
-		    setTimeout(function() {
-		      index = 0;
-		      $(".message-wrap").find(".message").css({
-		        'opacity': '1'
-		      });
-		      $(".loader").animate({
-		        'opacity': '0'
-		      });
-		    }, 3000)
-		  }
-		});
-		
 		$('.close').click(function () {
 			$(".chat_container").hide();
 		});
-		
 		$("#chatForm").submit(function(event){
 			event.preventDefault();
-			sock.send($("#message").val());
+			sock.send(JSON.stringify({type:"chat", target: "osm0771@gmail.com", msg:$("#message").val() } ));
 			$("#message").val('').focus();
 		});
 	};

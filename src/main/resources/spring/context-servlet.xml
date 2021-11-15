@@ -186,6 +186,9 @@
 	
 	<websocket:handlers>
 		<websocket:mapping  handler="echoHandler" path="/dev/echo.do"/>
+		<websocket:handshake-interceptors>
+			<bean class="com.abite.common.interceptor.HandshakeInterceptor"></bean>
+		</websocket:handshake-interceptors>
 		<websocket:sockjs/>
 	</websocket:handlers>
 		

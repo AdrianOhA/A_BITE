@@ -20,7 +20,6 @@
 	<tiles:insertAttribute name="top" flush="false" ignore="false" />
 	</c:if>
 	<tiles:insertAttribute name="middle" flush="false" ignore="false" />
-	
 	<c:if test="${USER_INFO != null}">
 	<tiles:insertAttribute name="chat" flush="false" ignore="false" />
 	</c:if>

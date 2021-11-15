@@ -1872,7 +1872,7 @@ h3 {
   overflow-y: scroll;
 }
 .inbox main .message {
-  background: #43d3c5;
+  background: #7b6341;
   width: 70%;
   margin: 1em 6em;
   padding: 1em;
@@ -1893,7 +1893,7 @@ h3 {
   float: left;
 }
 .inbox main .message:nth-of-type(even) {
-  background: #2fc8ba;
+  background: #74695b;
   margin: 1em 1em;
 }
 .inbox main footer {
@@ -1904,6 +1904,7 @@ h3 {
   display: flex;
   align-items: center;
   border-top: 1px solid #e0e9ec;
+  z-index: 9999;
 }
 .inbox main footer input[type=text] {
   border: none;
@@ -1947,7 +1948,7 @@ h3 {
 .close {
    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='rgb(123,99,65)' d='M102.4,0h307.2C466.17,0,512,45.85,512,102.4v307.2c0,56.55-45.83,102.4-102.4,102.4H102.4C45.85,512,0,466.15,0,409.6	V102.4C0,45.85,45.85,0,102.4,0z M102.4,51.2c-28.28,0-51.2,22.92-51.2,51.2v307.2c0,28.27,22.92,51.2,51.2,51.2h307.2		c28.3,0,51.2-22.92,51.2-51.2V102.4c0-28.28-22.9-51.2-51.2-51.2H102.4z M292.2,256l72.42,72.4c10,10,10,26.23,0,36.23		s-26.23,10-36.23,0L256,292.2l-72.38,72.42c-10.02,10-26.23,10-36.23,0s-10-26.23,0-36.23l72.43-72.4l-72.43-72.4		c-10-10-10-26.23,0-36.23s26.2-10,36.23,0L256,219.8l72.4-72.43c10-10,26.23-10,36.23,0s10,26.23,0,36.23L292.2,256z'/></svg>")no-repeat;
    position: absolute;
-   z-index: 5;
+   z-index: 9999;
    top: 0;
    right: 8px;
    width: 30px;
