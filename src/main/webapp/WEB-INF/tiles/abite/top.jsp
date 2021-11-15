@@ -64,7 +64,7 @@
                             </ul>
                         </div>
  					</div>
- 					 <div><a><%= user_info.get("USER_NAME") %><img src="../public/images/icon_person.png" alt="" style="width: 30px;height: 30px;"></a></div>
+ 					 <div><a><img src="../public/images/icon_person.png" alt="" style="width: 25px;height: 25px;"><%= user_info.get("USER_NAME") %></a></div>
                 </nav>
             </div>
         </div>

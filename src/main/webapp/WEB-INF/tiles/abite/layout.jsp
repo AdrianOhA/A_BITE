@@ -22,6 +22,9 @@
 	<tiles:insertAttribute name="middle" flush="false" ignore="false" />
 	
 	<c:if test="${USER_INFO != null}">
+	<tiles:insertAttribute name="chat" flush="false" ignore="false" />
+	</c:if>
+	<c:if test="${USER_INFO != null}">
 	<tiles:insertAttribute name="footer" flush="false" ignore="false" />
 	</c:if>
 </body>
