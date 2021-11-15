@@ -60,7 +60,7 @@
 		$scope.setEvent();
 		$scope.chats = [{
 			  id: 0,
-			  username: "Leela",
+			  username: "크라운",
 			  avatar: "https://imgflip.com/s/meme/Futurama-Leela.jpg",
 			  messages: [
 			    "I can explain. It's very valuable. You won't have time for sleeping, soldier, not with all the bed making you'll be doing",
