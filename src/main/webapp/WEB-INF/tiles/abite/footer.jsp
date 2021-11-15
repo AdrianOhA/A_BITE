@@ -47,9 +47,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
      </div>
 </footer>
 
-<script type="text/javascript" src='../public/js/TimelineLite.min.js'></script>
-<script type="text/javascript" src='../public/js/TweenMax.min.js'></script>
-<script type="text/javascript" src="../public/js/footer.js"></script>
+<script type="text/javascript" src='/js/TimelineLite.min.js'></script>
+<script type="text/javascript" src='/js/TweenMax.min.js'></script>
+<script type="text/javascript" src="/js/footer.js"></script>
 
 <script>
 "use strict";

@@ -7,7 +7,7 @@
        <ul>
          <div ng-repeat='chat in chats'>
            <li ng-click='uid(chat.id)'>
-             <img class='avatar' src='{{chat.avatar}}'> 
+             <img class='avatar' ng-src='{{chat.avatar}}'> 
              <p class='username'>{{chat.username}}</p>
            </li>
          </div>
@@ -46,7 +46,15 @@
  mainApp.controller("chatCtrl", function($scope, $timeout){
 	var index = 0;
 	$scope.init = function(){
-		 $scope.chats = [{
+		var sock = new SockJS("/dev/echo.do");
+		sock.onmessage = function(e){
+			$("#chat").append(e.data + "<br/>");
+		}
+		
+		sock.onclose = function(){
+			$("#chat").append("연결 종료");
+		}
+		$scope.chats = [{
 			  id: 0,
 			  username: "Leela",
 			  avatar: "https://imgflip.com/s/meme/Futurama-Leela.jpg",
@@ -157,6 +165,12 @@
 		
 		$('.close').click(function () {
 			$(".chat_container").hide();
+		});
+		
+		$("#chatForm").submit(function(event){
+			event.preventDefault();
+			sock.send($("#message").val());
+			$("#message").val('').focus();
 		});
 	};
 	function initScroll() {

@@ -6,7 +6,7 @@
 
 <header class="header-area" ng-controller="headerCtrl" ng-init="init()">
     <!-- Top Header Area -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../public/images/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(/images/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
@@ -24,7 +24,7 @@
 
     <!-- Logo Area -->
     <div class="logo-area">
-        <a href="/"><img src="../public/images/logo.png" alt=""></a>
+        <a href="/"><img src="/images/logo.png" alt=""></a>
     </div>
 
     <!-- Navbar Area -->
@@ -35,7 +35,7 @@
                 <nav class="classy-navbar justify-content-between" id="buenoNav">
 
                     <!-- Toggler -->
-                    <div id="toggler"><img src="../public/images/ranking.png" alt="" style="width: 30px;height: 30px;"></div>
+                    <div id="toggler"><img src="/images/ranking.png" alt="" style="width: 30px;height: 30px;"></div>
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
@@ -64,7 +64,7 @@
                             </ul>
                         </div>
  					</div>
- 					 <div><a><img src="../public/images/icon_person.png" alt="" style="width: 25px;height: 25px;"><%= user_info.get("USER_NAME") %></a></div>
+ 					 <div><a><img src="/images/icon_person.png" alt="" style="width: 25px;height: 25px;"><%= user_info.get("USER_NAME") %></a></div>
                 </nav>
             </div>
         </div>

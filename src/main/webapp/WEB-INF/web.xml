@@ -56,10 +56,10 @@
 
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>*.do</url-pattern>
-		<url-pattern>*.doAjax</url-pattern>
+		<url-pattern>/</url-pattern>
+		<!-- <url-pattern>*.doAjax</url-pattern>
 		<url-pattern>*.json</url-pattern>
-		<url-pattern>*.file</url-pattern>
+		<url-pattern>*.file</url-pattern> -->
 	</servlet-mapping>
 
 

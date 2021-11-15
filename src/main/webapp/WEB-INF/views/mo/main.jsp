@@ -13,7 +13,7 @@
         <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
             <!-- Blog Thumbnail -->
             <div class="blog-thumbnail">
-                <img src="../public/images/9.jpg" alt="">
+                <img src="/images/9.jpg" alt="">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -30,7 +30,7 @@
         <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
             <!-- Blog Thumbnail -->
             <div class="blog-thumbnail">
-                <img src="../public/images/10.jpg" alt="">
+                <img src="/images/10.jpg" alt="">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -47,7 +47,7 @@
         <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
             <!-- Blog Thumbnail -->
             <div class="blog-thumbnail">
-                <img src="../public/images/11.jpg" alt="">
+                <img src="/images/11.jpg" alt="">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -64,7 +64,7 @@
         <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
             <!-- Blog Thumbnail -->
             <div class="blog-thumbnail">
-                <img src="../public/images/9.jpg" alt="">
+                <img src="/images/9.jpg" alt="">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -81,7 +81,7 @@
         <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
             <!-- Blog Thumbnail -->
             <div class="blog-thumbnail">
-                <img src="../public/images/10.jpg" alt="">
+                <img src="/images/10.jpg" alt="">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -98,7 +98,7 @@
         <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
             <!-- Blog Thumbnail -->
             <div class="blog-thumbnail">
-                <img src="../public/images/11.jpg" alt="">
+                <img src="/images/11.jpg" alt="">
             </div>
             <!-- Blog Content -->
             <div class="blog-content">
@@ -121,7 +121,7 @@
             <div class="single-slide">
                 <!-- Blog Thumbnail -->
                 <div class="blog-thumbnail">
-                    <a href="#"><img src="../public/images/1.jpg" alt=""></a>
+                    <a href="#"><img src="/images/1.jpg" alt=""></a>
                 </div>
 
                 <!-- Blog Content -->
@@ -141,7 +141,7 @@
             <div class="single-slide">
                 <!-- Blog Thumbnail -->
                 <div class="blog-thumbnail">
-                    <a href="#"><img src="../public/images/2.jpg" alt=""></a>
+                    <a href="#"><img src="/images/2.jpg" alt=""></a>
                 </div>
 
                 <!-- Blog Content -->
@@ -161,7 +161,7 @@
             <div class="single-slide">
                 <!-- Blog Thumbnail -->
                 <div class="blog-thumbnail">
-                    <a href="#"><img src="../public/images/3.jpg" alt=""></a>
+                    <a href="#"><img src="/images/3.jpg" alt=""></a>
                 </div>
 
                 <!-- Blog Content -->
@@ -181,7 +181,7 @@
             <div class="single-slide">
                 <!-- Blog Thumbnail -->
                 <div class="blog-thumbnail">
-                    <a href="#"><img src="../public/images/3.jpg" alt=""></a>
+                    <a href="#"><img src="/images/3.jpg" alt=""></a>
                 </div>
 
                 <!-- Blog Content -->
@@ -207,7 +207,7 @@
                 <!-- Single Post Catagory -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-post-catagory mb-30">
-                        <img src="../public/images/4.jpg" alt="">
+                        <img src="/images/4.jpg" alt="">
                         <!-- Content -->
                         <div class="catagory-content-bg">
                             <div class="catagory-content">
@@ -221,7 +221,7 @@
                 <!-- Single Post Catagory -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-post-catagory mb-30">
-                        <img src="../public/images/5.jpg" alt="">
+                        <img src="/images/5.jpg" alt="">
                         <!-- Content -->
                         <div class="catagory-content-bg">
                             <div class="catagory-content">
@@ -235,7 +235,7 @@
                 <!-- Single Post Catagory -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-post-catagory mb-30">
-                        <img src="../public/images/6.jpg" alt="">
+                        <img src="/images/6.jpg" alt="">
                         <!-- Content -->
                         <div class="catagory-content-bg">
                             <div class="catagory-content">
@@ -257,7 +257,7 @@
             <div class="row align-items-center">
                 <div class="col-12 col-md-6">
                     <div class="big-post-thumbnail mb-50">
-                        <img src="../public/images/7.jpg" alt="">
+                        <img src="/images/7.jpg" alt="">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -290,7 +290,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="big-post-thumbnail mb-50">
-                        <img src="../public/images/8.jpg" alt="">
+                        <img src="/images/8.jpg" alt="">
                     </div>
                 </div>
             </div>
@@ -308,7 +308,7 @@
                     <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
                         <!-- Blog Thumbnail -->
                         <div class="blog-thumbnail">
-                            <img src="../public/images/9.jpg" alt="">
+                            <img src="/images/9.jpg" alt="">
                         </div>
                         <!-- Blog Content -->
                         <div class="blog-content">
@@ -326,7 +326,7 @@
                     <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
                         <!-- Blog Thumbnail -->
                         <div class="blog-thumbnail">
-                            <img src="../public/images/10.jpg" alt="">
+                            <img src="/images/10.jpg" alt="">
                         </div>
                         <!-- Blog Content -->
                         <div class="blog-content">
@@ -344,7 +344,7 @@
                     <div class="single-blog-post style-1 d-flex flex-wrap mb-30">
                         <!-- Blog Thumbnail -->
                         <div class="blog-thumbnail">
-                            <img src="../public/images/11.jpg" alt="">
+                            <img src="/images/11.jpg" alt="">
                         </div>
                         <!-- Blog Content -->
                         <div class="blog-content">
@@ -365,7 +365,7 @@
 
                         <!-- Single Widget Area -->
                         <div class="single-widget-area add-widget mb-30">
-                            <img src="../public/images/add.png" alt="">
+                            <img src="/images/add.png" alt="">
                         </div>
 
                         <!-- Single Widget Area -->
@@ -375,7 +375,7 @@
                             <div class="single-post-area d-flex">
                                 <!-- Blog Thumbnail -->
                                 <div class="blog-thumbnail">
-                                    <img src="../public/images/12.jpg" alt="">
+                                    <img src="/images/12.jpg" alt="">
                                 </div>
                                 <!-- Blog Content -->
                                 <div class="blog-content">
@@ -391,7 +391,7 @@
                             <div class="single-post-area d-flex mb-30">
                                 <!-- Blog Thumbnail -->
                                 <div class="blog-thumbnail">
-                                    <img src="../public/images/13.jpg" alt="">
+                                    <img src="/images/13.jpg" alt="">
                                 </div>
                                 <!-- Blog Content -->
                                 <div class="blog-content">
@@ -407,7 +407,7 @@
                             <div class="single-post-area d-flex">
                                 <!-- Blog Thumbnail -->
                                 <div class="blog-thumbnail">
-                                    <img src="../public/images/14.jpg" alt="">
+                                    <img src="/images/14.jpg" alt="">
                                 </div>
                                 <!-- Blog Content -->
                                 <div class="blog-content">
@@ -423,7 +423,7 @@
                             <div class="single-post-area d-flex">
                                 <!-- Blog Thumbnail -->
                                 <div class="blog-thumbnail">
-                                    <img src="../public/images/15.jpg" alt="">
+                                    <img src="/images/15.jpg" alt="">
                                 </div>
                                 <!-- Blog Content -->
                                 <div class="blog-content">
@@ -439,7 +439,7 @@
                             <div class="single-post-area d-flex">
                                 <!-- Blog Thumbnail -->
                                 <div class="blog-thumbnail">
-                                    <img src="../public/images/16.jpg" alt="">
+                                    <img src="/images/16.jpg" alt="">
                                 </div>
                                 <!-- Blog Content -->
                                 <div class="blog-content">
@@ -463,71 +463,71 @@
     <div class="instagram-feed-area d-flex flex-wrap">
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta1.jpg" alt="">
+            <img src="/images/insta1.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta1.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta1.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta2.jpg" alt="">
+            <img src="/images/insta2.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta2.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta2.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta3.jpg" alt="">
+            <img src="/images/insta3.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta3.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta3.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta4.jpg" alt="">
+            <img src="/images/insta4.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta4.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta4.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta5.jpg" alt="">
+            <img src="/images/insta5.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta5.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta5.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta6.jpg" alt="">
+            <img src="/images/insta6.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta6.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta6.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta7.jpg" alt="">
+            <img src="/images/insta7.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta7.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta7.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta8.jpg" alt="">
+            <img src="/images/insta8.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta8.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta8.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta9.jpg" alt="">
+            <img src="/images/insta9.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta9.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta9.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
 
         <!-- Single Instagram -->
         <div class="single-instagram">
-            <img src="../public/images/insta10.jpg" alt="">
+            <img src="/images/insta10.jpg" alt="">
             <!-- Image Zoom -->
-            <a href="../public/images/insta10.jpg" class="img-zoom" title="Instagram Image">+</a>
+            <a href="/images/insta10.jpg" class="img-zoom" title="Instagram Image">+</a>
         </div>
     </div>

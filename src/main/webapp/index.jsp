@@ -9,14 +9,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name ="google-signin-client_id" content="828033129621-ek46og45ctbgt5n1hgrq7q8pabt12mh4.apps.googleusercontent.com">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="../public/css/animate.min.css">  
-  <link rel="stylesheet" href="../public/css/index.css">
-  <link rel="icon" href="../public/images/favicon.ico">
-  <script src="../public/js/jquery.min.js"></script>
-  <script src="../public/js/kakao.min.js"></script>
+  <link rel="stylesheet" href="/css/animate.min.css">  
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="icon" href="/images/favicon.ico">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/kakao.min.js"></script>
   <script src="https://apis.google.com/js/platform.js"  ></script>
-  <script src="../public/js/angular_1.6.9.min.js"></script>
-  <script src="../public/js/index.js"></script>
+  <script src="/js/angular_1.6.9.min.js"></script>
+  <script src="/js/index.js"></script>
 </head>
 <body ng-controller="mainCtrl" ng-init="init()">
 	
@@ -31,7 +31,7 @@
 				<div class="top_wrapper">
 					<h1 class="animated fadeInUp animate1" id="title-login">Welcome !</h1>
 					<h1 class="animated fadeInUp animate1 hidden" id="title-signup">Welcome !</h1>
-					<img class="animated fadeInUp animate1 hidden thumbnail" id="title-thumbnail" src="{{profile.img}}" onerror="this.src='../public/images/icon_user.png'" />
+					<img class="animated fadeInUp animate1 hidden thumbnail" id="title-thumbnail" src="{{profile.img}}" onerror="this.src='/images/icon_user.png'" />
 					<a id="reset_login" class="reset_login animate1 hidden">초기 화면</a>
 				</div>
 				<fieldset id="login-fieldset">
@@ -47,7 +47,7 @@
 				    	</div>
 					  </div>
 					  <div id="gSignInWrapper" style="margin-top: 15px;">
-					  	<a id="kakao_btn"><img src="../public/images/kakao_login_medium_narrow.png"></a>
+					  	<a id="kakao_btn"><img src="/images/kakao_login_medium_narrow.png"></a>
 					  </div>
 				</fieldset>
 				<fieldset id="signup-fieldset" class="hidden animated fadeInUp animate2">

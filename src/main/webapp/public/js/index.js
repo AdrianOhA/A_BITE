@@ -9,7 +9,7 @@ mainApp.controller("mainCtrl", function($scope) {
     	};
     	
         $scope.profile = {
-           img: "../public/images/icon_user.png",
+           img: "/images/icon_user.png",
            name: "",
            email: "",
            sns: "",
