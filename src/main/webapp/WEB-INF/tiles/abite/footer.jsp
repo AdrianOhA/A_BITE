@@ -1,7 +1,8 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
  <!-- ##### Footer Area Start ##### -->
- 
+ <%@ page import="java.util.Map" %>
+<% Map<String, Object> user_info = (Map<String, Object>) session.getAttribute("USER_INFO"); %>
 
  
  <footer class="footer-area"  ng-controller="footerCtrl" ng-init="init()">
@@ -53,6 +54,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 <script>
 "use strict";
+var sock = new SockJS("/dev/echo.do");
 var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
 mainApp.controller("footerCtrl", function($scope){
 	$scope.init = function(){
@@ -76,6 +78,7 @@ mainApp.controller("footerCtrl", function($scope){
     	$("#chat").click(function(){
     		if($(".chat_container").css('display') === 'none') {
     			$(".chat_container").show();
+    			$scope.init_socket();
 	    	} else {
 	    		$(".chat_container").hide();
 	    	}
@@ -88,6 +91,14 @@ mainApp.controller("footerCtrl", function($scope){
     	$("#settings").click(function(){
     		console.log("settings click");
     	});
+    };
+    
+    $scope.init_socket = function(){
+    	var msg = {
+   			type: "register",
+   			userid : "<%= user_info.get("USER_ID") %>"
+   		}
+   		sock.send(JSON.stringify(msg));
     };
 });
 </script>

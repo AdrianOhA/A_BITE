@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberMapper {
 	
-	int getMember(HashMap<String, Object> map);
+	Map<String, Object> getMember(HashMap<String, Object> map);
 	
 	int exsistMember(HashMap<String, Object> map);
 	

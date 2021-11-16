@@ -48,12 +48,12 @@ public class AuthService {
 	private String domain;
 	
 	
-	public ModelAndView getMember(HttpServletRequest req) throws Exception {
+	public ModelMap getMember(HashMap<String, Object> param) throws Exception {
 		ModelMap map = new ModelMap();
-		int a = memberMapper.getMember(map);
-		logger.debug(a + "");
-		
-		return null;
+		Map<String, Object> userInfo = memberMapper.getMember(param);
+		map.put("userInfo", userInfo);
+		logger.debug(userInfo + "");
+		return map;
 	}
 	
 	public int isExistsForMember(HashMap<String, Object> param) throws Exception {

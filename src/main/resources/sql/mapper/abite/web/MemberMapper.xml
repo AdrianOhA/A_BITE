@@ -16,10 +16,12 @@
 
 </sql>
 
-<select id="getMember" parameterType="map" resultType="int">
+<select id="getMember" parameterType="map" resultType="map">
 	/* FcMemberMapper.getMember */
-	SELECT	'1' A
-	FROM	DUAL	
+	SELECT USER_ID, USER_NAME, USER_IMAGE
+	  FROM T_MEMBER
+	WHERE USER_ID = #{email} AND USE_YN = 'Y'
+	LIMIT 1 	
 </select>
 
 <select id="exsistMember" parameterType="map" resultType="int">
@@ -30,15 +32,15 @@
 
 <select id="getMemberInfo" parameterType="map" resultType="map">
 	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, SNS, USER_PHONE_NO
-		  ,LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME
+		  ,USER_IMAGE, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME
 	  FROM T_MEMBER
 	WHERE USER_ID = #{email} AND USER_PW = password(#{password}) AND USE_YN = 'Y'
 	LIMIT 1 
 </select>
 
 <insert id="addMember" parameterType="map" useGeneratedKeys="true" keyProperty="USER_NO"> 
-	INSERT INTO T_MEMBER (USER_ID, USER_PW, USER_NAME, USER_ADDR, USER_PHONE_NO, USE_YN, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME)
-	VALUES(#{email}, password(#{password}) , #{name}, #{addr}, #{phone_no}, 'Y', now(), now(), now())
+	INSERT INTO T_MEMBER (USER_ID, USER_PW, USER_NAME ,USER_IMAGE, USER_ADDR, USER_PHONE_NO, USE_YN, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME)
+	VALUES(#{email}, password(#{password}) , #{name}, #{img}, #{addr}, #{phone_no}, 'Y', now(), now(), now())
 </insert>
 
 

@@ -127,4 +127,9 @@ public class AuthController {
 		
 		return ret.addAllAttributes(login_info);
 	}
+	@RequestMapping(value="/getMember")
+	public ModelMap getMemberInfo(HttpSession session, HttpServletRequest req, HttpServletResponse res,  @RequestBody HashMap<String, Object> param) throws Exception{
+		logger.info("login form : "+ param);
+		return service.getMember(param);
+	}
 }
