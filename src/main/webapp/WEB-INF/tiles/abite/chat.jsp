@@ -27,7 +27,7 @@
          <h4>Loading</h4>
        </div>
        <div class='message-wrap' ng-repeat='chat in chats' ng-show='checkID == chat.id'>
-         <span>{{chat.recipeNo}}</span>
+         <span style="display: none;">{{chat.recipeNo}}</span>
        	 <div ng-repeat='i in chat.messages'>
 	         <div ng-class="i.writer != '<%= user_info.get("USER_ID") %>' ? 'message target': 'message' ">
 	           <span style="display: none;" ng-model="message.target"></span>
@@ -60,9 +60,7 @@
  var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
  mainApp.controller("chatCtrl", function($scope, $timeout){
 	$scope.checkID = null;
-	$scope.chats = [
-		
-	];
+	$scope.chats = [];
 	var _curr_id = "<%= user_info.get("USER_ID") %>";
 	sock.onmessage = function(e){
 		var _obj = JSON.parse(e.data);
@@ -117,7 +115,12 @@
 			scroll();
 		});
 		$('.close').click(function () {
-			$(".chat_container").hide();
+			$scope.checkID = null;
+  		    $(".init").css({ 'opacity': '1'});
+  		    $(".init").show();
+		    $(".loader").css({'opacity': '0'});
+		    $(".message-wrap").css({'opacity': '0'});
+		    $(".chat_container").hide();
 		});
 		$("#chatForm").submit(function(event){
 			if ($scope.checkID != null){
@@ -156,6 +159,7 @@
             data: JSON.stringify({"email" : id}),
             async: false,
             success: function(res) {
+            	/* console.log(res); */
             	_user_info = res.userInfo;
             },
         });	
@@ -188,8 +192,10 @@
 		}
 		
 		var user_info = $scope.getMember(_target);
-		_obj.username = user_info.USER_NAME;
-		_obj.avatar = user_info.USER_IMAGE;
+		if(user_info) {
+			_obj.username = user_info.USER_NAME;
+			_obj.avatar = user_info.USER_IMAGE;	
+		}
 		$scope.chats.push(_obj);
 		$scope.$apply();	
 	}
