@@ -61,12 +61,37 @@ public class EchoHandler extends TextWebSocketHandler{
 		if(type != null && "register".equals(type)){
 			String user = object.getString("userid");
 			userMap.put(user, session);
+		} else if(type != null && "read".equals(type)){
+			try {
+				String target = object.getString("target");
+				WebSocketSession ws = (WebSocketSession)userMap.get(target);
+				int recipeNo = object.getInt("recipeNo");
+				int checkID = object.getInt("id");
+				write_msg_list = (List<Object>) hash.get(userId, target + "_" + recipeNo);
+				
+				for(Object msg : write_msg_list) {
+					Map<String, Object> _msg = (Map<String, Object>) msg;
+					if(!userId.equals(_msg.get("witer"))) {
+						_msg.put("readYN", "Y");	
+					}
+				}
+				hash.put(userId, target + "_" + recipeNo, write_msg_list);
+				Map<String, Object> reData = new HashMap<String, Object>();
+				reData.put("id", checkID);
+				reData.put("recipeNo", recipeNo);
+				reData.put("readYN", "Y");
+				reData.put("type", type);
+				if(ws != null) {
+					ws.sendMessage(new TextMessage(objectMapper.writeValueAsString(reData)));
+				}
+			} catch (Exception e) {
+				logger.info("연결 할 대상이 없습니다.");
+			}
 		} else {
 			try {
 				String target = object.getString("target");
 				WebSocketSession ws = (WebSocketSession)userMap.get(target);
 				String msg = object.getString("msg");
-				
 				int recipeNo = object.getInt("recipeNo");
 				int checkID = object.getInt("id");
 				
@@ -79,6 +104,7 @@ public class EchoHandler extends TextWebSocketHandler{
 				
 				Map<String, Object> reData = chat_msg;
 				reData.put("id", checkID);
+				reData.put("type", type);
 				write_msg_list = !ObjectUtils.isEmpty(hash.get(userId, target + "_" + recipeNo)) ? (List<Object>) hash.get(userId, target + "_" + recipeNo) : new ArrayList<>();
 				write_msg_list.add(chat_msg);
 				hash.put(userId, target + "_" + recipeNo, write_msg_list);

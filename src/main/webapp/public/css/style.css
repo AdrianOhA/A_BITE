@@ -1893,10 +1893,19 @@ h3 {
   float: left;
 }
 
+.checked{
+	float: right;position: relative;bottom: 32px;right: 47px;
+}
+
+.t-checked{
+	float: right;position: relative;bottom: 32px;right: 117px;
+}
+
 .inbox main .target{
   background: #74695b;
   margin: 1em 1em;
 }
+
 /* .inbox main .message:nth-of-type(even) {
   background: #74695b;
   margin: 1em 1em;
@@ -2034,6 +2043,19 @@ h3 {
   100% {
     opacity: 0;
   }
+}
+
+.circle {
+   background-color: red;
+   border-radius: 50em;
+   width:15px;
+   height:15px;
+   text-align: center;
+   padding: 10;
+   margin: 10 auto;
+   font-size: 10px;
+   vertical-align: middle;
+   float: right;
 }
 ::-webkit-scrollbar {
   width: 0px;
