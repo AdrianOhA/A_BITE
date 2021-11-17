@@ -60,7 +60,9 @@
  var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
  mainApp.controller("chatCtrl", function($scope, $timeout){
 	$scope.checkID = null;
-	$scope.chats = [];
+	$scope.chats = [
+		
+	];
 	var _curr_id = "<%= user_info.get("USER_ID") %>";
 	sock.onmessage = function(e){
 		var _obj = JSON.parse(e.data);

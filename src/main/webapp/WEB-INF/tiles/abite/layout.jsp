@@ -10,9 +10,22 @@
 <title><tiles:insertAttribute name="title" /></title>
 <%@ include file="/WEB-INF/views/common/common_include_css.include" %>
 <%@ include file="/WEB-INF/views/common/common_include_script.include" %>
-</head>
+<%@ page import="java.util.Map" %>
+<% Map<String, Object> user_info = (Map<String, Object>) session.getAttribute("USER_INFO"); %>
 
-<body> 
+</head>
+<script>
+var sock = new SockJS("/dev/echo.do");
+function load(){
+	var msg = {
+		type: "register",
+		userid : "<%= user_info.get("USER_ID") %>"
+	}
+	sock.send(JSON.stringify(msg));
+}
+</script>
+
+<body onload="load()"> 
 	<c:if test="${USER_INFO != null}">
 		<tiles:insertAttribute name="preload" flush="false" ignore="false" />
 	</c:if>
