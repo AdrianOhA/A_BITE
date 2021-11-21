@@ -32,7 +32,7 @@
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
                 <!-- Menu -->
-                <nav class="classy-navbar justify-content-between" id="buenoNav">
+                <nav class="classy-navbar justify-content-between navbar-expand-lg" id="buenoNav">
 
                     <!-- Toggler -->
                     <div id="toggler"><img src="/images/ranking.png" alt="" style="width: 30px;height: 30px;"></div>
@@ -49,22 +49,35 @@
                             <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                         </div>
                         <!-- Nav Start -->
-                        <div class="classynav">
-                       	    <ul>
-                                <li ng-repeat="menu in menuList" class="chk_after">
-                                	<a href="{{menu.MENU_PATH}}" data-text="{{menu.MENU_NAME}}" class="title">{{menu.MENU_NAME}}</a>
+                        <div class="classynav navbar-collapse">
+                       	    <ul  class="navbar-nav ml-auto">
+                                <li ng-repeat="menu in menuList" class="chk_after nav-itemr">
+                                	<a href="{{menu.MENU_PATH}}" data-text="{{menu.MENU_NAME}}">
+                                	 <i class="fa fa-search" aria-hidden="true" ng-show="menu.MENU_NAME == '종류별'"></i>
+                                	  <i class="fa fa-compass" aria-hidden="true" ng-show="menu.MENU_NAME == '거리별'"></i>
+                                	  <i class="fa fa-plus-square" aria-hidden="true" ng-show="menu.MENU_NAME == '등록하기'"></i> 
+                                	  <i class="fa fa-github" aria-hidden="true" ng-show="menu.MENU_NAME == 'Github'"></i>{{menu.MENU_NAME}}</a>
                                 	 <div ng-if="menu.SUB_MENU_LIST.length > 0" style="padding-left:20px;padding-right:20px;">
 		                               	 <div class="megamenu">
-			                               	 <ul class="single-mega cn-col-4" ng-repeat="smenu in menu.SUB_MENU_LIST">
+ 			                               	  <ul class="single-mega cn-col-4" ng-repeat="smenu in menu.SUB_MENU_LIST">
 			                               	    <li class="image_hover"><a href="{{smenu.MENU_PATH}}" style="text-align: center;" ><img ng-src="{{smenu.MENU_THUMBNAIL}}" style="width: 200px;height: 130px;-webkit-filter: grayscale(50%);-moz-filter: grayscale(50%);-o-filter: grayscale(50%);-ms-filter: grayscale(50%);filter: grayscale(50%);" /><br><span class="title">{{smenu.MENU_NAME}}</span></a></li>
-			                                 </ul>
-		                                 </div>
+			                                 </ul> 	     
+			                             </div>    
 	                                 </div>
                                 </li>
                             </ul>
                         </div>
  					</div>
- 					 <div><a><img src="/images/icon_person.png" alt="" style="width: 25px;height: 25px;"><%= user_info.get("USER_NAME") %></a></div>
+ 					<div class="nav-item dropdown">
+	                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#pk" role="button" aria-haspopup="true" aria-expanded="false"><i class="nc-icon nc-settings-gear-65" aria-hidden="true"></i></a>
+	                    <ul class="dropdown-menu dropdown-menu-right dropdown-danger">
+	                      <li class="dropdown-header" href="#pk"><%= user_info.get("USER_NAME") %></li>
+	                      <a class="dropdown-item" href="#pk">프로필</a>
+	                      <a class="dropdown-item" href="#pk">Settings</a>
+	                      <div class="dropdown-divider"></div>
+	                      <a class="dropdown-item" href="#pk">로그아웃</a>
+	                    </ul>
+	                  </div>
                 </nav>
             </div>
         </div>

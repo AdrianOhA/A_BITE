@@ -1177,10 +1177,10 @@ h3 {
     position: relative;
     z-index: 1;
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 60%;
-    flex: 0 0 60%;
-    max-width: 60%;
-    width: 60%;
+    -ms-flex: 0 0 35%;
+    flex: 0 0 35%;
+    max-width: 35%;
+    width: 35%;
     padding-left: 30px; }
     @media only screen and (max-width: 767px) {
       .single-blog-post.style-1 .blog-content {
@@ -1367,7 +1367,7 @@ h3 {
   .single-widget-area.author-widget .background-pattern {
     position: relative;
     z-index: 1;
-    padding: 50px 30px 0;
+    padding: 0;
     text-align: center; }
     .single-widget-area.author-widget .background-pattern .author-thumbnail {
       width: 180px;

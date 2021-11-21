@@ -8,7 +8,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name ="google-signin-client_id" content="828033129621-ek46og45ctbgt5n1hgrq7q8pabt12mh4.apps.googleusercontent.com">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/animate.min.css">  
   <link rel="stylesheet" href="/css/index.css">
   <link rel="icon" href="/images/favicon.ico">
@@ -27,13 +28,14 @@
 				<div class="panel-switch animated fadeIn">
 					<button type="button" id="sign_up" class="active-button">Sign Up</button>
 					<button type="button" id="log_in" class="" disabled>Log in</button>
+					
 				</div>
 				<div class="top_wrapper">
 					<h1 class="animated fadeInUp animate1" id="title-login">Welcome !</h1>
 					<h1 class="animated fadeInUp animate1 hidden" id="title-signup">Welcome !</h1>
-					<img class="animated fadeInUp animate1 hidden thumbnail" id="title-thumbnail" src="{{profile.img}}" onerror="this.src='/images/icon_user.png'" />
 					<a id="reset_login" class="reset_login animate1 hidden">초기 화면</a>
 				</div>
+			
 				<fieldset id="login-fieldset">
 					<input class="login animated fadeInUp animate2" name="email" type="textbox" required placeholder="Email" value="" ng-model="login.email">
 					<input class="login animated fadeInUp animate3" name="password" type="password" required placeholder="Password" value="" ng-model="login.password">
@@ -51,6 +53,18 @@
 					  </div>
 				</fieldset>
 				<fieldset id="signup-fieldset" class="hidden animated fadeInUp animate2">
+					<div class="img-container animated fadeInUp animate3 form-input">
+					    <div class="avatar-upload">
+					        <div class="avatar-edit">
+					            <input type='file' id="title-thumbnail" accept=".png, .jpg, .jpeg"  />
+					            <label for="title-thumbnail"></label>
+					        </div>
+					        <div class="avatar-preview">
+					            <div id="imagePreview" style="background-image: url(/images/icon-user.png);">
+					            </div>
+					        </div>
+					    </div>
+					</div>
 					<input class="signup animated fadeInUp animate3" name="email" type="textbox" required placeholder="Email" ng-value="profile.email" id="signup_email" ng-model="profile.email">
 					<span id="checkid" style="display: none;" class="small_font"></span>
 					<input class="signup animated fadeInUp animate3" name="nickname" type="textbox" required placeholder="NickName" ng-value="profile.name" id="signup_nick" ng-model="profile.name">

@@ -132,4 +132,5 @@ public class AuthController {
 		logger.info("login form : "+ param);
 		return service.getMember(param);
 	}
+	
 }

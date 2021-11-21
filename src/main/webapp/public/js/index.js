@@ -90,7 +90,7 @@ mainApp.controller("mainCtrl", function($scope) {
         		$("#signup_email").addClass('valid');
         		return;
         	}
-            if (!$("#title-thumbnail").is(':visible')) {
+            if (!$(".img-container").is(':visible')) {
                 $scope.showSignUpForm($scope.profile);
             } else {
             	if(checkValidation("signup")){
@@ -99,30 +99,37 @@ mainApp.controller("mainCtrl", function($scope) {
             			return;
             		}
             		$("#checkpwd").hide();
-            		$.ajax({
-                        type: 'POST',
-                        url: '/Auth/signup.json',
-                        contentType: "application/json; charset=UTF-8",
-                        data: JSON.stringify($scope.profile),
-                        async: true,
-                        success: function(res) {
-                        	if (res.COUNT == 1) {
-                        		$scope.login.email = $scope.profile.email;
-                        		$scope.$apply();
-                        		$("#log_in").click();
-                        		$scope.profile = {};
-                        	} else {
-                        		if(res.RESULT_CODE == "E") {
-                        			if(res.RESULT_MSG == "No Same Password") {
-                        				$("#checkpwd").show();
-                            			return;
-                        			} else {
-                        				checkEmail($scope.profile.email);
-                        			}
-                        		}
-                        	}
-                        },
-                    });	
+            		
+            		if($("#title-thumbnail").val() == '') {
+            			$.ajax({
+                            type: 'POST',
+                            url: '/Auth/signup.json',
+                            contentType: "application/json; charset=UTF-8",
+                            data: JSON.stringify($scope.profile),
+                            async: false,
+                            success: function(res) {
+                            	if (res.COUNT == 1) {
+                            		$scope.login.email = $scope.profile.email;
+                            		$("#log_in").click();
+                            		$("#checkid").hide();
+                            		$scope.profile = {};
+                            		$("#imagePreview").css('background-image', 'url(/images/icon-user.png)');
+                            		$scope.$apply();
+                            	} else {
+                            		if(res.RESULT_CODE == "E") {
+                            			if(res.RESULT_MSG == "No Same Password") {
+                            				$("#checkpwd").show();
+                                			return;
+                            			} else {
+                            				checkEmail($scope.profile.email);
+                            			}
+                            		}
+                            	}
+                            },
+                        });
+            		} else {
+            			$scope.saveFileAndSignup();	
+            		}
             	}
             }
         });
@@ -174,33 +181,48 @@ mainApp.controller("mainCtrl", function($scope) {
             	$("#sign_up").click();
             }
         });
+        $("#title-thumbnail").change(function() {
+        	readURL(this);
+        });
     };
     
-    $scope.login = function() {
-        /*  $scope.loginForm = {
-              USER_ID : $("#USER_ID").val() || '',
-              PASSWORD : $("#PASSWORD").val() || ''
-          }
-          if(checkValidation($scope.loginForm)) {
-              for(let key in $scope.loginForm) {
-                  if ($scope.loginForm[key] == ''){
-                      $("#" + key).css('border', '1px solid red');
-                  } else {
-                      $("#" + key).css('border', '0');
-                  }
-              }
-              return false;
-          }   
-          $.ajax({
-              type: "post",
-              url: "/login.json",
-              data : $scope.loginForm,
-              success : function(result){
-                  if (result.msg == "OK"){
-                     location.href = '/chat.do';
-                 }
-              }
-          });*/
+    $scope.saveFileAndSignup = function() {
+    	$.ajax({
+            type: 'POST',
+            url: '/File/fileUpload.json',
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify($scope.getfile()),
+            async: false,
+            success: function(res) {
+            	$scope.profile.img = "/images/" + res.fileName;
+            	$.ajax({
+                    type: 'POST',
+                    url: '/Auth/signup.json',
+                    contentType: "application/json; charset=UTF-8",
+                    data: JSON.stringify($scope.profile),
+                    async: false,
+                    success: function(res) {
+                    	if (res.COUNT == 1) {
+                    		$scope.login.email = $scope.profile.email;
+                    		$("#log_in").click();
+                    		$("#checkid").hide();
+                    		$("#imagePreview").css('background-image', 'url(/images/icon-user.png)');
+                    		$scope.profile = {};
+                    		$scope.$apply();
+                    	} else {
+                    		if(res.RESULT_CODE == "E") {
+                    			if(res.RESULT_MSG == "No Same Password") {
+                    				$("#checkpwd").show();
+                        			return;
+                    			} else {
+                    				checkEmail($scope.profile.email);
+                    			}
+                    		}
+                    	}
+                    },
+                });
+            },
+        });
     };
 
     $scope.getCode = function(){
@@ -219,6 +241,7 @@ mainApp.controller("mainCtrl", function($scope) {
                 		 history.replaceState({}, null, location.pathname);
                 	} else {
                 		var customer = res.customer_info || {};
+                		$("#imagePreview").css("background-image", 'url('+customer.kakao_account.profile.thumbnail_image_url+')');
                         $scope.profile.img = customer.kakao_account.profile.thumbnail_image_url;
                         $scope.profile.name = customer.kakao_account.profile.nickname;
                         $scope.profile.email = customer.kakao_account.email;
@@ -275,6 +298,7 @@ mainApp.controller("mainCtrl", function($scope) {
                     $scope.profile.email = gProfile.getEmail();
                     $scope.profile.name = gProfile.getName();
                     $scope.profile.img = gProfile.getImageUrl();
+                    $("#imagePreview").css("background-image", 'url('+gProfile.getImageUrl()+')');
                     $scope.profile.sns = "google";
                     $scope.callbackSignupComponent($scope.profile);
                 }
@@ -289,7 +313,31 @@ mainApp.controller("mainCtrl", function($scope) {
     $scope.callbackSignupComponent = function(profile){
         $scope.showSignUpForm(profile);
     };
-    
+
+    $scope.showPreview = function(event){
+	  if(event.target.files.length > 0){
+	    var src = URL.createObjectURL(event.target.files[0]);
+	    var preview = document.getElementById("file-ip-1-preview");
+	    preview.src = src;
+	    preview.style.display = "block";
+	  }
+    }
+
+    $scope.getfile = function(){
+    	var images = $("#imagePreview").css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
+    	
+    	var ext = images.match(/^(data:image\/)(png|jpg|jpeg)/g)[0];
+    	ext = ext.split("/")[1];
+    	
+    	var obj = {
+    		encodedImg : images,
+    		ext: ext,
+    		target : "profile"
+    	}
+    	
+    	return obj;
+    }
+
     function checkValidation(form){
     	var _flag = true;
     	if (form == "signup") {
@@ -351,5 +399,16 @@ mainApp.controller("mainCtrl", function($scope) {
                 },
             });	
     	}
+    }
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                $('#imagePreview').hide();
+                $('#imagePreview').fadeIn(100);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 });

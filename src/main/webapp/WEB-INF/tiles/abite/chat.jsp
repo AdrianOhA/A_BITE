@@ -42,8 +42,7 @@
 						<path d="M0 0h24v24H0V0z" fill="none"/>
 					    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
 	  			   </svg>
-  			  </span
-  			  >
+  			  </span>
          </div>
        </div>
        <footer>
@@ -54,13 +53,26 @@
        </footer>
      </main>
    </div>
- </div>
- <script>
+</div>
+
+<div id="notifications" style="position: fixed;width: 15%;z-index: 999;right: 0;bottom: -15px;display: none;">
+<div class="alert alert-warning alert-with-icon" data-notify="container">
+  <div class="container">
+    <div class="alert-wrapper">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: 8px;" id="noti_close"></button>
+        <div class="message"><i class="nc-icon nc-bell-55"></i> 메세지 왔어요~ <span id="total_notread"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<audio id='audio_play' src='/css/alerting.mp3'></audio>
+<script> 
  "use strict";
  var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
  mainApp.controller("chatCtrl", function($scope, $timeout){
 	$scope.checkID = null;
 	$scope.chats = [];
+	$scope.total_notread = 0;
 	var _curr_id = "<%= user_info.get("USER_ID") %>";
 	sock.onmessage = function(e){
 		var _obj = JSON.parse(e.data);
@@ -71,7 +83,14 @@
 		} else {
 			$scope.chats[_obj.id].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y"});
 			if($scope.checkID != _obj.id) {
-				$scope.chats[_obj.id].not_read_cnt += 1;	
+				$scope.chats[_obj.id].not_read_cnt += 1;
+				$scope.total_notread = 0;
+				for(var i=0; i < $scope.chats.length; i++) {
+					$scope.total_notread += $scope.chats[i].not_read_cnt;	
+				}
+				play();
+				$("#total_notread").text($scope.total_notread);
+				$("#notifications").show();
 			} else {
 				sock.send(JSON.stringify({type:"read", target: $scope.chats[_obj.id].target, recipeNo : $scope.chats[_obj.id].recipeNo , id : _obj.id} ));
 			}
@@ -101,12 +120,14 @@
 	$scope.click_profile = function(ix) {
 	  $scope.checkID = ix;
 	  sock.send(JSON.stringify({type:"read", target: $scope.chats[$scope.checkID].target, recipeNo : $scope.chats[$scope.checkID].recipeNo , id : $scope.checkID} ));
+	  $("#notifications").hide();
 	  $(".init").show();
 	  $(".loader").show();
 	  $(".init").css({ 'opacity': '0'});
 	  $(".loader").delay(300).animate({'opacity': '1'});
 	  $(".message-wrap").css({'opacity': '0'});
 	  $scope.chats[$scope.checkID].not_read_cnt = 0;
+	  $scope.total_notread -= $scope.chats[$scope.checkID].not_read_cnt;
 	  $timeout(ixy, 1500);
     };
     
@@ -128,6 +149,19 @@
 				sock.send(JSON.stringify({type:"chat", target: $scope.chats[$scope.checkID].target, msg:$("#message").val() , recipeNo : $scope.chats[$scope.checkID].recipeNo , id : $scope.checkID} ));
 				$("#message").val('').focus();	
 			}
+		});
+		
+		$("#noti_close").click(function(){
+			$("#notifications").hide();
+		});
+		
+		$("#notifications").click(function(){
+			if($(".chat_container").css('display') === 'none') {
+    			$(".chat_container").show();
+    			
+	    	} else {
+	    		$(".chat_container").hide();
+	    	}
 		});
 	};
 	
@@ -197,6 +231,12 @@
 			_obj.avatar = user_info.USER_IMAGE;	
 		}
 		$scope.chats.push(_obj);
+		
+		$scope.total_notread = 0;
+		for(var i=0; i < $scope.chats.length; i++) {
+			$scope.total_notread += $scope.chats[i].not_read_cnt;	
+		}
+		
 		$scope.$apply();	
 	}
 	function ixy() {
@@ -251,5 +291,15 @@
 		}
 		return year+"/"+month+"/"+day+"/"+hour+":"+minute+":"+second;
 	}
+	
+	function play() { 
+	    var audio = document.getElementById('audio_play'); 
+	    if (audio.paused) { 
+	        audio.play(); 
+	    }else{ 
+	        audio.pause(); 
+	        audio.currentTime = 0 
+	    } 
+	} 
  });
  </script>
