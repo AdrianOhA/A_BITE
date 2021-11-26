@@ -35,7 +35,7 @@ public class RecipeService {
 	
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> saveRecipeTx(HashMap<String, Object> param) throws Exception{
-		logger.info("param =" + param);
+//		logger.info("param =" + param);
 		
 	    Map<String, Object> rtMap = new HashMap<>();  
 		
@@ -59,7 +59,7 @@ public class RecipeService {
 	}
 
 	public Map<String, Object> modifyRecipe(HashMap<String, Object> param) throws Exception{
-		logger.info("param =" + param);
+//		logger.info("param =" + param);
 		
 	    Map<String, Object> rtMap = new HashMap<>();  
 		

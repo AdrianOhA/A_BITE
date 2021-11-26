@@ -151,308 +151,42 @@
 	<div class="catagory-post-area section-padding-100">
 		<div class="container">
 			<div class="row justify-content-center">
-				<!-- Post Area -->
 				<div class="col-12 col-lg-8 col-xl-12">
-					<!-- Single Blog Post -->
-					<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
-						<!-- Blog Thumbnail -->
+					<div class="single-blog-post style-1 d-flex flex-wrap mb-30" ng-repeat="recipe in recipes">
 						<div class="col-12 col-md-6 col-lg-4">
 							<div class="single-post-catagory mb-30">
-								<img src="/images/4.jpg" alt="" />
+								<img ng-src="{{recipe.THUMBNAIL}}" alt="" />
 								<div class="catagory-content-bg">
 									<div class="catagory-content">
-										<a href="#" class="post-tag">The Best</a> <a href="#"
-											class="post-title">Healthy Food</a>
+										<a href="#" class="post-tag">{{recipe.CATEGORY}}</a> <a href="#"
+											class="post-title">{{recipe.TITLE}}</a>
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- Blog Content -->
 						<div class="blog-content">
-							<a href="#" class="post-tag">The Best</a> <a href="#"
-								class="post-title">Healthy Food</a>
+							<a href="#" class="post-tag">{{recipe.TAG}}</a> <a href="#"
+								class="post-title">{{recipe.TITLE}}</a>
 							<div class="post-meta">
-								<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-									class="post-author">By Julia Stiles</a>
+								<a href="#" class="post-date">가격: {{recipe.SELL_PAY}} 원</a> <a href="#"
+									class="post-author">남은 수량: {{recipe.SELL_CNT}}</a>
 							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-								Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-								Sed auctor tellus quis arcu tempus.</p>
+							<p>{{recipe.TIP}}</p>
 						</div>
 						<div class="single-widget-area author-widget col-lg-3">
 							<div class="background-pattern bg-img"
 								style="background-image: url(/images/pattern2.png);">
 								<div class="author-thumbnail">
-									<img src="/images/23.jpg" alt="">
+									<img ng-src="{{recipe.USER_IMAGE}}" alt="">
 								</div>
 								<p>
-									My name is <span>Jessica Smith</span>, I’m a passionate cook
-									with a love for vegan food.
+ 									{{recipe.INFO}}
 								</p>
 							</div>
 							<div class="social-info">
-								<a href="#"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-							</div>
-						</div>
-					</div>
-
-					<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
-						<!-- Blog Thumbnail -->
-						<div class="col-12 col-md-6 col-lg-4">
-							<div class="single-post-catagory mb-30">
-								<img src="/images/4.jpg" alt="" />
-								<div class="catagory-content-bg">
-									<div class="catagory-content">
-										<a href="#" class="post-tag">The Best</a> <a href="#"
-											class="post-title">Healthy Food</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Blog Content -->
-						<div class="blog-content">
-							<a href="#" class="post-tag">The Best</a> <a href="#"
-								class="post-title">Healthy Food</a>
-							<div class="post-meta">
-								<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-									class="post-author">By Julia Stiles</a>
-							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-								Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-								Sed auctor tellus quis arcu tempus.</p>
-						</div>
-						<div class="single-widget-area author-widget col-lg-3">
-							<div class="background-pattern bg-img"
-								style="background-image: url(/images/pattern2.png);">
-								<div class="author-thumbnail">
-									<img src="/images/23.jpg" alt="">
-								</div>
-								<p>
-									My name is <span>Jessica Smith</span>, I’m a passionate cook
-									with a love for vegan food.
-								</p>
-							</div>
-							<div class="social-info">
-								<a href="#"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-							</div>
-						</div>
-					</div>
-					<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
-						<!-- Blog Thumbnail -->
-						<div class="col-12 col-md-6 col-lg-4">
-							<div class="single-post-catagory mb-30">
-								<img src="/images/4.jpg" alt="" />
-								<div class="catagory-content-bg">
-									<div class="catagory-content">
-										<a href="#" class="post-tag">The Best</a> <a href="#"
-											class="post-title">Healthy Food</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Blog Content -->
-						<div class="blog-content">
-							<a href="#" class="post-tag">The Best</a> <a href="#"
-								class="post-title">Healthy Food</a>
-							<div class="post-meta">
-								<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-									class="post-author">By Julia Stiles</a>
-							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-								Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-								Sed auctor tellus quis arcu tempus.</p>
-						</div>
-						<div class="single-widget-area author-widget col-lg-3">
-							<div class="background-pattern bg-img"
-								style="background-image: url(/images/pattern2.png);">
-								<div class="author-thumbnail">
-									<img src="/images/23.jpg" alt="">
-								</div>
-								<p>
-									My name is <span>Jessica Smith</span>, I’m a passionate cook
-									with a love for vegan food.
-								</p>
-							</div>
-							<div class="social-info">
-								<a href="#"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-							</div>
-						</div>
-					</div>
-					<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
-						<!-- Blog Thumbnail -->
-						<div class="col-12 col-md-6 col-lg-4">
-							<div class="single-post-catagory mb-30">
-								<img src="/images/4.jpg" alt="" />
-								<div class="catagory-content-bg">
-									<div class="catagory-content">
-										<a href="#" class="post-tag">The Best</a> <a href="#"
-											class="post-title">Healthy Food</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Blog Content -->
-						<div class="blog-content">
-							<a href="#" class="post-tag">The Best</a> <a href="#"
-								class="post-title">Healthy Food</a>
-							<div class="post-meta">
-								<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-									class="post-author">By Julia Stiles</a>
-							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-								Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-								Sed auctor tellus quis arcu tempus.</p>
-						</div>
-						<div class="single-widget-area author-widget col-lg-3">
-							<div class="background-pattern bg-img"
-								style="background-image: url(/images/pattern2.png);">
-								<div class="author-thumbnail">
-									<img src="/images/23.jpg" alt="">
-								</div>
-								<p>
-									My name is <span>Jessica Smith</span>, I’m a passionate cook
-									with a love for vegan food.
-								</p>
-							</div>
-							<div class="social-info">
-								<a href="#"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-							</div>
-						</div>
-					</div>
-					<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
-						<!-- Blog Thumbnail -->
-						<div class="col-12 col-md-6 col-lg-4">
-							<div class="single-post-catagory mb-30">
-								<img src="/images/4.jpg" alt="" />
-								<div class="catagory-content-bg">
-									<div class="catagory-content">
-										<a href="#" class="post-tag">The Best</a> <a href="#"
-											class="post-title">Healthy Food</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Blog Content -->
-						<div class="blog-content">
-							<a href="#" class="post-tag">The Best</a> <a href="#"
-								class="post-title">Healthy Food</a>
-							<div class="post-meta">
-								<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-									class="post-author">By Julia Stiles</a>
-							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-								Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-								Sed auctor tellus quis arcu tempus.</p>
-						</div>
-						<div class="single-widget-area author-widget col-lg-3">
-							<div class="background-pattern bg-img"
-								style="background-image: url(/images/pattern2.png);">
-								<div class="author-thumbnail">
-									<img src="/images/23.jpg" alt="">
-								</div>
-								<p>
-									My name is <span>Jessica Smith</span>, I’m a passionate cook
-									with a love for vegan food.
-								</p>
-							</div>
-							<div class="social-info">
-								<a href="#"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-							</div>
-						</div>
-					</div>
-					<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
-						<!-- Blog Thumbnail -->
-						<div class="col-12 col-md-6 col-lg-4">
-							<div class="single-post-catagory mb-30">
-								<img src="/images/4.jpg" alt="" />
-								<div class="catagory-content-bg">
-									<div class="catagory-content">
-										<a href="#" class="post-tag">The Best</a> <a href="#"
-											class="post-title">Healthy Food</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Blog Content -->
-						<div class="blog-content">
-							<a href="#" class="post-tag">The Best</a> <a href="#"
-								class="post-title">Healthy Food</a>
-							<div class="post-meta">
-								<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-									class="post-author">By Julia Stiles</a>
-							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-								Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-								Sed auctor tellus quis arcu tempus.</p>
-						</div>
-						<div class="single-widget-area author-widget col-lg-3">
-							<div class="background-pattern bg-img"
-								style="background-image: url(/images/pattern2.png);">
-								<div class="author-thumbnail">
-									<img src="/images/23.jpg" alt="">
-								</div>
-								<p>
-									My name is <span>Jessica Smith</span>, I’m a passionate cook
-									with a love for vegan food.
-								</p>
-							</div>
-							<div class="social-info">
-								<a href="#"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-							</div>
-						</div>
-					</div>
-					<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
-						<!-- Blog Thumbnail -->
-						<div class="col-12 col-md-6 col-lg-4">
-							<div class="single-post-catagory mb-30">
-								<img src="/images/4.jpg" alt="" />
-								<div class="catagory-content-bg">
-									<div class="catagory-content">
-										<a href="#" class="post-tag">The Best</a> <a href="#"
-											class="post-title">Healthy Food</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Blog Content -->
-						<div class="blog-content">
-							<a href="#" class="post-tag">The Best</a> <a href="#"
-								class="post-title">Healthy Food</a>
-							<div class="post-meta">
-								<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-									class="post-author">By Julia Stiles</a>
-							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-								Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-								Sed auctor tellus quis arcu tempus.</p>
-						</div>
-						<div class="single-widget-area author-widget col-lg-3">
-							<div class="background-pattern bg-img"
-								style="background-image: url(/images/pattern2.png);">
-								<div class="author-thumbnail">
-									<img src="/images/23.jpg" alt="">
-								</div>
-								<p>
-									My name is <span>Jessica Smith</span>, I’m a passionate cook
-									with a love for vegan food.
-								</p>
-							</div>
-							<div class="social-info">
-								<a href="#"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+								<a ng-click="link_chat('{{recipe.USER_NO}}')"><i class="fa fa-comment" aria-hidden="true"></i></a>
+								<a ng-click="user_info('{{recipe.USER_NO}}')"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
 							</div>
 						</div>
 					</div>
@@ -497,62 +231,30 @@
 		</div>
 
 	</div>
-	<!-- 
-        Single Instagram
-        
-        Single Instagram
-        <div class="single-instagram">
-            <img src="/images/insta6.jpg" alt=""/>
-            Image Zoom
-            <a href="/images/insta6.jpg" class="img-zoom" title="Instagram Image">+</a>
-        </div>
-
-        Single Instagram
-        <div class="single-instagram">
-            <img src="/images/insta7.jpg" alt=""/>
-            Image Zoom
-            <a href="/images/insta7.jpg" class="img-zoom" title="Instagram Image">+</a>
-        </div>
-
-        Single Instagram
-        <div class="single-instagram">
-            <img src="/images/insta8.jpg" alt=""/>
-            Image Zoom
-            <a href="/images/insta8.jpg" class="img-zoom" title="Instagram Image">+</a>
-        </div>
-
-        Single Instagram
-        <div class="single-instagram">
-            <img src="/images/insta9.jpg" alt=""/>
-            Image Zoom
-            <a href="/images/insta9.jpg" class="img-zoom" title="Instagram Image">+</a>
-        </div>
-
-        Single Instagram
-        <div class="single-instagram">
-            <img src="/images/insta10.jpg" alt=""/>
-            Image Zoom
-            <a href="/images/insta10.jpg" class="img-zoom" title="Instagram Image">+</a>
-        </div>
-    </div>
-    ##### Instagram Area End ##### -->
-
-	<!--  <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-	<!-- </div>    -->
-
 	<script>
 		"use strict";
 		var mainApp = window.mainApp
 				|| (window.mainApp = angular.module("ABite_App", []));
 		mainApp.controller("mainCtrl", function($scope) {
 			$scope.init = function() {
+				$scope.recipes = [];
 				$scope.setEvent();
+				$scope.search();
 			};
 			$scope.setEvent = function() {
 
 			};
 			$scope.search = function() {
-				alert("search btn click");
+				$.ajax({
+		            type: 'POST',
+		            url: '/web/getRecipeList.json',
+		            data: JSON.stringify({"email" : "test"}),
+		            contentType: "application/json; charset=UTF-8",
+		            success: function(res) {
+		            	$scope.recipes = res.RECIPE_LIST;
+		            	$scope.$apply();
+		            },
+		        });	
 			};
 		});
 	</script>

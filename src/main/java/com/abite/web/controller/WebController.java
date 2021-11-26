@@ -53,9 +53,17 @@ public class WebController {
 	public ModelMap modifyRecipe(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
 	{
 		ModelMap map = new ModelMap();
-		logger.info("call saveRecipe");
+		logger.info("call modifyRecipe");
 		map.addAllAttributes(recipeService.modifyRecipe(param));
 		return map;
 	}
-	
+
+	@RequestMapping(value="/getRecipeList.json")
+	public ModelMap getRecipeList(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
+	{
+		ModelMap map = new ModelMap();
+		logger.info("call getRecipeList");
+		map.addAttribute("RECIPE_LIST", recipeService.getRecipeList(param));
+		return map;
+	}
 }

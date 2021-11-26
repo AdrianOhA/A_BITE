@@ -38,7 +38,7 @@
 					    <div class="col-lg-5">
 		            		<div class="margin-top-15"><h6><span class="note title">요리</span> 제목</h6></div>
 		            		<div class="input-group">
-				              <input type="text" class="form-control" placeholder="제목" ng-model="recipe.title">
+				              <input type="text" class="form-control form" placeholder="제목" ng-model="recipe.title">
 				              <div class="input-group-append">
 				                <span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 				              </div>
@@ -52,7 +52,7 @@
 				              <div class="input-group-append">
 				                <span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 				              </div>
-				              <span class="btn btn-link btn-info">{{recipe.tag}}</span>
+				              <span class="btn btn-link btn-info" id="tag_span">{{recipe.tag}}</span>
 				            </div>
 						 </div>
 						  <div class="col-lg-5">
@@ -80,11 +80,11 @@
 						<div class="margin-top-15"><h6><span class="note title">요리</span> 재료</h6></div>
 						<div class="input-group"  ng-repeat='ingredient in recipe.ingredients' ng-class="{'margin-top-15': $index > 0}">
 						  <span ng-model="ingredient.seq" style="display: none;"></span>
-						  <input type="text" class="form-control col-md-3" placeholder="예) 돼지고기"  ng-model="ingredient.name">
+						  <input type="text" class="form-control col-md-3 form" placeholder="예) 돼지고기"  ng-model="ingredient.name">
 						  <div class="input-group-append">
 							<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 						  </div>
-						  <input type="text" class="form-control col-md-3 contants_input" placeholder="예) 100g"  ng-model="ingredient.size">
+						  <input type="text" class="form-control col-md-3 contants_input form" placeholder="예) 100g"  ng-model="ingredient.size">
 						  <div class="input-group-append">
 							<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 						  </div>
@@ -95,7 +95,7 @@
 						<div class="col-lg-5">
 							<div class="margin-top-15"><h6><span class="note title">판매</span> 수량</h6></div>
 							<div class="input-group">
-							  <input type="text" class="form-control" placeholder="수량" ng-model="recipe.sellCnt">
+							  <input type="text" class="form-control form" placeholder="수량" ng-model="recipe.sellCnt">
 							  <div class="input-group-append">
 								<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 							  </div>
@@ -104,7 +104,7 @@
 						 <div class="col-lg-5">
 							<div class="margin-top-15"><h6><span class="note title">판매</span> 금액</h6></div>
 							<div class="input-group">
-							  <input type="text" class="form-control" placeholder="금액" ng-model="recipe.sellPay">
+							  <input type="text" class="form-control form" placeholder="금액" ng-model="recipe.sellPay">
 							  <div class="input-group-append">
 								<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 							  </div>
@@ -121,7 +121,7 @@
 	            	<div ng-repeat="detail in recipe.details">
 		            	<span style="font-weight: 600;color: #757575;">Step.{{detail.seq+1}}</span>
 		            	<div class="input-group">
-		            		<textarea rows="3" cols="100" placeholder="소개" class="form-control" style="padding: 10px 10px;" ng-model="detail.contents"></textarea>
+		            		<textarea rows="3" cols="100" placeholder="소개" class="form-control form" style="padding: 10px 10px;" ng-model="detail.contents"></textarea>
 		            		<div class="input-group-append">
 			                	<div class="img-recipe-container animated fadeInUp animate3 form-input">
 								    <div class="recipe-avatar-upload">
@@ -140,7 +140,7 @@
 		  		<div class="col-12 col-md-8 col-sm-4">
 	            	<div class="margin-top-15"><h6><span class="note title">요리</span> 팁</h6></div>
 	            	<div class="input-group">
-	            		<textarea rows="3" cols="100" placeholder="팁" class="form-control" style="padding: 10px 10px;" ng-model="recipe.tip"></textarea>
+	            		<textarea rows="3" cols="100" placeholder="팁" class="form-control form" style="padding: 10px 10px;" ng-model="recipe.tip"></textarea>
 	            		<div class="input-group-append">
 		                	<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 		                </div>
@@ -149,7 +149,7 @@
 		  		<div class="col-12 col-md-8 col-sm-4">
 	            	<div class="margin-top-15"><h6><span class="note title">요리</span> 소개</h6></div>
 	            	<div class="input-group">
-	            		<textarea rows="3" cols="100" placeholder="소개" class="form-control" style="padding: 10px 10px;" ng-model="recipe.info"></textarea>
+	            		<textarea rows="3" cols="100" placeholder="소개" class="form-control form" style="padding: 10px 10px;" ng-model="recipe.info"></textarea>
 	            		<div class="input-group-append">
 		                	<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 		                </div>
@@ -260,9 +260,8 @@ mainApp.controller("postCtrl", function($scope) {
 	$scope.save_recipe = function(openYN) {
 		var _openFlag = openYN || 'N';
 		$scope.recipe.openYN = _openFlag;
-		var _saveData = $scope.getSaveData();
-		
 		if(checkValidation()){
+			var _saveData = $scope.getSaveData();
 			$.ajax({
 	            type: 'POST',
 	            url: '/web/saveRecipe.json',
@@ -271,7 +270,9 @@ mainApp.controller("postCtrl", function($scope) {
 	            success: function(res) {
 	            	$scope.recipe.recipeNo = res.recipe.recipeNo;
 	            	if($scope.recipe.recipeNo > 0) {
-	            		console.log("성공!")
+	            		if(confirm("등록완료 ><, 조회 화면으로 갈래?")) {
+	            			location.href = '/';	
+	            		}
 	            	} else {
 	            		console.log("실패애애")
 	            	}
@@ -311,7 +312,6 @@ mainApp.controller("postCtrl", function($scope) {
 	
     $scope.getRecipeThumbfile = function(){
     	var images = $("#recipe-imagePreview").css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
-    	
     	var ext = images.match(/^(data:image\/)(png|jpg|jpeg)/g)[0];
     	ext = ext.split("/")[1];
     	
@@ -331,10 +331,13 @@ mainApp.controller("postCtrl", function($scope) {
 	
 	$scope.tag_press = function(e){
 		var txt = $("#tag").val();
+		$("#tag").removeClass('valid');   
 		if(e.keyCode == 13) {
 			$scope.recipe.tag += txt + ',';
 			$("#tag").val('');
-			$scope.recipe.tag = $scope.recipe.tag.substring(0, $scope.recipe.tag.length-1);
+			if($scope.recipe.tag.length <= 22) {
+				$scope.recipe.tag = $scope.recipe.tag.substring(0, $scope.recipe.tag.length-1);	
+			}
 		}
 	}
 	
@@ -429,7 +432,7 @@ mainApp.controller("postCtrl", function($scope) {
 
     function checkValidation(){
     	var _flag = true;
-    	$(".form-control").each(function(){
+    	$(".form").each(function(){
     		$(this).removeClass('valid');
    			var _val = $(this).val() || "";
    			if (_val == "" || _val == 0) {
@@ -437,6 +440,11 @@ mainApp.controller("postCtrl", function($scope) {
    				_flag = false;
    			}
    		});
+    	
+    	if($("#tag_span").text() == '') {
+    		$("#tag").addClass('valid');
+    	}
+    	
     	return _flag;
     }
 });
