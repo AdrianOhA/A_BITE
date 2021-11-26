@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.abite.common.service.CommonApiService;
 import com.abite.web.mapper.MemberMapper;
@@ -55,6 +53,15 @@ public class AuthService {
 		logger.debug(userInfo + "");
 		return map;
 	}
+	
+	public ModelMap getMemberForChat(HashMap<String, Object> param) throws Exception {
+		ModelMap map = new ModelMap();
+		Map<String, Object> userInfo = memberMapper.getMemberForChat(param);
+		map.put("userInfo", userInfo);
+		logger.debug(userInfo + "");
+		return map;
+	}
+	
 	
 	public int isExistsForMember(HashMap<String, Object> param) throws Exception {
 		int count = memberMapper.exsistMember(param);

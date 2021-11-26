@@ -183,7 +183,7 @@
 	                      <a class="dropdown-item" href="#pk">프로필</a>
 	                      <a class="dropdown-item" href="#pk">설정</a>
 	                      <div class="dropdown-divider"></div>
-	                      <a class="dropdown-item" href="#pk">로그아웃</a>
+	                      <a class="dropdown-item" href="/Auth/logout">로그아웃</a>
 	                    </ul>
 	                  </div>
                 </nav>
@@ -196,6 +196,20 @@
 <script>
 "use strict";
 var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
+mainApp.factory('delivery', function(){
+	var params = null;
+	function getParams(){
+		return params;
+	}
+	function setParams(newParams) {
+		params = newParams;
+	}
+	return {
+		getParams: getParams,
+		setParams: setParams
+	}
+});
+
 mainApp.controller("headerCtrl", function($scope){
 	$scope.init = function(){
 		$scope.menuList = [];

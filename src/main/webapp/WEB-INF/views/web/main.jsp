@@ -172,7 +172,7 @@
 								<a href="#" class="post-date">가격: {{recipe.SELL_PAY}} 원</a> <a href="#"
 									class="post-author">남은 수량: {{recipe.SELL_CNT}}</a>
 							</div>
-							<p>{{recipe.TIP}}</p>
+							<p>{{recipe.INFO}}</p>
 						</div>
 						<div class="single-widget-area author-widget col-lg-3">
 							<div class="background-pattern bg-img"
@@ -181,12 +181,12 @@
 									<img ng-src="{{recipe.USER_IMAGE}}" alt="">
 								</div>
 								<p>
- 									{{recipe.INFO}}
+ 									{{recipe.TIP}}
 								</p>
 							</div>
 							<div class="social-info">
-								<a ng-click="link_chat('{{recipe.USER_NO}}')"><i class="fa fa-comment" aria-hidden="true"></i></a>
-								<a ng-click="user_info('{{recipe.USER_NO}}')"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO, recipe.RECIPE_NO, recipe.SELL_PAY, recipe.SELL_CNT)"><i class="fa fa-comment" aria-hidden="true"></i></a>
+								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO)"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
 							</div>
 						</div>
 					</div>
@@ -231,30 +231,59 @@
 		</div>
 
 	</div>
-	<script>
-		"use strict";
-		var mainApp = window.mainApp
-				|| (window.mainApp = angular.module("ABite_App", []));
-		mainApp.controller("mainCtrl", function($scope) {
-			$scope.init = function() {
-				$scope.recipes = [];
-				$scope.setEvent();
-				$scope.search();
-			};
-			$scope.setEvent = function() {
-
-			};
-			$scope.search = function() {
-				$.ajax({
-		            type: 'POST',
-		            url: '/web/getRecipeList.json',
-		            data: JSON.stringify({"email" : "test"}),
-		            contentType: "application/json; charset=UTF-8",
-		            success: function(res) {
-		            	$scope.recipes = res.RECIPE_LIST;
-		            	$scope.$apply();
-		            },
-		        });	
-			};
-		});
-	</script>
+</div>
+<script>
+"use strict";
+var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
+mainApp.controller("mainCtrl", function($scope, delivery) {
+	$scope.init = function() {
+		$scope.recipes = [];
+		$scope.setEvent();
+		$scope.search();
+	};
+	$scope.setEvent = function() {
+	};
+	$scope.search = function() {
+		$.ajax({
+	       type: 'POST',
+	       url: '/web/getRecipeList.json',
+	       data: JSON.stringify({"email" : "test"}),
+	       contentType: "application/json; charset=UTF-8",
+	       success: function(res) {
+	       		$scope.recipes = res.RECIPE_LIST;
+	       		$scope.$apply();
+		   },
+	    });	
+	};
+	$scope.recipeLink = function(userNo, recipeNo, sellPay, sellCnt) {
+		if(recipeNo) { //chat
+			$scope.searchUser(userNo , function(user_info){
+				var _obj = {
+					id : 0, 
+					recipeNo : recipeNo,
+					username : user_info.USER_NAME,
+					target: user_info.USER_ID,
+					avatar : user_info.USER_IMAGE,
+					messages: [],
+				};
+				delivery.setParams(_obj);
+			});
+		} else {
+			
+		}
+	}
+	
+	$scope.searchUser= function(userNo, callback) {
+		$.ajax({
+	       type: 'POST',
+	       url: '/Auth/getMemberForChat.json',
+	       data: JSON.stringify({"userNo" : userNo}),
+	       async: false,
+	       contentType: "application/json; charset=UTF-8",
+	       success: function(res) {
+	       		callback(res.userInfo);
+		   },
+	    });	
+	}
+});
+</script>

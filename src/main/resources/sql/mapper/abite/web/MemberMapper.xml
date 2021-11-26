@@ -24,6 +24,14 @@
 	LIMIT 1 	
 </select>
 
+<select id="getMemberForChat" parameterType="map" resultType="map">
+	/* FcMemberMapper.getMemberForChat */
+	SELECT USER_ID, USER_NAME, USER_IMAGE
+	  FROM T_MEMBER
+	WHERE USER_NO = #{userNo} AND USE_YN = 'Y'
+	LIMIT 1 	
+</select>
+
 <select id="exsistMember" parameterType="map" resultType="int">
 	SELECT COUNT(*) 
 	  FROM T_MEMBER

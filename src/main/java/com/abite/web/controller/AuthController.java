@@ -133,4 +133,14 @@ public class AuthController {
 		return service.getMember(param);
 	}
 	
+	@RequestMapping(value="/getMemberForChat")
+	public ModelMap getMemberForChat(HttpSession session, HttpServletRequest req, HttpServletResponse res,  @RequestBody HashMap<String, Object> param) throws Exception{
+		logger.info("login form : "+ param);
+		return service.getMemberForChat(param);
+	}
+	@RequestMapping(value="/logout")
+	public void logout(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception
+	{
+		session.removeAttribute("USER_INFO");
+	}
 }

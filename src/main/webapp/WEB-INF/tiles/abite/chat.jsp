@@ -69,7 +69,7 @@
 <script> 
  "use strict";
  var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
- mainApp.controller("chatCtrl", function($scope, $timeout){
+ mainApp.controller("chatCtrl", function($scope, delivery, $timeout){
 	$scope.checkID = null;
 	$scope.chats = [];
 	$scope.total_notread = 0;
@@ -81,6 +81,10 @@
 				obj.readYN = "Y";
 			});
 		} else {
+			if(!$scope.chats[_obj.id]) {
+				$scope.chats = [];
+				$scope.search_chatList();
+			}
 			$scope.chats[_obj.id].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y"});
 			if($scope.checkID != _obj.id) {
 				$scope.chats[_obj.id].not_read_cnt += 1;
@@ -88,9 +92,9 @@
 				for(var i=0; i < $scope.chats.length; i++) {
 					$scope.total_notread += $scope.chats[i].not_read_cnt;	
 				}
-				play();
 				$("#total_notread").text($scope.total_notread);
 				$("#notifications").show();
+				play();
 			} else {
 				sock.send(JSON.stringify({type:"read", target: $scope.chats[_obj.id].target, recipeNo : $scope.chats[_obj.id].recipeNo , id : _obj.id} ));
 			}
@@ -116,7 +120,27 @@
 		  $scope.text = '';
 	  }
 	};
-	
+	$scope.$watch(
+		function () { 
+			return delivery.getParams();
+		},
+		function (params) {
+			if(params && params.target != _curr_id) {
+				var flag = true;
+				for(var i = 0 ; i < $scope.chats.length; i++) {
+					if(params.recipeNo == $scope.chats[i].recipeNo){
+						$scope.chats[i].id = i;
+						flag = false;
+					}
+				}
+				if(flag == true){
+					params.id = $scope.chats.length;
+					$scope.chats.push(params);
+				}
+			}
+		}
+	);
+
 	$scope.click_profile = function(ix) {
 	  $scope.checkID = ix;
 	  sock.send(JSON.stringify({type:"read", target: $scope.chats[$scope.checkID].target, recipeNo : $scope.chats[$scope.checkID].recipeNo , id : $scope.checkID} ));
@@ -170,7 +194,7 @@
             type: 'POST',
             url: '/dev/chatList.json',
             contentType: "application/json; charset=UTF-8",
-            async: true,
+            async: false,
             success: function(res) {
             	if (res.TARGET_LIST) {
             		res.TARGET_LIST.forEach(function(obj, idx){
@@ -235,9 +259,7 @@
 		$scope.total_notread = 0;
 		for(var i=0; i < $scope.chats.length; i++) {
 			$scope.total_notread += $scope.chats[i].not_read_cnt;	
-		}
-		
-		$scope.$apply();	
+		}	
 	}
 	function ixy() {
 	    $(".message-wrap").css({

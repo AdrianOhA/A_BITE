@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface MemberMapper {
 	
 	Map<String, Object> getMember(HashMap<String, Object> map);
-	
+	Map<String, Object> getMemberForChat(HashMap<String, Object> map);
 	int exsistMember(HashMap<String, Object> map);
 	
 	long addMember(HashMap<String, Object> map);
