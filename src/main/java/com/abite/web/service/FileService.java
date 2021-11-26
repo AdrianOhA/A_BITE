@@ -31,13 +31,16 @@ public class FileService {
 		String target = (String) param.get("target");
 		String ext = (String)param.get("ext");
 		String fileName =  "";
-		String no = (String)param.get("no");
+		int no = (int)param.get("recipeNo");
+		
 		if ("profile".equals(target)) {
 			fileName = "profile_" + System.currentTimeMillis() + ".";
-		} else {
+		} else if("recipe".equals(target)){
 			fileName = "recipe_" + no + "_" + System.currentTimeMillis() + ".";
+		} else {
+			int seq = (int)param.get("seq");
+			fileName = "detail_" + no + "_" + seq + "_" + System.currentTimeMillis() + ".";
 		}
-		
 		fileName += ext;
 		
 		Path destinationFile = Paths.get("C:\\A_BITE\\workspace\\A_BITE\\src\\main\\webapp\\public\\images", fileName);

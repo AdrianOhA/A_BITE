@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+레시피 등록
+-->
+<mapper namespace="com.abite.web.mapper.RecipeMapper">
+
+<!-- 목록,정보 공통 칼럼 -->
+<sql id="RecipeColumns">
+	
+</sql>
+
+<!-- 검색 조건 -->
+<sql id="searchCondition">
+
+</sql>
+
+<select id="getRecipeList" parameterType="map" resultType="map">
+	
+</select>
+
+<insert id="addRecipe" parameterType="map" useGeneratedKeys="true"> 
+	INSERT INTO T_RECIPE (USER_NO, SELL_CNT, SELL_PAY, THUMBNAIL, TITLE, TAG, CATEGORY_CD, TIP, INFO, OPEN_YN, CREATE_DATETIME, CHANGE_DATETIME)
+	VALUES(#{userNo}, #{sellCnt}, #{sellPay}, #{thumbnail}, #{title}, #{tag}, #{category}, #{tip}, #{info}, #{openYN}, now(), now())
+	<selectKey keyProperty="recipeNo" resultType="Integer" order="AFTER">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+</insert>
+<update id="modifyRecipe" parameterType="map">
+	UPDATE T_RECIPE 
+	   SET 
+	   	   <if test="sellCnt != null and sellCnt != ''">
+	   	   	SELL_CNT = #{sellCnt},
+	   	   </if>
+	   	   <if test="sellPay != null and sellPay != ''">
+	       SELL_PAY = #{sellPay},
+	       </if>
+	       <if test="thumbnail != null and thumbnail != ''">
+	       THUMBNAIL = #{thumbnail},
+	       </if>
+	       <if test="title != null and title != ''">
+	       TITLE = #{title},
+	       </if>
+	       <if test="category != null and category != ''">
+	       CATEGORY_CD = #{category},
+	       </if>
+	       <if test="tip != null and tip != ''">
+	       TIP = #{tip},
+	       </if>
+	       <if test="info != null and info != ''">
+	       INFO = #{info},
+	       </if>
+	       <if test="openYN != null and openYN != ''">
+	       OPEN_YN = #{openYN},
+	       </if>
+	       <if test="useYN != null and useYN != ''">
+	       USE_YN = #{useYN},
+	       </if>
+	       CHANGE_DATETIME = NOW()
+    WHERE  USER_NO = #{userNo} AND RECIPE_NO = #{recipeNo}	       
+</update>
+<insert id="addRecipeDetail" parameterType="map"> 
+	INSERT INTO T_RECIPE_DTL (RECIPE_NO, SEQ, CONTENTS, IMAGE, CREATE_DATETIME, CHANGE_DATETIME)
+	VALUES(#{recipeNo}, #{seq}, #{contents}, #{image}, now(), now())
+</insert>
+<update id="modifyRecipeDetail" parameterType="map">
+	UPDATE T_RECIPE_DTL 
+	   SET 
+	   	   <if test="contents != null and contents != ''">
+	   	   	CONTENTS = #{contents},
+	   	   </if>
+	   	   <if test="image != null and image != ''">
+	       	IMAGE = #{image},
+	       </if>
+	       <if test="useYN != null and useYN != ''">
+	       USE_YN = #{useYN},
+	       </if>
+	       CHANGE_DATETIME = NOW()
+    WHERE  RECIPE_NO = #{recipeNo} AND SEQ = #{seq}	       
+</update>
+<insert id="addIngredient" parameterType="map"> 
+	INSERT INTO T_INGREDIENT (RECIPE_NO, SEQ, NAME, SIZE, CREATE_DATETIME, CHANGE_DATETIME)
+	VALUES(#{recipeNo}, #{seq}, #{name}, #{size}, now(), now())
+</insert>
+<update id="modifyIngredient" parameterType="map">
+	UPDATE T_INGREDIENT 
+	   SET 
+	   	   <if test="name != null and name != ''">
+	   	   	NAME = #{name},
+	   	   </if>
+	   	   <if test="size != null and size != ''">
+	       	SIZE = #{size},
+	       </if>
+	       <if test="useYN != null and useYN != ''">
+	       USE_YN = #{useYN},
+	       </if>
+	       CHANGE_DATETIME = NOW()
+    WHERE  RECIPE_NO = #{recipeNo} AND SEQ = #{seq}	       
+</update>
+</mapper>

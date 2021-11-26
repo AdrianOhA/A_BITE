@@ -21,7 +21,9 @@ function load(){
 		type: "register",
 		userid : "<%= user_info.get("USER_ID") %>"
 	}
-	sock.send(JSON.stringify(msg));
+	setTimeout(() => {
+		sock.send(JSON.stringify(msg));	
+	}, 300);
 }
 </script>
 

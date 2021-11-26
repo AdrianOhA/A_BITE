@@ -3,7 +3,115 @@
 <%@ page import="java.util.Map" %>
 <% Map<String, Object> user_info = (Map<String, Object>) session.getAttribute("USER_INFO"); %>
 
+<div class="treading-post-area" id="treadingPost">
+		<div class="close-icon">
+			<i class="fa fa-times"></i>
+		</div>
 
+		<h4>Treading Post</h4>
+
+		<!-- Single Blog Post -->
+		<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
+			<!-- Blog Thumbnail -->
+			<div class="blog-thumbnail">
+				<img src="/images/9.jpg" alt="" />
+			</div>
+			<!-- Blog Content -->
+			<div class="blog-content">
+				<a href="#" class="post-tag">The Best</a> <a href="#"
+					class="post-title">Friend eggs with ham</a>
+				<div class="post-meta">
+					<a href="#" class="post-date">July 11, 2018</a> <a href="#"
+						class="post-author">By Julia Stiles</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Single Blog Post -->
+		<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
+			<!-- Blog Thumbnail -->
+			<div class="blog-thumbnail">
+				<img src="/images/10.jpg" alt="" />
+			</div>
+			<!-- Blog Content -->
+			<div class="blog-content">
+				<a href="#" class="post-tag">The Best</a> <a href="#"
+					class="post-title">Mushrooms with pork chop</a>
+				<div class="post-meta">
+					<a href="#" class="post-date">July 11, 2018</a> <a href="#"
+						class="post-author">By Julia Stiles</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Single Blog Post -->
+		<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
+			<!-- Blog Thumbnail -->
+			<div class="blog-thumbnail">
+				<img src="/images/11.jpg" alt="" />
+			</div>
+			<!-- Blog Content -->
+			<div class="blog-content">
+				<a href="#" class="post-tag">The Best</a> <a href="#"
+					class="post-title">Birthday cake with chocolate</a>
+				<div class="post-meta">
+					<a href="#" class="post-date">July 11, 2018</a> <a href="#"
+						class="post-author">By Julia Stiles</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Single Blog Post -->
+		<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
+			<!-- Blog Thumbnail -->
+			<div class="blog-thumbnail">
+				<img src="/images/9.jpg" alt="" />
+			</div>
+			<!-- Blog Content -->
+			<div class="blog-content">
+				<a href="#" class="post-tag">The Best</a> <a href="#"
+					class="post-title">Friend eggs with ham</a>
+				<div class="post-meta">
+					<a href="#" class="post-date">July 11, 2018</a> <a href="#"
+						class="post-author">By Julia Stiles</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Single Blog Post -->
+		<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
+			<!-- Blog Thumbnail -->
+			<div class="blog-thumbnail">
+				<img src="/images/10.jpg" alt="" />
+			</div>
+			<!-- Blog Content -->
+			<div class="blog-content">
+				<a href="#" class="post-tag">The Best</a> <a href="#"
+					class="post-title">Mushrooms with pork chop</a>
+				<div class="post-meta">
+					<a href="#" class="post-date">July 11, 2018</a> <a href="#"
+						class="post-author">By Julia Stiles</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Single Blog Post -->
+		<div class="single-blog-post style-1 d-flex flex-wrap mb-30">
+			<!-- Blog Thumbnail -->
+			<div class="blog-thumbnail">
+				<img src="/images/11.jpg" alt="" />
+			</div>
+			<!-- Blog Content -->
+			<div class="blog-content">
+				<a href="#" class="post-tag">The Best</a> <a href="#"
+					class="post-title">Birthday cake with chocolate</a>
+				<div class="post-meta">
+					<a href="#" class="post-date">July 11, 2018</a> <a href="#"
+						class="post-author">By Julia Stiles</a>
+				</div>
+			</div>
+		</div>
+	</div>
 <header class="header-area" ng-controller="headerCtrl" ng-init="init()">
     <!-- Top Header Area -->
     <div class="top-header-area bg-img bg-overlay" style="background-image: url(/images/header.jpg);">
@@ -71,9 +179,9 @@
  					<div class="nav-item dropdown">
 	                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#pk" role="button" aria-haspopup="true" aria-expanded="false"><i class="nc-icon nc-settings-gear-65" aria-hidden="true"></i></a>
 	                    <ul class="dropdown-menu dropdown-menu-right dropdown-danger">
-	                      <li class="dropdown-header" href="#pk"><%= user_info.get("USER_NAME") %></li>
+	                      <li class="dropdown-header" href="#pk"><img src="<%= user_info.get("USER_IMAGE") %>" style="height: 30px;width: 30px;border-radius: 50%;vertical-align: middle;"> <%= user_info.get("USER_NAME") %> </li>
 	                      <a class="dropdown-item" href="#pk">프로필</a>
-	                      <a class="dropdown-item" href="#pk">Settings</a>
+	                      <a class="dropdown-item" href="#pk">설정</a>
 	                      <div class="dropdown-divider"></div>
 	                      <a class="dropdown-item" href="#pk">로그아웃</a>
 	                    </ul>
