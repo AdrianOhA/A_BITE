@@ -15,6 +15,14 @@
 <sql id="searchCondition">
 
 </sql>
+<select id="getRecipeCount" parameterType="map" resultType="int">
+	SELECT COUNT(*)    
+	  FROM T_RECIPE A
+	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
+	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y'   
+	ORDER BY A.VIEWS_CNT DESC  
+</select>
 
 <select id="getRecipeList" parameterType="map" resultType="map">
 	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO,
@@ -27,6 +35,64 @@
 	ORDER BY A.VIEWS_CNT DESC  
 </select>
 
+<select id="getRecipe" parameterType="map" resultType="map">
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO,
+	       A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
+	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME   
+	  FROM T_RECIPE A
+	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
+	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y' AND A.RECIPE_NO = #{recipeNo}  
+	ORDER BY A.VIEWS_CNT DESC
+	LIMIT 1  
+</select>
+
+
+<select id="getRecipeInfo" parameterType="int" resultType="map">
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO,
+		   A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
+	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME,
+	       A.VIEWS_CNT   
+	  FROM T_RECIPE A
+	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
+	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y' AND A.RECIPE_NO = #{recipeNo}  
+	ORDER BY A.VIEWS_CNT DESC
+	LIMIT 1  
+</select>
+
+<select id="getRecipeDtl" parameterType="int" resultType="map">
+	SELECT B.SEQ, B.CONTENTS, B.IMAGE
+	  FROM T_RECIPE A
+	  JOIN T_RECIPE_DTL B ON A.RECIPE_NO = B.RECIPE_NO AND B.USE_YN = 'Y' 
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y' AND A.RECIPE_NO = #{recipeNo}  
+	ORDER BY B.SEQ ASC
+</select>
+
+
+<select id="getRecipeIngredients" parameterType="int" resultType="map">
+	SELECT B.SEQ, B.NAME, B.SIZE
+	  FROM T_RECIPE A
+	  JOIN T_INGREDIENT B ON A.RECIPE_NO = B.RECIPE_NO AND B.USE_YN = 'Y' 
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y' AND A.RECIPE_NO = #{recipeNo}  
+	ORDER BY B.SEQ ASC
+</select>
+
+<select id="getComment" parameterType="map" resultType="int">
+	SELECT IFNULL(MAX(SEQ), 0) AS SEQ 
+	  FROM T_COMMENTS
+	WHERE RECIPE_NO = #{RECIPE_NO} AND USER_NO = #{USER_NO} AND USE_YN = 'Y'
+</select>
+
+<select id="getComments" parameterType="map" resultType="map">
+	SELECT C.USER_NAME, C.USER_IMAGE, C.USER_ID, B.CONTENTS, C.CREATE_DATETIME
+	  FROM T_RECIPE A
+	  JOIN T_COMMENTS B ON A.RECIPE_NO = B.RECIPE_NO AND B.USE_YN = 'Y'
+	  JOIN T_MEMBER C ON B.USER_NO = C.USER_NO AND C.USE_YN = 'Y'
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y' AND A.RECIPE_NO = #{recipeNo}  
+	ORDER BY B.CREATE_DATETIME ASC
+</select>
+
 <insert id="addRecipe" parameterType="map" useGeneratedKeys="true"> 
 	INSERT INTO T_RECIPE (USER_NO, SELL_CNT, SELL_PAY, THUMBNAIL, TITLE, TAG, CATEGORY_CD, TIP, INFO, OPEN_YN, CREATE_DATETIME, CHANGE_DATETIME)
 	VALUES(#{userNo}, #{sellCnt}, #{sellPay}, #{thumbnail}, #{title}, #{tag}, #{category}, #{tip}, #{info}, #{openYN}, now(), now())
@@ -34,6 +100,14 @@
 		SELECT LAST_INSERT_ID()
 	</selectKey>
 </insert>
+<update id="saveLookupCount" parameterType="map">
+	UPDATE T_RECIPE 
+	   SET 
+	   	   VIEWS_CNT = VIEWS_CNT + 1,
+	       CHANGE_DATETIME = NOW()
+    WHERE  USER_NO = #{userNo} AND RECIPE_NO = #{recipeNo}	       
+</update>
+
 <update id="modifyRecipe" parameterType="map">
 	UPDATE T_RECIPE 
 	   SET 
@@ -105,4 +179,9 @@
 	       CHANGE_DATETIME = NOW()
     WHERE  RECIPE_NO = #{recipeNo} AND SEQ = #{seq}	       
 </update>
+
+<insert id="saveComment"  parameterType="map">
+	INSERT INTO T_COMMENTS (RECIPE_NO, USER_NO, SEQ, CONTENTS, USE_YN , CREATE_DATETIME, CHANGE_DATETIME)
+	VALUES (#{RECIPE_NO}, #{USER_NO}, #{SEQ}, #{CONTENTS}, 'Y', NOW(), NOW())
+</insert>
 </mapper>

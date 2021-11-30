@@ -28,10 +28,41 @@ public class RecipeService {
 	@Autowired
 	private FileService fileService;
 	
+
+	public List<HashMap<String, Object>> getComments(HashMap<String, Object> param) throws Exception {
+		return recipeMapper.getComments(param);
+	}
+	
+	public int getRecipeCount(HashMap<String, Object> param) throws Exception {
+		return recipeMapper.getRecipeCount(param);
+	}
+	
 	public List<HashMap<String, Object>> getRecipeList(HashMap<String, Object> param) throws Exception {
 		return recipeMapper.getRecipeList(param);
 	}
 	
+	public HashMap<String, Object> getRecipe(HashMap<String, Object> param) throws Exception {
+		return recipeMapper.getRecipe(param);
+	}
+
+	public HashMap<String, Object> getRecipeInfo(int recipeNo) throws Exception {
+		HashMap<String, Object> recipe = recipeMapper.getRecipeInfo(recipeNo);
+		
+		recipe.put("INGREDIENTS",  recipeMapper.getRecipeIngredients(recipeNo));
+		recipe.put("DETAILS",  recipeMapper.getRecipeDtl(recipeNo));
+		return recipe;
+	}
+	
+	public long saveLookupCount(HashMap<String, Object> param) throws Exception{
+		return recipeMapper.saveLookupCount(param);
+	}
+	
+	public long saveComment(HashMap<String, Object> param) throws Exception{
+		int seq = recipeMapper.getComment(param);
+		param.put("SEQ", seq+1);
+		return recipeMapper.saveComment(param);
+	}
+
 	
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> saveRecipeTx(HashMap<String, Object> param) throws Exception{

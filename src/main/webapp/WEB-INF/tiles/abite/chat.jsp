@@ -27,7 +27,10 @@
          <h4>Loading</h4>
        </div>
        <div class='message-wrap' ng-repeat='chat in chats' ng-show='checkID == chat.id'>
-         <span style="display: none;">{{chat.recipeNo}}</span>
+         <div style="line-height: 1.2em;display: block;width: 100%;height: 30px !important;position: fixed;color: #fff;font-size: 11px;border-top: 1px solid rgba(255, 255, 255, 0.1);text-align: left;background: #9a9a9a;">
+         	{{chat.title}}
+         	<div>가격: {{chat.sellPay}}원/남은 수량: {{chat.sellCnt}}</div>
+         </div>
        	 <div ng-repeat='i in chat.messages'>
 	         <div ng-class="i.writer != '<%= user_info.get("USER_ID") %>' ? 'message target': 'message' ">
 	           <span style="display: none;" ng-model="message.target"></span>
@@ -207,22 +210,21 @@
             },
         });	
 	}
-	
-	$scope.getMember = function(id){
-		var _user_info = {};
+
+	$scope.getRecipe = function(recipeNo){
+		var _recipe_info = {};
 		$.ajax({
             type: 'POST',
-            url: '/Auth/getMember.json',
+            url: '/web/getRecipe.json',
             contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify({"email" : id}),
+            data: JSON.stringify({"recipeNo" : recipeNo}),
             async: false,
             success: function(res) {
-            	/* console.log(res); */
-            	_user_info = res.userInfo;
+            	_recipe_info = res.RECIPE;
             },
         });	
-		return _user_info;
-	};
+		return _recipe_info;
+	}
 	
 	$scope.setTime = function(_msg){
 		for(var i = 0; i < _msg.length; i++) {
@@ -249,10 +251,13 @@
 			not_read_cnt: not_reads.length 
 		}
 		
-		var user_info = $scope.getMember(_target);
-		if(user_info) {
-			_obj.username = user_info.USER_NAME;
-			_obj.avatar = user_info.USER_IMAGE;	
+		var recipe_info = $scope.getRecipe(_recipeNo);
+		if(recipe_info) {
+			_obj.username = recipe_info.USER_NAME;
+			_obj.avatar = recipe_info.USER_IMAGE;	
+			_obj.sellPay = recipe_info.SELL_PAY;
+			_obj.sellCnt = recipe_info.SELL_CNT;
+			_obj.title = recipe_info.TITLE;
 		}
 		$scope.chats.push(_obj);
 		

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.abite.web.service.CodeService;
@@ -63,7 +64,54 @@ public class WebController {
 	{
 		ModelMap map = new ModelMap();
 		logger.info("call getRecipeList");
+		map.addAttribute("COUNT", recipeService.getRecipeCount(param));
 		map.addAttribute("RECIPE_LIST", recipeService.getRecipeList(param));
 		return map;
 	}
+	
+	@RequestMapping(value="/getRecipe.json")
+	public ModelMap getRecipe(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
+	{
+		ModelMap map = new ModelMap();
+		logger.info("call getRecipe");
+		map.addAttribute("RECIPE", recipeService.getRecipe(param));
+		return map;
+	}
+	
+	@RequestMapping(value="/recipe.do")
+	public ModelAndView recipe(HttpServletRequest req, HttpServletResponse res, @RequestParam(value="recipeNo", required=false) int recipeNo) throws Exception
+	{
+		ModelAndView mv = new ModelAndView();
+        
+        mv.addObject("RECIPE", recipeService.getRecipeInfo(recipeNo));
+		mv.setViewName("/web/recipe");
+		return mv;
+	}
+	
+
+	@RequestMapping(value="/getComments.json")
+	public ModelMap getComments(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
+	{
+		ModelMap map = new ModelMap();
+		map.put("COMMENTS", recipeService.getComments(param));
+		return map;
+	}
+	
+	@RequestMapping(value="/saveLookupCount.json")
+	public ModelMap saveLookupCount(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
+	{
+		ModelMap map = new ModelMap();
+		map.put("COUNT", recipeService.saveLookupCount(param));
+		return map;
+	}
+	
+
+	@RequestMapping(value="/saveComment.json")
+	public ModelMap saveComment(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
+	{
+		ModelMap map = new ModelMap();
+		map.put("COUNT", recipeService.saveComment(param));
+		return map;
+	}
+	
 }

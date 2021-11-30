@@ -158,7 +158,7 @@
 								<img ng-src="{{recipe.THUMBNAIL}}" alt="" />
 								<div class="catagory-content-bg">
 									<div class="catagory-content">
-										<a href="#" class="post-tag">{{recipe.CATEGORY}}</a> <a href="#"
+										<a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}" class="post-tag">{{recipe.CATEGORY}}</a><a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}"
 											class="post-title">{{recipe.TITLE}}</a>
 									</div>
 								</div>
@@ -166,7 +166,7 @@
 						</div>
 						<!-- Blog Content -->
 						<div class="blog-content">
-							<a href="#" class="post-tag">{{recipe.TAG}}</a> <a href="#"
+							<a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}" class="post-tag">{{recipe.TAG}}</a> <a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}"
 								class="post-title">{{recipe.TITLE}}</a>
 							<div class="post-meta">
 								<a href="#" class="post-date">가격: {{recipe.SELL_PAY}} 원</a> <a href="#"
@@ -185,20 +185,22 @@
 								</p>
 							</div>
 							<div class="social-info">
-								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO, recipe.RECIPE_NO, recipe.SELL_PAY, recipe.SELL_CNT)"><i class="fa fa-comment" aria-hidden="true"></i></a>
+								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO, recipe.RECIPE_NO, recipe.SELL_PAY, recipe.SELL_CNT, recipe.TITLE)"><i class="fa fa-comment" aria-hidden="true"></i></a>
 								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO)"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row"> 
 					<div class="col-12">
 						<div class="pagination-area mt-70">
-							<nav aria-label="Page navigation example">
+							<nav aria-label="Page navigation">
 								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#">01</a></li>
-									<li class="page-item active"><a class="page-link" href="#">02</a></li>
-									<li class="page-item"><a class="page-link" href="#">03</a></li>
+									<li class="page-item" ng-click="pagination.setPage(i)" ng-class="pagination.page==i && 'active'"  ng-repeat="i in pagination.pageCount()"> 
+							            <a class="page-link" href="#"> 
+							                <i>{{i+1}}</i> 
+							            </a> 
+							        </li>
 								</ul>
 							</nav>
 						</div>
@@ -235,6 +237,8 @@
 <script>
 "use strict";
 var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
+
+
 mainApp.controller("mainCtrl", function($scope, delivery) {
 	$scope.init = function() {
 		$scope.recipes = [];
@@ -250,12 +254,13 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 	       data: JSON.stringify({"email" : "test"}),
 	       contentType: "application/json; charset=UTF-8",
 	       success: function(res) {
-	       		$scope.recipes = res.RECIPE_LIST;
-	       		$scope.$apply();
+	    	   $scope.pagination.page_info.itemCount = res.COUNT; 
+	       	   $scope.recipes = res.RECIPE_LIST;
+	       	   $scope.$apply();
 		   },
 	    });	
 	};
-	$scope.recipeLink = function(userNo, recipeNo, sellPay, sellCnt) {
+	$scope.recipeLink = function(userNo, recipeNo, sellPay, sellCnt, title) {
 		if(recipeNo) { //chat
 			$scope.searchUser(userNo , function(user_info){
 				var _obj = {
@@ -265,6 +270,9 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 					target: user_info.USER_ID,
 					avatar : user_info.USER_IMAGE,
 					messages: [],
+					sellPay : sellPay,
+					sellCnt : sellCnt,
+					title : title
 				};
 				delivery.setParams(_obj);
 			});
@@ -285,5 +293,62 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 		   },
 	    });	
 	}
+	
+	$scope.pagination = {
+	  page_info : {
+		 page : 0,
+		 rowsPerPage : 7,
+		 itemCount : 0,
+		 limitPerPage : 5	
+	  },
+	  setPage : function(page) {
+	    if (this.page_info.page > this.pageCount()) {
+	      return;
+	    }
+	    this.page_info.page = page;
+	  },
+	  nextPage: function() {
+	    if (this.isLastPage()) {
+	      return;
+	    }
+	    this.page_info.page++;
+	  },
+	  perviousPage: function() {
+	    if (this.isFirstPage()) {
+	      return;
+	    }
+	    this.page_info.page--;
+	  },
+	  firstPage: function() {
+		  this.page_info.page = 0;
+	  },
+	  lastPage : function() {
+		  this.page_info.page = this.pageCount() - 1;
+	  },
+	  isFirstPage : function() {
+	    return this.page_info.page == 0;
+	  },
+	  isLastPage : function() {
+	    return this.page_info.page == this.pageCount() - 1;
+	  },
+	  pageCount : function() {
+	    return new Array(Math.ceil(parseInt(this.page_info.itemCount) / parseInt(this.page_info.rowsPerPage)));
+	  },
+	  lowerLimit : function() {
+	    var pageCountLimitPerPageDiff = this.pageCount() - this.limitPerPage;
+
+	    if (pageCountLimitPerPageDiff < 0) {
+	      return 0;
+	    }
+
+	    if (this.page_info.page > pageCountLimitPerPageDiff + 1) {
+	      return pageCountLimitPerPageDiff;
+	    }
+
+	    var low = this.page_info.page - (Math.ceil(this.page_info.limitPerPage / 2) - 1);
+
+	    return Math.max(low, 0);
+	  }	  
+	};
 });
 </script>

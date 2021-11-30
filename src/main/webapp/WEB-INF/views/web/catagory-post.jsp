@@ -18,45 +18,10 @@
 			      </div>
 			    </div>
 			    <div class="container-fluid">
-			      <div class="row">
-				    <div class="col-lg-6">
-			  		    <div class="margin-top-15"><h6><span class="note title">요리</span> 썸네일</h6></div>
-			  		 	<div class="input-group">
-			              <div class="img-container animated fadeInUp animate3 form-input">
-						    <div class="avatar-upload">
-						        <div class="avatar-edit">
-						            <input type='file' id="recipe-thumbnail" accept=".png, .jpg, .jpeg"/>
-						            <label for="recipe-thumbnail" id="recipe-imagePreview" style="background-image: url('/images/icon_cooking.png');background-position: 110px 35px;background-size: 150px;background-repeat: no-repeat;"></label>
-						        </div>
-						        <div class="avatar-preview"></div>
-						    </div>
-						 </div>
-		               </div>    
-			  		 </div>
-			    
-			       <div class="col-lg-6">
-					    <div class="col-lg-5">
-		            		<div class="margin-top-15"><h6><span class="note title">요리</span> 제목</h6></div>
-		            		<div class="input-group">
-				              <input type="text" class="form-control form" placeholder="제목" ng-model="recipe.title">
-				              <div class="input-group-append">
-				                <span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
-				              </div>
-				            </div>
-			            </div>
-					   
-						<div class="col-lg-7">
-						  <div class="margin-top-15"><h6><span class="note title">요리</span> 태그</h6></div>
-					  		 <div class="input-group">
-				              <input type="text" class="form-control" placeholder="예) #꿀맛 #1인분" ng-keypress="tag_press($event)" id="tag" style="max-width:140px;min-width:140px;">
-				              <div class="input-group-append">
-				                <span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
-				              </div>
-				              <span class="btn btn-link btn-info" id="tag_span">{{recipe.tag}}</span>
-				            </div>
-						 </div>
-						  <div class="col-lg-5">
-			            	<div class="margin-top-15"><h6><span class="note title">요리</span> 카테고리</h6></div>
+			     <div class="row">
+			       <div class="col-lg-4">
+			       		 <div class="col-lg-5">
+			            	<div class="margin-top-15"><h6><span class="note title"></span> 카테고리</h6></div>
 			            	<div class="drop">
 					  	 		<c:forEach var="category" items="${CATEGORY_LIST}" varStatus="status">
 					  	 			<c:choose>
@@ -70,29 +35,29 @@
 					  	 		</c:forEach>
 							</div>
 						</div>
+					    <div class="col-lg-5">
+		            		<div class="margin-top-15"><h6><span class="note title"></span> 제목</h6></div>
+		            		<div class="input-group">
+				              <input type="text" class="form-control form" placeholder="제목" ng-model="recipe.title">
+				              <div class="input-group-append">
+				                <span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+				              </div>
+				            </div>
+			            </div>
+						<div class="col-lg-8">
+						  <div class="margin-top-15"><h6><span class="note title"></span> 태그</h6></div>
+					  		 <div class="input-group">
+				              <input type="text" class="form-control" placeholder="예) #꿀맛 #1인분" ng-keypress="tag_press($event)" id="tag" style="max-width:140px;min-width:140px;">
+				              <div class="input-group-append">
+				                <span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+				              </div>
+				              <span class="btn btn-link btn-info" id="tag_span">{{recipe.tag}}</span>
+				            </div>
+						 </div>
 		            </div>
-			  		 
-		  		 </div>
-		  		</div> 
-		  		<div class="container-fluid">
-				  <div class="row">
-					 <div class="col-lg-6">
-						<div class="margin-top-15"><h6><span class="note title">요리</span> 재료</h6></div>
-						<div class="input-group"  ng-repeat='ingredient in recipe.ingredients' ng-class="{'margin-top-15': $index > 0}">
-						  <span ng-model="ingredient.seq" style="display: none;"></span>
-						  <input type="text" class="form-control col-md-3 form" placeholder="예) 돼지고기"  ng-model="ingredient.name">
-						  <div class="input-group-append">
-							<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
-						  </div>
-						  <input type="text" class="form-control col-md-3 contants_input form" placeholder="예) 100g"  ng-model="ingredient.size">
-						  <div class="input-group-append">
-							<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
-						  </div>
-						  <span class="center"><i class="fa fa-plus-circle ingredient ingredient_plus"  ng-click="ingredient_plus(ingredient.seq)"></i><i class="fa fa-minus-circle ingredient ingredient_minus" ng-click="ingredient_minus(ingredient.seq)"></i></span>
-						</div>
-					 </div>
-					<div class="col-lg-6">
-						<div class="col-lg-5">
+				    
+			  		 <div class="col-lg-3">
+			  		 	<div class="col-lg-10">
 							<div class="margin-top-15"><h6><span class="note title">판매</span> 수량</h6></div>
 							<div class="input-group">
 							  <input type="text" class="form-control form" placeholder="수량" ng-model="recipe.sellCnt">
@@ -101,7 +66,7 @@
 							  </div>
 							</div>
 						</div>
-						 <div class="col-lg-5">
+						 <div class="col-lg-10">
 							<div class="margin-top-15"><h6><span class="note title">판매</span> 금액</h6></div>
 							<div class="input-group">
 							  <input type="text" class="form-control form" placeholder="금액" ng-model="recipe.sellPay">
@@ -110,13 +75,49 @@
 							  </div>
 							</div>
 						</div>
-					</div>
+			  		 </div>
+			  		 <div class="col-lg-4">
+			  		    <div class="margin-top-15"><h6><span class="note title"></span> 썸네일</h6></div>
+			  		 	<div class="input-group">
+			              <div class="img-container animated fadeInUp animate3 form-input">
+						    <div class="avatar-upload">
+						        <div class="avatar-edit">
+						            <input type='file' id="recipe-thumbnail" accept=".png, .jpg, .jpeg"/>
+						            <label for="recipe-thumbnail" id="recipe-imagePreview" style="background-image: url('/images/icon_cooking.png');background-position: 110px 35px;background-size: 150px;background-repeat: no-repeat;"></label>
+						        </div>
+						        <div class="avatar-preview"></div>
+						    </div>
+						 </div>
+		               </div>    
+			  		 </div>
+		  		 </div>
+		  		</div> 
+		  		<div class="container-fluid">
+				  <div class="row">
+					 <div class="col-lg-6">
+						<div class="margin-top-15"><h6><span class="note title"></span> 재료</h6></div>
+						<div class="ingredients">
+							<div class="input-group"  ng-repeat='ingredient in recipe.ingredients' ng-class="{'margin-top-15': $index > 0}" style="border-bottom: 2px solid #d6e1e4;padding-bottom:5px;">
+							  <span ng-model="ingredient.seq" style="display: none;"></span>
+							  <input type="text" class="form-control col-md-3 form" placeholder="예) 돼지고기"  ng-model="ingredient.name">
+							  <div class="input-group-append">
+								<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+							  </div>
+							  <input type="text" class="form-control col-md-3 contants_input form" placeholder="예) 100g"  ng-model="ingredient.size">
+							  <div class="input-group-append">
+								<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
+							  </div>
+							  <span class="center"><i class="fa fa-plus-circle ingredient ingredient_plus"  ng-click="ingredient_plus(ingredient.seq)"></i><i class="fa fa-minus-circle ingredient ingredient_minus" ng-click="ingredient_minus(ingredient.seq)"></i></span>
+							</div>
+						</div>
+					 </div>
+					
 					 
 				 </div>
 				</div> 
 		  		 <div class="col-12 col-lg-12 col-sm-4">
 	            	<div class="margin-top-15">
-	            		<h6><span class="note title">요리</span> 순서</h6>
+	            		<h6><span class="note title"></span> 순서</h6>
 	            	</div>
 	            	<div ng-repeat="detail in recipe.details">
 		            	<span style="font-weight: 600;color: #757575;">Step.{{detail.seq+1}}</span>
@@ -138,7 +139,7 @@
 	            	</div>
 	            </div>	
 		  		<div class="col-12 col-md-8 col-sm-4">
-	            	<div class="margin-top-15"><h6><span class="note title">요리</span> 팁</h6></div>
+	            	<div class="margin-top-15"><h6><span class="note title"></span> 팁</h6></div>
 	            	<div class="input-group">
 	            		<textarea rows="3" cols="100" placeholder="팁" class="form-control form" style="padding: 10px 10px;" ng-model="recipe.tip"></textarea>
 	            		<div class="input-group-append">
@@ -146,8 +147,8 @@
 		                </div>
 	            	</div>
 		  		</div>
-		  		<div class="col-12 col-md-8 col-sm-4">
-	            	<div class="margin-top-15"><h6><span class="note title">요리</span> 소개</h6></div>
+		  		<div class="col-12 col-md-8 col-sm-4 ">
+	            	<div class="margin-top-15"><h6><span class="note title"></span> 소개</h6></div>
 	            	<div class="input-group">
 	            		<textarea rows="3" cols="100" placeholder="소개" class="form-control form" style="padding: 10px 10px;" ng-model="recipe.info"></textarea>
 	            		<div class="input-group-append">

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.abite.web.service.AuthService;
 
@@ -139,8 +140,11 @@ public class AuthController {
 		return service.getMemberForChat(param);
 	}
 	@RequestMapping(value="/logout")
-	public void logout(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception
+	public ModelMap logout(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception
 	{
 		session.removeAttribute("USER_INFO");
+		ModelMap map = new ModelMap();
+		map.put("RECIRECT_URL", "/");
+		return map;
 	}
 }

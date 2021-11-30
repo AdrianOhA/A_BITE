@@ -183,7 +183,7 @@
 	                      <a class="dropdown-item" href="#pk">프로필</a>
 	                      <a class="dropdown-item" href="#pk">설정</a>
 	                      <div class="dropdown-divider"></div>
-	                      <a class="dropdown-item" href="/Auth/logout">로그아웃</a>
+	                      <a class="dropdown-item" ng-click="logout()">로그아웃</a>
 	                    </ul>
 	                  </div>
                 </nav>
@@ -255,5 +255,16 @@ mainApp.controller("headerCtrl", function($scope){
             },
         });	
     };
+    $scope.logout = function(){
+    	$.ajax({
+            type: 'POST',
+            url: '/Auth/logout.json',
+            contentType: "application/json; charset=UTF-8",
+            async: true,
+            success: function(res) {
+            	location.href = res.RECIRECT_URL;          	
+            },
+        });	
+    }
 });
 </script>
