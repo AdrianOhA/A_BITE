@@ -62,11 +62,8 @@ public class WebController {
 	@RequestMapping(value="/getRecipeList.json")
 	public ModelMap getRecipeList(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
 	{
-		ModelMap map = new ModelMap();
 		logger.info("call getRecipeList");
-		map.addAttribute("COUNT", recipeService.getRecipeCount(param));
-		map.addAttribute("RECIPE_LIST", recipeService.getRecipeList(param));
-		return map;
+		return recipeService.getRecipeList(param);
 	}
 	
 	@RequestMapping(value="/getRecipe.json")

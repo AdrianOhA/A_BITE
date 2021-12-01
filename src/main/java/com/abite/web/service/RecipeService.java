@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
+import com.abite.common.service.Pager;
 import com.abite.web.mapper.RecipeMapper;
 
 /**
@@ -37,8 +39,22 @@ public class RecipeService {
 		return recipeMapper.getRecipeCount(param);
 	}
 	
-	public List<HashMap<String, Object>> getRecipeList(HashMap<String, Object> param) throws Exception {
-		return recipeMapper.getRecipeList(param);
+	public ModelMap getRecipeList(HashMap<String, Object> param) throws Exception {
+		
+		ModelMap map = new ModelMap();
+		int count = recipeMapper.getRecipeCount(param);
+		int pageno = (int)param.get("pageno");
+		int rowCount =  (int)param.get("rowCount");
+		Pager pager = new Pager(pageno, rowCount, count);
+		
+		param.put("beginRownum", pager.getBeginRownum());
+		
+		List<HashMap<String, Object>> recipeList = recipeMapper.getRecipeList(param);
+		
+		map.put("pager", pager);
+		map.put("list", recipeList);
+		
+		return map;
 	}
 	
 	public HashMap<String, Object> getRecipe(HashMap<String, Object> param) throws Exception {

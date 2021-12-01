@@ -33,6 +33,11 @@
 	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
 	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y'   
 	ORDER BY A.VIEWS_CNT DESC  
+	<if test="rowCount gt 0">
+	LIMIT		
+		#{beginRownum}
+		, #{rowCount}
+	</if>		
 </select>
 
 <select id="getRecipe" parameterType="map" resultType="map">

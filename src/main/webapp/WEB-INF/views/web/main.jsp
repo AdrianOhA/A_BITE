@@ -193,14 +193,43 @@
 				</div>
 				<div class="row"> 
 					<div class="col-12">
-						<div class="pagination-area mt-70">
+						<div class="pagination-area mt-70 paging" ng-show="result.pager.totalCount > 0">
 							<nav aria-label="Page navigation">
 								<ul class="pagination">
-									<li class="page-item" ng-click="pagination.setPage(i)" ng-class="pagination.page==i && 'active'"  ng-repeat="i in pagination.pageCount()"> 
+									<span class="prev_box" style="margin-top: 4px;">
+										<a href="javascript:void(0)" class="btns first off" 
+											ng-disabled="data.pageno <= 5" 
+											ng-click="pageFirst()">
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+												<path d="M24 0v24H0V0h24z" fill="none" opacity=".87"/><path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM6 6h2v12H6V6z"/>
+											</svg>	
+										</a>
+										<a href="javascript:void(0)" class="btns prev off" 
+											ng-disabled="data.pageno == 1" 
+											ng-click="pagePrev()">
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z"/></svg>
+										</a>
+									</span>
+									<li class="page-item" ng-class="{'active' : pageno == data.pageno}" ng-repeat="pageno in result.pager.pageList track by $index" ng-click="pageGo(pageno)"> 
+										<a href="javascript:void(0)"  class="page-link">{{ pageno }}</a>
+									</li>
+									<span class="next_box" style="margin-top: 4px;">
+										<a href="javascript:void(0)" class="btns next on" 
+											ng-disabled="data.pageno == result.pager.totalPageCount" 
+											ng-click="pageNext(data.pageno+1)">
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z"/></svg>	
+										</a>
+										<a href="javascript:void(0)" class="btns last on" 
+											ng-disabled="(result.pager.totalPageCount - data.pageno) < 5" 
+											ng-click="pageLast(result.pager.totalPageCount)">
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"/></svg>
+										</a>
+									</span>
+									<!-- <li class="page-item" ng-click="pagination.setPage(i)" ng-class="pagination.page==i && 'active'"  ng-repeat="i in pagination.pageCount()"> 
 							            <a class="page-link" href="#"> 
 							                <i>{{i+1}}</i> 
 							            </a> 
-							        </li>
+							        </li> -->
 								</ul>
 							</nav>
 						</div>
@@ -240,6 +269,22 @@ var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []
 
 
 mainApp.controller("mainCtrl", function($scope, delivery) {
+	$scope.data = {
+		pageno: 1,
+		rowCount: "10"
+	}
+	$scope.params = {
+		pageno: 1,
+		rowCount: "10",	
+	}
+	$scope.result = {
+		list : null,
+		pager: {
+			totalCount: 0,
+			totalPageCount : 1
+		}
+	}
+		
 	$scope.init = function() {
 		$scope.recipes = [];
 		$scope.setEvent();
@@ -248,14 +293,22 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 	$scope.setEvent = function() {
 	};
 	$scope.search = function() {
+		$scope.params.pageno = $scope.data.pageno;
+		$scope.params.rowCount = parseInt($scope.data.rowCount);
+		$scope.result.pager = {};
+		
 		$.ajax({
 	       type: 'POST',
 	       url: '/web/getRecipeList.json',
-	       data: JSON.stringify({"email" : "test"}),
+	       data: JSON.stringify($scope.params),
 	       contentType: "application/json; charset=UTF-8",
 	       success: function(res) {
-	    	   $scope.pagination.page_info.itemCount = res.COUNT; 
-	       	   $scope.recipes = res.RECIPE_LIST;
+	    	   $scope.result.pager = res.pager;
+	    		if ($scope.result.pager.totalPageCount == 0) {
+					$scope.result.pager.totalPageCount = 1;
+				}
+	    		
+	       	   $scope.recipes = res.list;
 	       	   $scope.$apply();
 		   },
 	    });	
@@ -292,63 +345,47 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 	       		callback(res.userInfo);
 		   },
 	    });	
+	};
+	
+	
+	$scope.pageGo = function(pageno) {
+		$scope.data.pageno = pageno;
+		$scope.search();
 	}
 	
-	$scope.pagination = {
-	  page_info : {
-		 page : 0,
-		 rowsPerPage : 7,
-		 itemCount : 0,
-		 limitPerPage : 5	
-	  },
-	  setPage : function(page) {
-	    if (this.page_info.page > this.pageCount()) {
-	      return;
-	    }
-	    this.page_info.page = page;
-	  },
-	  nextPage: function() {
-	    if (this.isLastPage()) {
-	      return;
-	    }
-	    this.page_info.page++;
-	  },
-	  perviousPage: function() {
-	    if (this.isFirstPage()) {
-	      return;
-	    }
-	    this.page_info.page--;
-	  },
-	  firstPage: function() {
-		  this.page_info.page = 0;
-	  },
-	  lastPage : function() {
-		  this.page_info.page = this.pageCount() - 1;
-	  },
-	  isFirstPage : function() {
-	    return this.page_info.page == 0;
-	  },
-	  isLastPage : function() {
-	    return this.page_info.page == this.pageCount() - 1;
-	  },
-	  pageCount : function() {
-	    return new Array(Math.ceil(parseInt(this.page_info.itemCount) / parseInt(this.page_info.rowsPerPage)));
-	  },
-	  lowerLimit : function() {
-	    var pageCountLimitPerPageDiff = this.pageCount() - this.limitPerPage;
+	$scope.pageFirst = function() {
+		if ($scope.data.pageno == 1) {
+			return;
+		}
+		
+		$scope.pageGo(1);
+	}
+	
+	$scope.pageLast = function() {
+		if ($scope.data.pageno == $scope.result.pager.totalPageCount) {
+			return;
+		}
+		
+		$scope.pageGo($scope.result.pager.totalPageCount);
+	}
+	
+	$scope.pageNext = function() {
+		if ($scope.result.pager.endPageno+1 > $scope.result.pager.totalPageCount) {
+			return;
+		}
+		$scope.pageGo($scope.result.pager.endPageno+1);
+	}
+	
+	$scope.pagePrev = function() {
+		if ($scope.result.pager.beginPageno-1 == 0) {
+			return;
+		}
+		$scope.pageGo($scope.result.pager.beginPageno-1);
+	}
+	
+	$scope.changeRowCount = function() {
+		$scope.pageGo(1);
+	}
 
-	    if (pageCountLimitPerPageDiff < 0) {
-	      return 0;
-	    }
-
-	    if (this.page_info.page > pageCountLimitPerPageDiff + 1) {
-	      return pageCountLimitPerPageDiff;
-	    }
-
-	    var low = this.page_info.page - (Math.ceil(this.page_info.limitPerPage / 2) - 1);
-
-	    return Math.max(low, 0);
-	  }	  
-	};
 });
 </script>
