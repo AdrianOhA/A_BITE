@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.abite.web.service.MainService;
+import com.abite.web.service.RecipeService;
 
 @Controller
 @RequestMapping("/dev")
@@ -36,6 +37,9 @@ public class MainController {
 	private MainService service;
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
+	@Autowired
+	private RecipeService recipeService;
+	
 	
 	@RequestMapping(value="/main.do")
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res) throws Exception
@@ -48,6 +52,7 @@ public class MainController {
 		if(device.isMobile() || device.isTablet()) {
 			mv.setViewName("/mo/main"); 
 		} else {
+			mv.addObject("CURR_RECIPES", recipeService.getCurrRecipeList());
 			mv.setViewName("/web/main");
 		}
 		return mv;

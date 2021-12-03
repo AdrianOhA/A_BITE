@@ -111,4 +111,11 @@ public class WebController {
 		return map;
 	}
 	
+	@RequestMapping(value="/getCategoryRanks.json")
+	public ModelMap getCategoryRanks(HttpServletRequest req, HttpServletResponse res) throws Exception
+	{
+		logger.info("call getRecipeList");
+		return recipeService.getCategoryRanks();
+	}
+	
 }

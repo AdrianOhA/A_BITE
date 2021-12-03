@@ -1,151 +1,63 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div ng-controller="mainCtrl" ng-init="init()">
 	<!-- ##### Hero Area Start ##### -->
 	<div class="hero-area">
 		<!-- Hero Post Slides -->
 		<div class="hero-post-slides owl-carousel">
 			<!-- Single Slide -->
-			<div class="single-slide">
-				<!-- Blog Thumbnail -->
-				<div class="blog-thumbnail">
-					<a href="#"><img src="/images/1.jpg" alt="" /></a>
-				</div>
-
-				<!-- Blog Content -->
-				<div class="blog-content-bg">
-					<div class="blog-content">
-						<a href="#" class="post-tag">Healthy Food</a> <a href="#"
-							class="post-title">Chicken Salad</a>
-						<div class="post-meta">
-							<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-								class="post-author">By Julia Stiles</a>
+			<c:forEach var="crecipe" items="${CURR_RECIPES}" varStatus="status">
+				<div class="single-slide">
+					<div class="blog-thumbnail">
+						<a href="#"><img src="${crecipe.THUMBNAIL}" alt=""  style="width: 700px;height: 650px"  /></a>
+					</div>
+					<!-- Blog Content -->
+					<div class="blog-content-bg">
+						<div class="blog-content">
+							<a href="#" class="post-tag">${crecipe.CATEGORY}</a> <a href="#"
+								class="post-title">${crecipe.TITLE}</a>
+							<div class="post-meta">
+								<a href="#" class="post-date">가격: ${crecipe.SELL_PAY} 원</a> <a href="#"
+										class="post-author">남은 수량: ${crecipe.SELL_CNT}</a>	
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<!-- Single Slide -->
-			<div class="single-slide">
-				<!-- Blog Thumbnail -->
-				<div class="blog-thumbnail">
-					<a href="#"><img src="/images/2.jpg" alt="" /></a>
-				</div>
-
-				<!-- Blog Content -->
-				<div class="blog-content-bg">
-					<div class="blog-content">
-						<a href="#" class="post-tag">Healthy Food</a> <a href="#"
-							class="post-title">Chicken Salad</a>
-						<div class="post-meta">
-							<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-								class="post-author">By Julia Stiles</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Single Slide -->
-			<div class="single-slide">
-				<!-- Blog Thumbnail -->
-				<div class="blog-thumbnail">
-					<a href="#"><img src="/images/3.jpg" alt="" /></a>
-				</div>
-
-				<!-- Blog Content -->
-				<div class="blog-content-bg">
-					<div class="blog-content">
-						<a href="#" class="post-tag">Healthy Food</a> <a href="#"
-							class="post-title">Chicken Salad</a>
-						<div class="post-meta">
-							<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-								class="post-author">By Julia Stiles</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Single Slide -->
-			<div class="single-slide">
-				<!-- Blog Thumbnail -->
-				<div class="blog-thumbnail">
-					<a href="#"><img src="/images/3.jpg" alt="" /></a>
-				</div>
-
-				<!-- Blog Content -->
-				<div class="blog-content-bg">
-					<div class="blog-content">
-						<a href="#" class="post-tag">Healthy Food</a> <a href="#"
-							class="post-title">Chicken Salad</a>
-						<div class="post-meta">
-							<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-								class="post-author">By Julia Stiles</a>
-						</div>
-					</div>
-				</div>
-			</div>
+			</c:forEach>
 		</div>
 	</div>
-	<!-- ##### Hero Area End ##### -->
 
 	<div class="section-padding-100-0"></div>
 	
-	<!-- ##### Big Posts Area Start ##### -->
 	<div class="big-posts-area mb-50">
 		<div class="container">
-			<!-- Single Big Post Area -->
-			<div class="row align-items-center">
-				<div class="col-12 col-md-6">
+			<div class="row align-items-center" ng-repeat="rank in categoryRanks track by $index">
+				<div class="col-12 col-md-6" ng-show="$index % 2 == 0">
 					<div class="big-post-thumbnail mb-50">
-						<img src="/images/7.jpg" alt="" />
+						<img ng-src="{{rank.THUMBNAIL}}" alt="" style="width: 540;height: 530px;" />
 					</div>
 				</div>
 				<div class="col-12 col-md-6">
 					<div class="big-post-content text-center mb-50">
-						<a href="#" class="post-tag">Healthy</a> <a href="#"
-							class="post-title">Friend eggs with ham</a>
+						<a href="#" class="post-tag">THE BEST<br>{{rank.CATEGORY}}</a> <a href="#"
+							class="post-title">{{rank.TITLE}}</a>
 						<div class="post-meta">
-							<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-								class="post-author">By Julia Stiles</a>
+							<a href="#" class="post-date"> {{rank.SELL_PAY}}</a> <a href="#"
+								class="post-author">{{rank.SELL_CNT}}</a>
 						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-							Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-							Sed auctor tellus quis arcu tempus, egestas tincidunt augue
-							pellentesque. Suspendisse vestibulum sem in eros maximus, pretium
-							commodo turpis convallis. Aenean scelerisque orci quis urna
-							tempus, vitae interdum velit aliquet.</p>
-						<a href="#" class="btn bueno-btn">Read More</a>
+						<p>{{rank.INFO}}<br>{{rank.TIP}}</p>
+						<a href="#" class="btn bueno-btn">상세보기</a>
 					</div>
 				</div>
-			</div>
-
-			<!-- Single Big Post Area -->
-			<div class="row align-items-center">
-				<div class="col-12 col-md-6">
-					<div class="big-post-content text-center mb-50">
-						<a href="#" class="post-tag">The Best</a> <a href="#"
-							class="post-title">Steak with boiled vegetables</a>
-						<div class="post-meta">
-							<a href="#" class="post-date">July 11, 2018</a> <a href="#"
-								class="post-author">By Julia Stiles</a>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Nunc tristique justo id elit bibendum pharetra non vitae lectus.
-							Mauris libero felis, dapibus a ultrices sed, commodo vitae odio.
-							Sed auctor tellus quis arcu tempus, egestas tincidunt augue
-							pellentesque. Suspendisse vestibulum sem in eros maximus, pretium
-							commodo turpis convallis. Aenean scelerisque orci quis urna
-							tempus, vitae interdum velit aliquet.</p>
-						<a href="#" class="btn bueno-btn">Read More</a>
-					</div>
-				</div>
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-md-6" ng-show="$index % 2 == 1">
 					<div class="big-post-thumbnail mb-50">
-						<img src="/images/8.jpg" alt="" />
+						<img  ng-src="{{rank.THUMBNAIL}}" alt="" style="width: 540;height: 530px;" />
 					</div>
 				</div>
 			</div>
+						
 		</div>
 	</div>
 	<div class="catagory-post-area section-padding-100">
@@ -155,7 +67,7 @@
 					<div class="single-blog-post style-1 d-flex flex-wrap mb-30" ng-repeat="recipe in recipes">
 						<div class="col-12 col-md-6 col-lg-4">
 							<div class="single-post-catagory mb-30">
-								<img ng-src="{{recipe.THUMBNAIL}}" alt="" />
+								<img ng-src="{{recipe.THUMBNAIL}}" alt="" style="height:255px;"/>
 								<div class="catagory-content-bg">
 									<div class="catagory-content">
 										<a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}" class="post-tag">{{recipe.CATEGORY}}</a><a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}"
@@ -200,14 +112,14 @@
 										<a href="javascript:void(0)" class="btns first off" 
 											ng-disabled="data.pageno <= 5" 
 											ng-click="pageFirst()">
-											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B6341">
 												<path d="M24 0v24H0V0h24z" fill="none" opacity=".87"/><path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM6 6h2v12H6V6z"/>
 											</svg>	
 										</a>
 										<a href="javascript:void(0)" class="btns prev off" 
 											ng-disabled="data.pageno == 1" 
 											ng-click="pagePrev()">
-											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z"/></svg>
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B6341"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15.61 7.41L14.2 6l-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z"/></svg>
 										</a>
 									</span>
 									<li class="page-item" ng-class="{'active' : pageno == data.pageno}" ng-repeat="pageno in result.pager.pageList track by $index" ng-click="pageGo(pageno)"> 
@@ -217,12 +129,12 @@
 										<a href="javascript:void(0)" class="btns next on" 
 											ng-disabled="data.pageno == result.pager.totalPageCount" 
 											ng-click="pageNext(data.pageno+1)">
-											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z"/></svg>	
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B6341"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10.02 6L8.61 7.41 13.19 12l-4.58 4.59L10.02 18l6-6-6-6z"/></svg>	
 										</a>
 										<a href="javascript:void(0)" class="btns last on" 
 											ng-disabled="(result.pager.totalPageCount - data.pageno) < 5" 
 											ng-click="pageLast(result.pager.totalPageCount)">
-											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"/></svg>
+											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B6341"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"/></svg>
 										</a>
 									</span>
 									<!-- <li class="page-item" ng-click="pagination.setPage(i)" ng-class="pagination.page==i && 'active'"  ng-repeat="i in pagination.pageCount()"> 
@@ -269,6 +181,8 @@ var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []
 
 
 mainApp.controller("mainCtrl", function($scope, delivery) {
+	$scope.recipes = [];
+	$scope.categoryRanks = [];
 	$scope.data = {
 		pageno: 1,
 		rowCount: "10"
@@ -288,6 +202,7 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 	$scope.init = function() {
 		$scope.recipes = [];
 		$scope.setEvent();
+		$scope.searchCategoryRanks();
 		$scope.search();
 	};
 	$scope.setEvent = function() {
@@ -313,6 +228,7 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 		   },
 	    });	
 	};
+	
 	$scope.recipeLink = function(userNo, recipeNo, sellPay, sellCnt, title) {
 		if(recipeNo) { //chat
 			$scope.searchUser(userNo , function(user_info){
@@ -346,6 +262,19 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 		   },
 	    });	
 	};
+	
+	$scope.searchCategoryRanks = function(){
+		$.ajax({
+	       type: 'POST',
+	       url: '/web/getCategoryRanks.json',
+	       contentType: "application/json; charset=UTF-8",
+	       success: function(res) {
+	       	   $scope.categoryRanks = res.list;
+	       	   console.log($scope.categoryRanks);
+	       	   $scope.$apply();
+		   },
+	    });	
+	}
 	
 	
 	$scope.pageGo = function(pageno) {

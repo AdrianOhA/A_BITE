@@ -57,6 +57,14 @@ public class RecipeService {
 		return map;
 	}
 	
+	public ModelMap getCategoryRanks() throws Exception {
+		ModelMap map = new ModelMap();
+		List<HashMap<String, Object>> recipeList = recipeMapper.getCategoryRanks();
+		map.put("list", recipeList);
+		
+		return map;
+	}
+	
 	public HashMap<String, Object> getRecipe(HashMap<String, Object> param) throws Exception {
 		return recipeMapper.getRecipe(param);
 	}
@@ -115,6 +123,13 @@ public class RecipeService {
 		return rtMap;
 		
 	}
+	
+
+	public List<HashMap<String, Object>> getCurrRecipeList() throws Exception {
+		List<HashMap<String, Object>> currRecipeList = recipeMapper.getCurrRecipeList();
+		return currRecipeList;
+	}
+	
 
 	private void addRecipeDetails(List<HashMap<String, Object>> details, int recipeNo) throws Exception{
 		for(HashMap<String, Object> detail: details) {
