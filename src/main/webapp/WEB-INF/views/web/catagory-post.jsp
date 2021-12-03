@@ -335,7 +335,7 @@ mainApp.controller("postCtrl", function($scope) {
 		var txt = $("#tag").val();
 		$("#tag").removeClass('valid');   
 		if(e.keyCode == 13) {
-			$scope.recipe.tag += txt + ',';
+			$scope.recipe.tag += txt + ' ';
 			$("#tag").val('');
 			if($scope.recipe.tag.length <= 22) {
 				$scope.recipe.tag = $scope.recipe.tag.substring(0, $scope.recipe.tag.length-1);	
