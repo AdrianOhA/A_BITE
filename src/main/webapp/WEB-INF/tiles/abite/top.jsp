@@ -113,43 +113,25 @@
 		</div>
 	</div>
 <header class="header-area" ng-controller="headerCtrl" ng-init="init()">
-    <!-- Top Header Area -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(/images/header.jpg);">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center justify-content-between">
-                <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
-                    <!-- Top Search Area -->
-                    <div class="top-search-area">
-                        <form action="#" method="post">
-                            <input type="search" name="top-search" placeholder="Search">
-                            <button type="button" class="btn" ng-click="search()" id="btn"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Logo Area -->
     <div class="logo-area">
         <a href="/"><img src="/images/logo.png" alt=""></a>
     </div>
 
     <!-- Navbar Area -->
-    <div class="bueno-main-menu" id="sticker">
+    <div class="bueno-main-menu" id="sticker" style="z-index: 9999">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
                 <!-- Menu -->
                 <nav class="classy-navbar justify-content-between navbar-expand-lg" id="buenoNav">
-
-                    <!-- Toggler -->
-                    <div id="toggler"><img src="/images/ranking.png" alt="" style="width: 30px;height: 30px;"></div>
-
+    				     <!-- Toggler -->
+ 			    	<div id="toggler"> <i class="fa fa-trophy" aria-hidden="true"></i></div>
+ 		
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
                         <span class="navbarToggler"><span></span><span></span><span></span></span>
                     </div>
-
+        		
                     <!-- Menu -->
                     <div class="classy-menu">
                         <!-- Close Button -->
@@ -160,37 +142,40 @@
                         <div class="classynav navbar-collapse">
                        	    <ul  class="navbar-nav ml-auto">
                                 <li ng-repeat="menu in menuList" class="chk_after nav-itemr">
-                                	<a href="{{menu.MENU_PATH}}" data-text="{{menu.MENU_NAME}}">
-                                	 <i class="fa fa-search" aria-hidden="true" ng-show="menu.MENU_NAME == '종류별'"></i>
-                                	  <i class="fa fa-compass" aria-hidden="true" ng-show="menu.MENU_NAME == '거리별'"></i>
-                                	  <i class="fa fa-plus-square" aria-hidden="true" ng-show="menu.MENU_NAME == '등록하기'"></i> 
-                                	  <i class="fa fa-github" aria-hidden="true" ng-show="menu.MENU_NAME == 'Github'"></i>{{menu.MENU_NAME}}</a>
-                                	 <div ng-if="menu.SUB_MENU_LIST.length > 0" style="padding-left:20px;padding-right:20px;">
-		                               	 <div class="megamenu">
- 			                               	  <ul class="single-mega cn-col-4" ng-repeat="smenu in menu.SUB_MENU_LIST">
-			                               	    <li class="image_hover"><a href="{{smenu.MENU_PATH}}" style="text-align: center;" ><img ng-src="{{smenu.MENU_THUMBNAIL}}" style="width: 200px;height: 130px;-webkit-filter: grayscale(50%);-moz-filter: grayscale(50%);-o-filter: grayscale(50%);-ms-filter: grayscale(50%);filter: grayscale(50%);" /><br><span class="title">{{smenu.MENU_NAME}}</span></a></li>
-			                                 </ul> 	     
-			                             </div>    
-	                                 </div>
+                                	<a ng-click="link(menu.MENU_PATH)" data-text="{{menu.MENU_NAME}}" style="cursor: pointer;">
+                                	  <i class="fa fa-search search-bar" aria-hidden="true" ng-show="menu.MENU_NAME == '조회하기'" id="search_btn"></i>
+                                	  <i class="fa fa-sticky-note" aria-hidden="true" ng-show="menu.MENU_NAME == 'About'"></i>
+									  <i class="fa fa-plus-square" aria-hidden="true" ng-show="menu.MENU_NAME == '등록하기'"></i> 
+                                	  <i class="fa fa-github" aria-hidden="true" ng-show="menu.MENU_NAME == 'Github'"></i>
+                                	  {{menu.MENU_NAME}}
+                                	</a>
                                 </li>
                             </ul>
                         </div>
+		                <div class="col-12 col-sm-6 col-lg-5 col-xl-10"  id="search_form" style="display: none;">
+		                    <!-- Top Search Area -->
+		                    <div class="top-search-area">
+		                        <form action="javascript:" class="search-bar input-group">
+									<input type="search" name="search" pattern=".*\S.*" required style="border: 1px solid #e6e6e6;" ng-model="param.condition"  placeholder="검색">
+									<i class="fa fa-search search-bar input-group-append" aria-hidden="true" style="background: #7B6341;color:#fff;padding-top: 3px;border: 1px solid #e6e6e6;cursor: pointer;"  ng-click="search_all()"></i>
+								</form>
+		                    </div>
+		                </div>
  					</div>
- 					<div class="nav-item dropdown">
+ 			   	<div class="nav-item dropdown">
 	                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#pk" role="button" aria-haspopup="true" aria-expanded="false"><i class="nc-icon nc-settings-gear-65" aria-hidden="true"></i></a>
 	                    <ul class="dropdown-menu dropdown-menu-right dropdown-danger">
 	                      <li class="dropdown-header" href="#pk"><img src="<%= user_info.get("USER_IMAGE") %>" style="height: 30px;width: 30px;border-radius: 50%;vertical-align: middle;"> <%= user_info.get("USER_NAME") %> </li>
-	                      <a class="dropdown-item" href="#pk">프로필</a>
-	                      <a class="dropdown-item" href="#pk">설정</a>
+	                      <a class="dropdown-item" href="/web/setting.do">설정</a>
 	                      <div class="dropdown-divider"></div>
 	                      <a class="dropdown-item" ng-click="logout()">로그아웃</a>
 	                    </ul>
-	                  </div>
-                </nav>
+	                
+           			</div>  		
+                 </nav>
             </div>
         </div>
     </div>
-   
 </header>
 
 <script>
@@ -212,6 +197,9 @@ mainApp.factory('delivery', function(){
 
 mainApp.controller("headerCtrl", function($scope){
 	$scope.init = function(){
+		$scope.param = {
+			condition : ""	
+		};
 		$scope.menuList = [];
     	$scope.search_menu();
         $scope.setEvent();
@@ -235,6 +223,14 @@ mainApp.controller("headerCtrl", function($scope){
    				"-ms-filter":"grayscale(50%)"
    			})
    		});
+   		
+   		$("input[name='search']").keyup(function(){
+   			if ($scope.param.condition != "") {
+   				$("input[name='search']").removeClass('valid');
+   			}
+   		});
+   		
+   		
     };
     $scope.search_menu = function(){
     	$.ajax({
@@ -246,12 +242,6 @@ mainApp.controller("headerCtrl", function($scope){
             success: function(res) {
             	$scope.menuList = res.MENU_LIST;
             	$scope.$apply();
-            	$(".chk_after").each(function(){
-            	 	var sub_menu_length = $(this).find('div').find('ul').length;
-            		if(sub_menu_length == 0) {
-            			$(this).removeClass('megamenu-item');
-            		}
-            	});            	
             },
         });	
     };
@@ -265,6 +255,24 @@ mainApp.controller("headerCtrl", function($scope){
             	location.href = res.RECIRECT_URL;          	
             },
         });	
+    };
+    $scope.link = function(path) {
+    	if(path == '#') {
+    		if($("#search_form").is(":visible")) {
+    			$("#search_form").fadeOut(1000);
+    		} else {
+    			$("#search_form").fadeIn(1000);
+    		}
+    	} else {
+    		location.href = path;
+    	}
+    };
+    $scope.search_all = function(){
+    	if($scope.param.condition == "" || !$scope.param.condition) {
+    		$("input[name='search']").addClass('valid');
+    	} else {
+    		location.href = "/web/search.do?param='"+ $scope.param.condition +"'";
+    	}
     }
 });
 </script>

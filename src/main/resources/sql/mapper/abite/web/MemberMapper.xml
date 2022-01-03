@@ -18,9 +18,18 @@
 
 <select id="getMember" parameterType="map" resultType="map">
 	/* FcMemberMapper.getMember */
-	SELECT USER_ID, USER_NAME, USER_IMAGE
+	SELECT USER_ID, USER_NAME, USER_IMAGE, USER_INFO
 	  FROM T_MEMBER
 	WHERE USER_ID = #{email} AND USE_YN = 'Y'
+	LIMIT 1 	
+</select>
+
+<select id="getMemberForSetting" parameterType="int" resultType="map">
+	/* FcMemberMapper.getMember */
+	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, SNS, USER_PHONE_NO, USER_INFO
+		  ,USER_IMAGE, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME
+	  FROM T_MEMBER
+	WHERE USER_NO = #{userNo} AND USE_YN = 'Y'
 	LIMIT 1 	
 </select>
 
@@ -39,7 +48,7 @@
 </select>
 
 <select id="getMemberInfo" parameterType="map" resultType="map">
-	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, SNS, USER_PHONE_NO
+	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, SNS, USER_PHONE_NO, USER_INFO
 		  ,USER_IMAGE, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME
 	  FROM T_MEMBER
 	WHERE USER_ID = #{email} AND USER_PW = password(#{password}) AND USE_YN = 'Y'
@@ -51,5 +60,21 @@
 	VALUES(#{email}, password(#{password}) , #{name}, #{img}, #{addr}, #{phone_no}, 'Y', now(), now(), now())
 </insert>
 
+<select id="getCategoryPercent" parameterType="map" resultType="map" >
+	SELECT CAST(B.QTY/A.TOTAL_QTY  * 100 AS INTEGER) AS PERCENT, C.CODE_NM AS CATEGORY
+	  FROM (
+	  	SELECT COUNT(1) AS TOTAL_QTY, A.USER_NO, A.USE_YN
+	  		FROM t_recipe A
+	   WHERE A.USER_NO = #{userNo}  		
+	  ) A
+	  JOIN (
+	  		SELECT COUNT(1) AS QTY, B.CATEGORY_CD, B.USER_NO, B.USE_YN
+	  			FROM t_recipe B 
+	  		GROUP BY B.USER_NO, B.CATEGORY_CD
+	  ) B ON A.USER_NO = B.USER_NO AND A.USE_YN = B.USE_YN
+		JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = B.CATEGORY_CD
+	WHERE A.USER_NO = #{userNo} AND A.USE_YN = 'Y'  
+	GROUP BY B.CATEGORY_CD
+</select> 
 
 </mapper>

@@ -97,7 +97,7 @@
 								</p>
 							</div>
 							<div class="social-info">
-								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO, recipe.RECIPE_NO, recipe.SELL_PAY, recipe.SELL_CNT, recipe.TITLE)"><i class="fa fa-comment" aria-hidden="true"></i></a>
+								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO, recipe.RECIPE_NO, recipe.SELL_PAY, recipe.SELL_CNT, recipe.TITLE)"><i class="fa fa-comment cart-btn" aria-hidden="true"></i></a>
 								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO)"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
 							</div>
 						</div>
@@ -270,7 +270,6 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 	       contentType: "application/json; charset=UTF-8",
 	       success: function(res) {
 	       	   $scope.categoryRanks = res.list;
-	       	   console.log($scope.categoryRanks);
 	       	   $scope.$apply();
 		   },
 	    });	

@@ -16,18 +16,18 @@
 </head>
 <script>
 var sock = new SockJS("/dev/echo.do");
-function load(){
-	var msg = {
+
+sock.onopen = function() {
+   var msg = {
 		type: "register",
 		userid : "<%= user_info.get("USER_ID") %>"
 	}
-	setTimeout(() => {
-		sock.send(JSON.stringify(msg));	
-	}, 300);
-}
+	sock.send(JSON.stringify(msg));	
+	 
+};
 </script>
 
-<body onload="load()"> 
+<body> 
 	<c:if test="${USER_INFO != null}">
 		<tiles:insertAttribute name="preload" flush="false" ignore="false" />
 	</c:if>

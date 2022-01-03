@@ -48,12 +48,18 @@
 						</div>
 				  </div>
 	               <div class="recipe-info">
-	                   <h5>정보</h5>
+	                   <h5>정보
+	                   <span style="float: right;">
+	                   <i class="fa fa-pencil-square-o" aria-hidden="true" style="cursor: pointer;" ng-click="edit_toggle()"></i>
+				       <i class="fa fa-check" aria-hidden="true"  style="cursor: pointer;" ></i>
+				       </span>
+	                   </h5>
 	                   <ul class="info-data">
 	                   	   <li><img src="/images/tray.png" alt=""> <span>${RECIPE.CATEGORY}</span></li>
 	                   	   <li><img src="/images/eye.png" alt=""> <span>${RECIPE.VIEWS_CNT+1} Views</span></li>
 	                       <li><img src="/images/alarm-clock.png" alt=""><span>가격: ${RECIPE.SELL_PAY}원 <br>남은 수량: ${RECIPE.SELL_CNT}</span></li>
 	                   </ul>
+	                    
 	               </div>
 	               <div class="ingredients">
 	                   <h5>Ingredients</h5>

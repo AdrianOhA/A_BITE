@@ -1,6 +1,7 @@
 package com.abite.web.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +50,14 @@ public class AuthService {
 	public ModelMap getMember(HashMap<String, Object> param) throws Exception {
 		ModelMap map = new ModelMap();
 		Map<String, Object> userInfo = memberMapper.getMember(param);
+		map.put("userInfo", userInfo);
+		logger.debug(userInfo + "");
+		return map;
+	}
+	
+	public ModelMap getMemberForSetting(int userNo) throws Exception {
+		ModelMap map = new ModelMap();
+		Map<String, Object> userInfo = memberMapper.getMemberForSetting(userNo);
 		map.put("userInfo", userInfo);
 		logger.debug(userInfo + "");
 		return map;
@@ -195,5 +204,9 @@ public class AuthService {
 		}
 		
 		return map;
+	}
+
+	public List<HashMap<String, Object>> getCategoryPercent(int userNo) throws Exception {
+		return memberMapper.getCategoryPercent(userNo);
 	}
 }

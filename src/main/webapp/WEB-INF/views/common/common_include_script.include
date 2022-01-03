@@ -9,8 +9,15 @@
 <!-- Bootstrap js -->
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
-
+<script type="text/javascript" src="/js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="/js/isotope.pkgd.min.js"></script>
+<script type="text/javascript" src="/js/jquery.nice-select.min.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
 <script type="text/javascript" src="/js/WOW.js"></script>
+<script type="text/javascript" src="/js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="/js/jquery.waypoints.min.js"></script>
+
+<script type="text/javascript" src="/js/topbar-virtual.js"></script>
 <!-- Active js -->
 <script type="text/javascript" src="/js/active.js" defer></script>
 <!-- All Plugins js -->

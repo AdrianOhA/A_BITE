@@ -20,7 +20,7 @@
        <span class="close"></span>
        <div class='init'>
          <i class='fa fa-inbox'></i>
-         <h4 id="chat_result">Choose a conversation from the left</h4>
+         <h4 id="chat_result">채팅방을 선택해주세요.</h4>
        </div>
        <div class='loader'>
          <p></p>
@@ -79,16 +79,16 @@
 	var _curr_id = "<%= user_info.get("USER_ID") %>";
 	sock.onmessage = function(e){
 		var _obj = JSON.parse(e.data);
+		if(!$scope.chats) {
+			$scope.chats = [];
+			$scope.chats = $scope.search_chatList();
+		}
 		if(_obj.type == "read") {
 			$scope.chats[_obj.id].messages.filter(function(obj){
 				obj.readYN = "Y";
 			});
 		} else {
-			if(!$scope.chats[_obj.id]) {
-				$scope.chats = [];
-				$scope.search_chatList();
-			}
-			$scope.chats[_obj.id].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y"});
+			$scope.chats[_obj.id].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y"});		
 			if($scope.checkID != _obj.id) {
 				$scope.chats[_obj.id].not_read_cnt += 1;
 				$scope.total_notread = 0;
@@ -205,6 +205,13 @@
             			var _target = obj.split('_')[0];
             			var _msgList = res.CHAT_LIST[idx];
             			$scope.set_chat_list(_target, _recipeNo, _msgList, idx);
+            			
+            			if($scope.total_notread > 0) {
+            				$("#total_notread").text($scope.total_notread);
+            				$("#notifications").show();	
+            				play();
+            			}
+            			return $scope.chats;
 	            	});
             	}
             },

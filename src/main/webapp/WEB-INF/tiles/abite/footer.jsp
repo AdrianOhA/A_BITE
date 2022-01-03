@@ -93,7 +93,7 @@ mainApp.controller("footerCtrl", function($scope){
     	});
 
     	$("#settings").click(function(){
-    		console.log("settings click");
+    		document.location = "/web/setting.do";
     	});
     };
 });

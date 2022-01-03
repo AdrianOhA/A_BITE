@@ -1,9 +1,11 @@
 package com.abite.web.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.abite.web.service.AuthService;
 import com.abite.web.service.CodeService;
 import com.abite.web.service.RecipeService;
 
@@ -29,6 +32,9 @@ public class WebController {
 	
 	@Autowired
 	private RecipeService recipeService;
+	
+	@Autowired
+	private AuthService memberService;
 	
 	@RequestMapping(value="/post.do")
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res) throws Exception
@@ -117,5 +123,35 @@ public class WebController {
 		logger.info("call getRecipeList");
 		return recipeService.getCategoryRanks();
 	}
+
+	@RequestMapping(value="/search.do")
+	public ModelAndView search(HttpServletRequest req, HttpServletResponse res, @RequestParam(value="param", required=false) String condition) throws Exception
+	{
+		ModelAndView mv = new ModelAndView();
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("CODE_GROUP", "CATEGORY");
+		mv.addObject("CATEGORY_LIST",  code_service.getCategory(param));
+		mv.setViewName("/web/search");
+		return mv;
+	}	
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/setting.do")
+	public ModelAndView setting(HttpSession session, HttpServletRequest req, HttpServletResponse res, @RequestParam(value="userNo", required=false, defaultValue="0") int userNo) throws Exception
+	{
+		ModelAndView mv = new ModelAndView();
+		Map<String, Object> userInfo = null;
+		if(userNo == 0) {
+			userInfo = (Map<String, Object>)session.getAttribute("USER_INFO");
+			userNo = (int)userInfo.get("USER_NO");
+		}
+		
+		userInfo = (Map<String, Object>)memberService.getMemberForSetting(userNo).get("userInfo");
+		userInfo.put("CATEGORY_PERCENTS", memberService.getCategoryPercent(userNo));
+		
+		
+		mv.addObject("SETTING_INFO",userInfo);
+		mv.setViewName("/web/setting");
+		return mv;
+	}	
 }

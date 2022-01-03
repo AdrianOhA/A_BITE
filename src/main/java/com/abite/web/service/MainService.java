@@ -27,7 +27,7 @@ public class MainService {
 	
 	public List<HashMap<String, Object>> getMenuList(HashMap<String, Object> param) throws Exception {
 		List<HashMap<String, Object>> mainMenuList = menuMapper.getMainMenuList(param);
-		List<HashMap<String, Object>> subMenuList =  menuMapper.getSubMenuList(param);
+		/*List<HashMap<String, Object>> subMenuList =  menuMapper.getSubMenuList(param);
 		
 		for(HashMap<String, Object> mmenu : mainMenuList) {
 			List<HashMap<String, Object>> subList = new ArrayList<HashMap<String, Object>>();
@@ -39,7 +39,7 @@ public class MainService {
 				}
 			}
 			mmenu.put("SUB_MENU_LIST", subList);
-		}
+		}*/
 		
 		return mainMenuList;
 	}

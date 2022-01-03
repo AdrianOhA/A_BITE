@@ -54,8 +54,8 @@
 	<!-- ======================= -->
 	<!--       Loggers           -->
 	<!-- ======================= -->
-	<logger name="java.sql" additivity="false">
-	    <level value="warn" />
+	<logger name="java.sqlonly" additivity="false">
+	    <level value="info" />
 	    <appender-ref ref="appender-console" />
 	</logger>
 
@@ -78,7 +78,7 @@
 	<!--       Root Logger       -->
 	<!-- ======================= -->
   	<root>
-		<priority value="info" />
+		<priority value="ALL" />
 		<appender-ref ref="appender-console"	/>
 		<appender-ref ref="appender-root"		/>
 	</root>
