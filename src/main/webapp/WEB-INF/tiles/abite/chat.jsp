@@ -202,7 +202,7 @@
 		    $(".chat_container").hide();
 		});
 		$("#chatForm").submit(function(event){
-			if ($scope.checkID != null){
+			if ($scope.checkID != null && $("#message").val() != ''){
 				event.preventDefault();
 				var idx = $scope.findIdx($scope.checkID);
 				sock.send(JSON.stringify({type:"chat", target: $scope.chats[idx].target, msg:$("#message").val(), recipeNo: $scope.chats[idx].recipeNo, id: $scope.chats[idx].recipeNo} ));
