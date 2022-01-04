@@ -237,7 +237,7 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 					recipeNo : recipeNo,
 					username : user_info.USER_NAME,
 					target: user_info.USER_ID,
-					avatar : user_info.USER_IMAGE,
+					avatar : user_info.THUMBNAIL,
 					messages: [],
 					sellPay : sellPay,
 					sellCnt : sellCnt,

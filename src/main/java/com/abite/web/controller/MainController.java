@@ -79,15 +79,16 @@ public class MainController {
 		String userId = (String)userInfo.get("USER_ID");
 		Set<String> set = hash.keys(userId);
 		Iterator<String> sKey = set.iterator();
-		List targetList = new ArrayList<>();
-		List chatList = new ArrayList<>();
+		List<Map<String, Object>> msgList = new ArrayList<Map<String, Object>>();
+		
 		while(sKey.hasNext()) {
 			String _skey = sKey.next();
-			targetList.add(_skey);
-			chatList.add(hash.get(userId, _skey));
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			hmap.put("target", _skey);
+			hmap.put("chatList", hash.get(userId, _skey));
+			msgList.add(hmap);
 		}
-		map.addAttribute("TARGET_LIST", targetList);
-		map.addAttribute("CHAT_LIST", chatList);
+		map.addAttribute("msgList", msgList);
 		return map;
 	}
 }

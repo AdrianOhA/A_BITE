@@ -27,14 +27,14 @@
          <h4>Loading</h4>
        </div>
        <div class='message-wrap' ng-repeat='chat in chats' ng-show='checkID == chat.id'>
-         <div style="line-height: 1.2em;display: block;width: 100%;height: 30px !important;position: fixed;color: #fff;font-size: 11px;border-top: 1px solid rgba(255, 255, 255, 0.1);text-align: left;background: #9a9a9a;">
+         <div style="line-height: 1.2em;display: block;width: 100%;height: 30px !important;position: fixed;color: #fff;font-size: 11px;border-top: 1px solid rgba(255, 255, 255, 0.1);text-align: left;background: #9a9a9a;z-index:999;">
          	{{chat.title}}
          	<div>가격: {{chat.sellPay}}원/남은 수량: {{chat.sellCnt}}</div>
          </div>
        	 <div ng-repeat='i in chat.messages'>
 	         <div ng-class="i.writer != '<%= user_info.get("USER_ID") %>' ? 'message target': 'message' ">
 	           <span style="display: none;" ng-model="message.target"></span>
-	           <p>{{i.msg}}</p><span style="color:#fff;float: right;margin-right: -10px;font-size: 11px;">{{i.time}}</span>
+	           <img class='avatar' ng-src={{i.target_img}} ng-show="i.writer != '<%= user_info.get("USER_ID") %>'"/><p>{{i.msg}}</p><span style="color:#fff;float: right;margin-right: -10px;font-size: 11px;">{{i.time}}</span>
 	         </div>
 	         <span ng-class="i.writer != '<%= user_info.get("USER_ID") %>' ? 't-checked': 'checked' ">
 		           <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="15px" viewBox="0 0 24 24" width="15px" fill="#3DB7CC" ng-show="i.readYN == 'N'">
@@ -57,17 +57,17 @@
      </main>
    </div>
 </div>
-
 <div id="notifications" style="position: fixed;width: 15%;z-index: 999;right: 0;bottom: -15px;display: none;">
-<div class="alert alert-warning alert-with-icon" data-notify="container">
-  <div class="container">
-    <div class="alert-wrapper">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: 8px;" id="noti_close"></button>
-        <div class="message"><i class="nc-icon nc-bell-55"></i> 메세지 왔어요~ <span id="total_notread"></span></div>
-      </div>
+	<div class="alert alert-warning alert-with-icon" data-notify="container">
+		<div class="container">
+    		<div class="alert-wrapper">
+	      		<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: 8px;" id="noti_close"></button>
+        		<div class="message"><i class="nc-icon nc-bell-55"></i> 메세지 왔어요~ <span id="total_notread"></span></div>
+    	    </div>
+        </div>
     </div>
-  </div>
 </div>
+<!-- <iframe src="/css/silence.mp3" allow="autoplay" id="audio" style="display: none" muted="muted"></iframe> -->
 <audio id='audio_play' src='/css/alerting.mp3'></audio>
 <script> 
  "use strict";
@@ -79,18 +79,16 @@
 	var _curr_id = "<%= user_info.get("USER_ID") %>";
 	sock.onmessage = function(e){
 		var _obj = JSON.parse(e.data);
-		if(!$scope.chats) {
-			$scope.chats = [];
-			$scope.chats = $scope.search_chatList();
-		}
+		var idx = $scope.findIdx( _obj.id);
+		
 		if(_obj.type == "read") {
-			$scope.chats[_obj.id].messages.filter(function(obj){
-				obj.readYN = "Y";
-			});
+			if (idx != null ){
+				$scope.chats[idx].messages.filter(function(obj){ obj.readYN = "Y";});	
+			}
 		} else {
-			$scope.chats[_obj.id].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y"});		
+			$scope.chats[idx].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y"});		
 			if($scope.checkID != _obj.id) {
-				$scope.chats[_obj.id].not_read_cnt += 1;
+				$scope.chats[idx].not_read_cnt += 1;
 				$scope.total_notread = 0;
 				for(var i=0; i < $scope.chats.length; i++) {
 					$scope.total_notread += $scope.chats[i].not_read_cnt;	
@@ -99,7 +97,7 @@
 				$("#notifications").show();
 				play();
 			} else {
-				sock.send(JSON.stringify({type:"read", target: $scope.chats[_obj.id].target, recipeNo : $scope.chats[_obj.id].recipeNo , id : _obj.id} ));
+				sock.send(JSON.stringify({type:"read", target: $scope.chats[idx].target, recipeNo: $scope.chats[idx].recipeNo, id: _obj.recipeNo} ));
 			}
 			scroll();	
 		}
@@ -117,8 +115,9 @@
 	};
 	$scope.add = function() {
 	  if($scope.text && $scope.checkID != null) {
-	    $scope.chats[$scope.checkID].messages.push({"msg": this.text, "writer": _curr_id, "time" : func_get_now_yyyymmddhhiiss(), "readYN": "N"});
-	    $scope.text = '';
+		var idx = $scope.findIdx($scope.checkID );
+		$scope.chats[idx].messages.push({"msg": this.text, "writer": _curr_id, "time" : func_get_now_yyyymmddhhiiss(), "readYN": "N"});
+		$scope.text = '';
 	  } else {
 		  $scope.text = '';
 	  }
@@ -132,13 +131,42 @@
 				var flag = true;
 				for(var i = 0 ; i < $scope.chats.length; i++) {
 					if(params.recipeNo == $scope.chats[i].recipeNo){
-						$scope.chats[i].id = i;
 						flag = false;
 					}
 				}
 				if(flag == true){
-					params.id = $scope.chats.length;
+					params.id = params.recipeNo;
+					var _recipe = $scope.getRecipe(params.recipeNo);
+					params.avatar = _recipe.THUMBNAIL;
 					$scope.chats.push(params);
+					/*var cart = $('.shopping-cart');
+			         setTimeout(function () {
+		                cart.effect("shake", {times: 2 }, 200);
+		            }, 1500); */
+			       /*  var imgtodrag = $(this).parent('.item').find("img").eq(0);
+			        if (imgtodrag) {
+			            var imgclone = imgtodrag.clone().offset({top: imgtodrag.offset().top,left: imgtodrag.offset().left}).css({
+			                'opacity': '0.5',
+			                    'position': 'absolute',
+			                    'height': '150px',
+			                    'width': '150px',
+			                    'z-index': '100'
+			            }).appendTo($('body')).animate({
+			                'top': cart.offset().top + 10,
+			                'left': cart.offset().left + 10,
+			                'width': 75,
+			                'height': 75
+			            }, 1000, 'easeInOutExpo');
+			             */
+			            
+
+			            /* imgclone.animate({
+			                'width': 0,
+			                'height': 0
+			            }, function () {
+			                $(this).detach()
+			            });
+			        } */
 				}
 			}
 		}
@@ -146,15 +174,18 @@
 
 	$scope.click_profile = function(ix) {
 	  $scope.checkID = ix;
-	  sock.send(JSON.stringify({type:"read", target: $scope.chats[$scope.checkID].target, recipeNo : $scope.chats[$scope.checkID].recipeNo , id : $scope.checkID} ));
+	  var _recipeNo = ix;
+	  var idx = $scope.findIdx($scope.checkID );
+	  var _target = $scope.chats[idx].target;
+	  sock.send(JSON.stringify({type:"read", target: _target, recipeNo : _recipeNo , id : $scope.checkID} ));
 	  $("#notifications").hide();
 	  $(".init").show();
 	  $(".loader").show();
 	  $(".init").css({ 'opacity': '0'});
 	  $(".loader").delay(300).animate({'opacity': '1'});
 	  $(".message-wrap").css({'opacity': '0'});
-	  $scope.chats[$scope.checkID].not_read_cnt = 0;
-	  $scope.total_notread -= $scope.chats[$scope.checkID].not_read_cnt;
+	  $scope.chats[idx].not_read_cnt = 0;
+	  $scope.total_notread -= $scope.chats[idx].not_read_cnt;
 	  $timeout(ixy, 1500);
     };
     
@@ -173,7 +204,8 @@
 		$("#chatForm").submit(function(event){
 			if ($scope.checkID != null){
 				event.preventDefault();
-				sock.send(JSON.stringify({type:"chat", target: $scope.chats[$scope.checkID].target, msg:$("#message").val() , recipeNo : $scope.chats[$scope.checkID].recipeNo , id : $scope.checkID} ));
+				var idx = $scope.findIdx($scope.checkID);
+				sock.send(JSON.stringify({type:"chat", target: $scope.chats[idx].target, msg:$("#message").val(), recipeNo: $scope.chats[idx].recipeNo, id: $scope.chats[idx].recipeNo} ));
 				$("#message").val('').focus();	
 			}
 		});
@@ -199,13 +231,13 @@
             contentType: "application/json; charset=UTF-8",
             async: false,
             success: function(res) {
-            	if (res.TARGET_LIST) {
-            		res.TARGET_LIST.forEach(function(obj, idx){
-            			var _recipeNo = obj.split('_')[1];
-            			var _target = obj.split('_')[0];
-            			var _msgList = res.CHAT_LIST[idx];
-            			$scope.set_chat_list(_target, _recipeNo, _msgList, idx);
+            	if (res.msgList) {
+            		res.msgList.forEach(function(obj, idx){
+            			var _recipeNo = obj.target.split("_")[1];
+            			var _target = obj.target.split('_')[0];
             			
+            			var _msgList = obj.chatList;
+            			$scope.set_chat_list(_target, _recipeNo, _msgList);
             			if($scope.total_notread > 0) {
             				$("#total_notread").text($scope.total_notread);
             				$("#notifications").show();	
@@ -240,7 +272,17 @@
 		}
 	}
 	
-	$scope.set_chat_list = function(_target, _recipeNo, _msgList, __idx){
+	$scope.findIdx = function(checkID){
+		var idx = null;
+		for(var i = 0; i < $scope.chats.length; i++) {
+			if ($scope.chats[i].id == checkID) {
+				idx = i;
+			}
+		}
+		return idx;
+	}
+	
+	$scope.set_chat_list = function(_target, _recipeNo, _msgList){
 		_msgList = _msgList.sort(function(a, b) {
 			return a.time < b.time ? -1 : a.time > b.time ? 1 : 0;
 		});
@@ -250,18 +292,29 @@
 			return obj.readYN == 'N' && obj.writer != _curr_id;
 		});
 		
+		
+		
+		var _targetInfo= $scope.searchTarget(_target);
+		
+		_msgList.filter(function(msg){
+			if(msg.writer != _curr_id) {
+				msg.target_img = _targetInfo.USER_IMAGE; 
+			}
+		});
+		
+		var recipe_info = $scope.getRecipe(_recipeNo);
+		
 		var _obj = {
-			id : __idx,
+			id : _recipeNo,
 			target: _target,
 			recipeNo : _recipeNo,
 			messages : _msgList,
 			not_read_cnt: not_reads.length 
 		}
 		
-		var recipe_info = $scope.getRecipe(_recipeNo);
 		if(recipe_info) {
 			_obj.username = recipe_info.USER_NAME;
-			_obj.avatar = recipe_info.USER_IMAGE;	
+			_obj.avatar = recipe_info.THUMBNAIL;	
 			_obj.sellPay = recipe_info.SELL_PAY;
 			_obj.sellCnt = recipe_info.SELL_CNT;
 			_obj.title = recipe_info.TITLE;
@@ -273,6 +326,23 @@
 			$scope.total_notread += $scope.chats[i].not_read_cnt;	
 		}	
 	}
+	
+
+	$scope.searchTarget = function(target) {
+		var _targetInfo = {}; 
+		$.ajax({
+	       type: 'POST',
+	       url: '/Auth/getMember.json',
+	       data: JSON.stringify({"email" : target}),
+	       async: false,
+	       contentType: "application/json; charset=UTF-8",
+	       success: function(res) {
+	    	   _targetInfo = res.userInfo;
+		   }
+	    });	
+		return _targetInfo;
+	};
+	
 	function ixy() {
 	    $(".message-wrap").css({
 		  'opacity': '1'

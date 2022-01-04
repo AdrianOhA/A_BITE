@@ -221,7 +221,7 @@ mainApp.controller("headerCtrl", function($scope){
    				"-moz-filter": "grayscale(50%)",
    				"-o-filter": "grayscale(50%)",
    				"-ms-filter":"grayscale(50%)"
-   			})
+   			});
    		});
    		
    		$("input[name='search']").keyup(function(){

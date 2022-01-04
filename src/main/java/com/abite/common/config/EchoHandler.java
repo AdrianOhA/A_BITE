@@ -66,7 +66,6 @@ public class EchoHandler extends TextWebSocketHandler{
 				String target = object.getString("target");
 				WebSocketSession ws = (WebSocketSession)userMap.get(target);
 				int recipeNo = object.getInt("recipeNo");
-				int checkID = object.getInt("id");
 				write_msg_list = (List<Object>) hash.get(userId, target + "_" + recipeNo);
 				
 				for(Object msg : write_msg_list) {
@@ -77,7 +76,7 @@ public class EchoHandler extends TextWebSocketHandler{
 				}
 				hash.put(userId, target + "_" + recipeNo, write_msg_list);
 				Map<String, Object> reData = new HashMap<String, Object>();
-				reData.put("id", checkID);
+				reData.put("id", recipeNo);
 				reData.put("recipeNo", recipeNo);
 				reData.put("readYN", "Y");
 				reData.put("type", type);

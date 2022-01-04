@@ -15,7 +15,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
              </div>
 	         <div class="footer_container">
-			  <div class="cube"  id="followquick">
+			  <div class="cube shopping-cart"  id="followquick">
 			    <div class="plus">
 			      <div class="plus-horizontal"></div>
 			      <div class="plus-vertical"></div>
