@@ -34,7 +34,9 @@
        	 <div ng-repeat='i in chat.messages'>
 	         <div ng-class="i.writer != '<%= user_info.get("USER_ID") %>' ? 'message target': 'message' ">
 	           <span style="display: none;" ng-model="message.target"></span>
-	           <img class='avatar' ng-src={{i.target_img}} ng-show="i.writer != '<%= user_info.get("USER_ID") %>'"/><p>{{i.msg}}</p><span style="color:#fff;float: right;margin-right: -10px;font-size: 11px;">{{i.time}}</span>
+	           <img class='avatar' ng-src={{i.target_img}} ng-show="i.writer != '<%= user_info.get("USER_ID") %>'"/>
+	           <span ng-show="i.writer != '<%= user_info.get("USER_ID") %>'" style="font-size: 0.5rem;color: #a2feff;">{{i.targetname}}</span>
+	           <p>{{i.msg}}</p><span style="color:#fff;float: right;margin-right: -10px;font-size: 11px;">{{i.time}}</span>
 	         </div>
 	         <span ng-class="i.writer != '<%= user_info.get("USER_ID") %>' ? 't-checked': 'checked' ">
 		           <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="15px" viewBox="0 0 24 24" width="15px" fill="#3DB7CC" ng-show="i.readYN == 'N'">
@@ -86,7 +88,21 @@
 				$scope.chats[idx].messages.filter(function(obj){ obj.readYN = "Y";});	
 			}
 		} else {
-			$scope.chats[idx].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y"});		
+			var target_img = "";
+			if($scope.chats[idx].messages != null && $scope.chats[idx].messages.length > 0){
+				for(var i = 0; i < $scope.chats[idx].messages.length; i++) {
+					var msg = $scope.chats[idx].messages[i]
+					if (msg.target_img) {
+						target_img = msg.target_img;
+						break;
+					}
+				}
+			} else {
+				var target = $scope.searchTarget(_obj.writer);
+				target_img = target.USER_IMAGE;
+			}
+			
+			$scope.chats[idx].messages.push({"msg": _obj.msg, "time" : func_get_now_yyyymmddhhiiss(_obj.time), "writer": _obj.writer, "readYN" : "Y", "target_img": target_img});		
 			if($scope.checkID != _obj.id) {
 				$scope.chats[idx].not_read_cnt += 1;
 				$scope.total_notread = 0;
@@ -135,38 +151,12 @@
 					}
 				}
 				if(flag == true){
+					$('.shopping-cart').effect("shake", {times: 2 }, 200);
 					params.id = params.recipeNo;
 					var _recipe = $scope.getRecipe(params.recipeNo);
 					params.avatar = _recipe.THUMBNAIL;
+					params.username = _recipe.TITLE;
 					$scope.chats.push(params);
-					/*var cart = $('.shopping-cart');
-			         setTimeout(function () {
-		                cart.effect("shake", {times: 2 }, 200);
-		            }, 1500); */
-			       /*  var imgtodrag = $(this).parent('.item').find("img").eq(0);
-			        if (imgtodrag) {
-			            var imgclone = imgtodrag.clone().offset({top: imgtodrag.offset().top,left: imgtodrag.offset().left}).css({
-			                'opacity': '0.5',
-			                    'position': 'absolute',
-			                    'height': '150px',
-			                    'width': '150px',
-			                    'z-index': '100'
-			            }).appendTo($('body')).animate({
-			                'top': cart.offset().top + 10,
-			                'left': cart.offset().left + 10,
-			                'width': 75,
-			                'height': 75
-			            }, 1000, 'easeInOutExpo');
-			             */
-			            
-
-			            /* imgclone.animate({
-			                'width': 0,
-			                'height': 0
-			            }, function () {
-			                $(this).detach()
-			            });
-			        } */
 				}
 			}
 		}
@@ -292,14 +282,13 @@
 			return obj.readYN == 'N' && obj.writer != _curr_id;
 		});
 		
-		
-		
 		var _targetInfo= $scope.searchTarget(_target);
 		
 		_msgList.filter(function(msg){
 			if(msg.writer != _curr_id) {
 				msg.target_img = _targetInfo.USER_IMAGE; 
 			}
+			msg.targetname = _targetInfo.USER_NAME;
 		});
 		
 		var recipe_info = $scope.getRecipe(_recipeNo);
@@ -313,7 +302,7 @@
 		}
 		
 		if(recipe_info) {
-			_obj.username = recipe_info.USER_NAME;
+			_obj.username = recipe_info.TITLE;
 			_obj.avatar = recipe_info.THUMBNAIL;	
 			_obj.sellPay = recipe_info.SELL_PAY;
 			_obj.sellCnt = recipe_info.SELL_CNT;

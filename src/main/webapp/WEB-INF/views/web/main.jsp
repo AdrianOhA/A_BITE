@@ -137,11 +137,6 @@
 											<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#7B6341"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"/></svg>
 										</a>
 									</span>
-									<!-- <li class="page-item" ng-click="pagination.setPage(i)" ng-class="pagination.page==i && 'active'"  ng-repeat="i in pagination.pageCount()"> 
-							            <a class="page-link" href="#"> 
-							                <i>{{i+1}}</i> 
-							            </a> 
-							        </li> -->
 								</ul>
 							</nav>
 						</div>
@@ -219,10 +214,9 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 	       contentType: "application/json; charset=UTF-8",
 	       success: function(res) {
 	    	   $scope.result.pager = res.pager;
-	    		if ($scope.result.pager.totalPageCount == 0) {
-					$scope.result.pager.totalPageCount = 1;
-				}
-	    		
+	    	   if ($scope.result.pager.totalPageCount == 0) {
+				  $scope.result.pager.totalPageCount = 1;
+			   }
 	       	   $scope.recipes = res.list;
 	       	   $scope.$apply();
 		   },

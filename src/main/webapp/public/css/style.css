@@ -1852,6 +1852,10 @@ h3 {
 .inbox aside p {
 	color: #fff;
 	margin-bottom: 0;
+	max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .inbox aside .avatar {
   width: 30px;
@@ -1911,11 +1915,11 @@ h3 {
 }
 
 .checked{
-	float: right;position: relative;bottom: 32px;right: 47px;
+	float: right;position: relative;bottom: 32px;right: 42px;
 }
 
 .t-checked{
-	float: right;position: relative;bottom: 32px;right: 117px;
+	float: right;position: relative;bottom: 32px;right: 112px;
 }
 
 .inbox main .target{

@@ -16,6 +16,7 @@
 <script type="text/javascript" src="/js/WOW.js"></script>
 <script type="text/javascript" src="/js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="/js/jquery.waypoints.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-v1.12.1.js"></script>
 
 <script type="text/javascript" src="/js/topbar-virtual.js"></script>
 <!-- Active js -->
