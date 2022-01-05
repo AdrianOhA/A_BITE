@@ -66,8 +66,8 @@
 				<div class="col-12 col-lg-8 col-xl-12">
 					<div class="single-blog-post style-1 d-flex flex-wrap mb-30" ng-repeat="recipe in recipes">
 						<div class="col-12 col-md-6 col-lg-4">
-							<div class="single-post-catagory mb-30">
-								<img ng-src="{{recipe.THUMBNAIL}}" alt="" style="height:255px;"/>
+							<div class="single-post-catagory mb-30" style="display: flex;">
+								<img ng-src="{{recipe.THUMBNAIL}}" alt="" style="height:255px;flex-shrink: 0;min-width: 100%;min-height: 100%;"/>
 								<div class="catagory-content-bg">
 									<div class="catagory-content">
 										<a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}" class="post-tag">{{recipe.CATEGORY}}</a><a ng-href="/web/recipe.do?recipeNo={{recipe.RECIPE_NO}}"
@@ -93,7 +93,7 @@
 									<img ng-src="{{recipe.USER_IMAGE}}" alt="">
 								</div>
 								<p>
- 									{{recipe.TIP}}
+ 									{{recipe.USER_INFO}}
 								</p>
 							</div>
 							<div class="social-info">

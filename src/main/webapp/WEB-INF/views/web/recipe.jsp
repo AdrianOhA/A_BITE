@@ -12,7 +12,7 @@
                <div class="post-details-content">
               	   <div class="blog-content col-12">
               	   	   <div class="col-xl-12">
-             	   	   	   <img src="${RECIPE.THUMBNAIL}" alt="" style="padding-bottom: 60px;height: 490px;">
+             	   	   	   <img src="${RECIPE.THUMBNAIL}" alt="" style="padding-bottom: 60px;height: 490px; flex-shrink: 0;min-width: 100%;min-height: 100%">
 	                       <a href="#" class="post-tag">${RECIPE.TAG}</a>
 	                       <h4 class="post-title">${RECIPE.TITLE}</h4>
 	                       <div class="post-meta mb-50">

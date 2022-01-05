@@ -25,7 +25,7 @@
 </select>
 
 <select id="getRecipeList" parameterType="map" resultType="map">
-	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO,
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO, B.USER_INFO,
 	       A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
 	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME   
 	  FROM T_RECIPE A
