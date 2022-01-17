@@ -29,6 +29,8 @@
 			 		</c:otherwise>
 				</c:choose> 
 			</p>
+            <div><img src="/images/marker.png" alt="" style="width: 29px;height: 29px;"><span style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">${SETTING_INFO.ADDRESS}</span></div>
+
           </div>
           <div ng-show="toggle_flag != false">
 	          <div class="input-group fw-light">
@@ -46,6 +48,17 @@
 					<span class="input-group-text"><i class="fa fa-spoon" aria-hidden="true"></i></span>
 				 </div> 
 			  </div>
+			  <div class="input-group margin-top-15">
+				<span class="input-group address-info">
+					<input type="text" ng-model="address" id="address" ng-keyup="search_address($event)" style="background-color: #937853;color: #fff;max-width: 300px;border:0;"/>
+					<ul class="dropdown-menu" id="address_list" style="top: 24px; left: 15px; display: block;" ng-show="addressList.length > 0">
+					    <li ng-repeat="address in addressList" ng-click="selected_address(address.address, address.lat, address.lng )">
+					    	<a href="" tabindex="" class="ng-binding ng-scope" title=""><strong>{{address.address}}</strong></a>
+					    </li>
+					</ul>
+						<i class="fa fa-search search-bar input-group-append" aria-hidden="true" style="background: #7B6341;color:#fff;border: 1px solid #e6e6e6;cursor: pointer;" ng-click="search_address2()"></i>
+				</span>
+ 			  </div>
 	          <input type="hidden" name="lat"/>
 	          <input type="hidden" name="lng"/>
           </div>
@@ -224,6 +237,9 @@
 "use strict";
 var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
 mainApp.controller('settingCtrl', function($scope) {
+	$scope.address="";
+    $scope.addressList = [];
+    
 	$scope.init = function() {
 		$scope.toggle_flag = false;
 		$scope.setEvent();
@@ -248,6 +264,14 @@ mainApp.controller('settingCtrl', function($scope) {
 	        });	 */
 		}
 	};
+
+	$scope.selected_address = function(address, lat, lng) {
+		$scope.recipe.address = address;
+		$scope.address = address; 
+		$scope.recipe.lat = lat;
+		$scope.recipe.lng = lng;
+		$scope.addressList = [];
+	};
 	
 	$scope.edit_toggle = function(){
 		if($scope.toggle_flag == true) {
@@ -256,6 +280,60 @@ mainApp.controller('settingCtrl', function($scope) {
 			$scope.toggle_flag = true;
 		}
 	};
+
+	$scope.search_address = function(event){
+	   if(event && event.keyCode == 13) {
+		   $scope.addressList = [];
+		   var _address = $scope.address || "";
+	       if (_address != null && _address != "") {
+	    	   $.ajax({
+	   			type : 'POST',
+	   			url : '/web/searchAddress.json',
+	   			contentType : "application/json; charset=UTF-8",
+	   			data : JSON.stringify({address: _address}),
+	   			success : function(res) {
+	   				if(res.response.result) {
+	   					$scope.addressList = setAddress(res.response.result.items);
+		   				$scope.$apply();	
+	   				} 
+	   			},
+	   		});
+	      }  
+	   }
+	}
+	$scope.search_address2 = function(){
+	   $scope.addressList = [];
+	   var _address = $scope.address || "";
+       if (_address != null && _address != "") {
+    	   $.ajax({
+   			type : 'POST',
+   			url : '/web/searchAddress.json',
+   			contentType : "application/json; charset=UTF-8",
+   			data : JSON.stringify({address: _address}),
+   			success : function(res) {
+   				if(res.response.result) {
+	   				$scope.addressList = setAddress(res.response.result.items);
+	   				$scope.$apply();
+   				}
+   			},
+   		});
+      }
+	}
+
+	function setAddress(list) {
+		var retList = [];
+		for(var i = 0; i < list.length; i++) {
+			var _item = list[i];
+			var _obj = {
+			  address : _item.address.road,
+			  lat :  _item.point.x,
+			  lng : _item.point.y 
+			};
+			
+			retList.push(_obj);
+		}
+		return retList;
+	}
 
     function checkValidation(){
     	var _flag = true;

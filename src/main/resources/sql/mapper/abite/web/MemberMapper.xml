@@ -18,7 +18,7 @@
 
 <select id="getMember" parameterType="map" resultType="map">
 	/* FcMemberMapper.getMember */
-	SELECT USER_ID, USER_NAME, USER_IMAGE, USER_INFO
+	SELECT USER_ID, USER_NAME, USER_IMAGE, USER_INFO, USER_ADDR, LAT, LNG
 	  FROM T_MEMBER
 	WHERE USER_ID = #{email} AND USE_YN = 'Y'
 	LIMIT 1 	
@@ -26,7 +26,7 @@
 
 <select id="getMemberForSetting" parameterType="int" resultType="map">
 	/* FcMemberMapper.getMember */
-	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, SNS, USER_PHONE_NO, USER_INFO
+	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, SNS, USER_PHONE_NO, USER_INFO, USER_ADDR, LAT, LNG
 		  ,USER_IMAGE, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME
 	  FROM T_MEMBER
 	WHERE USER_NO = #{userNo} AND USE_YN = 'Y'
@@ -35,7 +35,7 @@
 
 <select id="getMemberForChat" parameterType="map" resultType="map">
 	/* FcMemberMapper.getMemberForChat */
-	SELECT USER_ID, USER_NAME, USER_IMAGE
+	SELECT USER_ID, USER_NAME, USER_IMAGE, USER_ADDR, LAT, LNG
 	  FROM T_MEMBER
 	WHERE USER_NO = #{userNo} AND USE_YN = 'Y'
 	LIMIT 1 	
@@ -48,7 +48,7 @@
 </select>
 
 <select id="getMemberInfo" parameterType="map" resultType="map">
-	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, SNS, USER_PHONE_NO, USER_INFO
+	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_ADDR, LAT, LNG, SNS, USER_PHONE_NO, USER_INFO, USER_ADDR
 		  ,USER_IMAGE, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME
 	  FROM T_MEMBER
 	WHERE USER_ID = #{email} AND USER_PW = password(#{password}) AND USE_YN = 'Y'
@@ -56,8 +56,8 @@
 </select>
 
 <insert id="addMember" parameterType="map" useGeneratedKeys="true" keyProperty="USER_NO"> 
-	INSERT INTO T_MEMBER (USER_ID, USER_PW, USER_NAME ,USER_IMAGE, USER_ADDR, USER_PHONE_NO, USE_YN, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME)
-	VALUES(#{email}, password(#{password}) , #{name}, #{img}, #{addr}, #{phone_no}, 'Y', now(), now(), now())
+	INSERT INTO T_MEMBER (USER_ID, USER_PW, USER_NAME ,USER_IMAGE, USER_ADDR, LAT, LNG, USER_PHONE_NO, USE_YN, LAST_CHANGE_PW_DATE, CREATE_DATETIME, CHANGE_DATETIME)
+	VALUES(#{email}, password(#{password}) , #{name}, #{img}, #{address}, #{lat}, #{lng}, #{phone_no}, 'Y', now(), now(), now())
 </insert>
 
 <select id="getCategoryPercent" parameterType="map" resultType="map" >

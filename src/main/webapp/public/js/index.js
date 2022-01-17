@@ -1,12 +1,12 @@
 "use strict";
 var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
-
 mainApp.controller("mainCtrl", function($scope) {
     $scope.init = function(msg) {
     	$scope.login = {
     		email : "",
     		password: ""
     	};
+    	$scope.addressList = [];
     	
         $scope.profile = {
            img: "/images/icon_user.png",
@@ -15,7 +15,10 @@ mainApp.controller("mainCtrl", function($scope) {
            sns: "",
            token: "",
            password: "",
-           passwordcf: ""
+           passwordcf: "",
+           address: "",
+           lat: 0,
+           lng: 0
         };
         $scope.confirm = false;
         $scope.auth2 = {};
@@ -35,6 +38,10 @@ mainApp.controller("mainCtrl", function($scope) {
         	if($scope.profile.sns != null && $scope.profile.sns != '') {
         		$scope.showSignUpForm($scope.profile);
         	} else {
+        		 $scope.login = {
+        			email : "",
+        		    password: ""
+        		 };
         		 $("#title-thumbnail").toggleClass("hidden", true);
                  $(".reset_login").toggleClass("hidden", true);
                  $("#title-login").toggleClass("hidden", true);
@@ -65,8 +72,20 @@ mainApp.controller("mainCtrl", function($scope) {
         });
         
         $("#log_in").click(function() {
-            // when click Log In button, hide the Sign Up elements, and display the Log In elements
-            $("#title-thumbnail").toggleClass("hidden", true);
+        	// when click Log In button, hide the Sign Up elements, and display the Log In elements
+        	$scope.profile = {
+        		img: "/images/icon_user.png",
+        	    name: "",
+        	    email: "",
+        	    sns: "",
+        	    token: "",
+        	    password: "",
+        	    passwordcf: "",
+        	    address: "",
+        	    lat: 0,
+        	    lng: 0
+        	};
+        	$("#title-thumbnail").toggleClass("hidden", true);
             $(".reset_login").toggleClass("hidden", true);
             $("#signup-fieldset-sns").toggleClass("hidden", true);
             $("#signup-fieldset").toggleClass("hidden", true);
@@ -86,72 +105,11 @@ mainApp.controller("mainCtrl", function($scope) {
         });
 
         $("#signup-form-submit").click(function() {
-        	if($("#checkid").is(':visible') && "이미 등록된 email 입니다." == $("#checkid").text()) {
-        		$("#signup_email").addClass('valid');
-        		return;
-        	}
-            if (!$(".img-container").is(':visible')) {
-                $scope.showSignUpForm($scope.profile);
-            } else {
-            	if(checkValidation("signup")){
-            		if(checkPasswordValidation()){
-            			$("#checkpwd").show();
-            			return;
-            		}
-            		$("#checkpwd").hide();
-            		
-            		if($("#title-thumbnail").val() == '') {
-            			$.ajax({
-                            type: 'POST',
-                            url: '/Auth/signup.json',
-                            contentType: "application/json; charset=UTF-8",
-                            data: JSON.stringify($scope.profile),
-                            async: false,
-                            success: function(res) {
-                            	if (res.COUNT == 1) {
-                            		$scope.login.email = $scope.profile.email;
-                            		$("#log_in").click();
-                            		$("#checkid").hide();
-                            		$scope.profile = {};
-                            		$("#imagePreview").css('background-image', 'url(/images/icon-user.png)');
-                            		$scope.$apply();
-                            	} else {
-                            		if(res.RESULT_CODE == "E") {
-                            			if(res.RESULT_MSG == "No Same Password") {
-                            				$("#checkpwd").show();
-                                			return;
-                            			} else {
-                            				checkEmail($scope.profile.email);
-                            			}
-                            		}
-                            	}
-                            },
-                        });
-            		} else {
-            			$scope.saveFileAndSignup();	
-            		}
-            	}
-            }
+        	$scope.signup();
         });
 
         $("#login-form-submit").click(function() {
-        	if(checkValidation("login")){
-        		 $.ajax({
-                     type: 'POST',
-                     url: '/Auth/login.json',
-                     data: JSON.stringify($scope.login),
-                     contentType: "application/json; charset=UTF-8",
-                     async: true,
-                     success: function(res) {
-                     	if(res.RESULT_CODE == "E") {
-                     		$("#login_msg").text(res.RESULT_MSG);
-                     		$("#login_msg").show();
-                     	} else {
-                     		location.href = res.REDIRECT_URL || "";
-                     	}
-                     },
-                 });
-        	}
+        	$scope.login();
         });
         
         $(".signup, .login").keyup(function(){
@@ -173,10 +131,9 @@ mainApp.controller("mainCtrl", function($scope) {
             } else if($scope.profile.sns == "google"){
             	$scope.auth2 = gapi.auth2.getAuthInstance();
             	$scope.auth2.signOut().then(function() {
-            		
+            		$scope.auth2.disconnect();
+            		location.reload();
             	});
-            	$scope.auth2.disconnect();
-        		location.reload();
             } else {
             	$("#sign_up").click();
             }
@@ -184,8 +141,60 @@ mainApp.controller("mainCtrl", function($scope) {
         $("#title-thumbnail").change(function() {
         	readURL(this);
         });
+        
+        $(document).keypress(function(e){
+        	if($scope.profile.address != "" && e.keyCode == 13) {
+        		if($("#sign_up").attr('disabled') == "disabled") {
+        			if($("#signup-fieldset-sns").is(":visible") == false) {
+        				$scope.signup();
+        			}
+        		} else {
+        			if($("#login-fieldset").is(":visible") == true) {
+        				$scope.login();
+        			}
+        		}
+        	}
+        });
     };
-    
+	$scope.search_address = function(event){
+	   if(event.keyCode == 13) {
+		   $scope.addressList = [];
+		   var _address = $scope.address || "";
+	       if (_address != null && _address != "") {
+	    	   $.ajax({
+	   			type : 'POST',
+	   			url : '/web/searchAddress.json',
+	   			contentType : "application/json; charset=UTF-8",
+	   			async: false,
+	   			data : JSON.stringify({address: _address}),
+	   			success : function(res) {
+	   				if(res.response && res.response.result) {
+		   				$scope.addressList = setAddress(res.response.result.items);
+	   				}
+	   			},
+	   		});
+	      }   
+	   }	
+	}
+	$scope.search_address2 = function(event){
+		   $scope.addressList = [];
+		   var _address = $scope.address || "";
+	       if (_address != null && _address != "") {
+	    	   $.ajax({
+	   			type : 'POST',
+	   			url : '/web/searchAddress.json',
+	   			contentType : "application/json; charset=UTF-8",
+	   			async: false,
+	   			data : JSON.stringify({address: _address}),
+	   			success : function(res) {
+	   				if(res.response && res.response.result) {
+		   				$scope.addressList = setAddress(res.response.result.items);
+	   				}
+	   			},
+	   		});
+	      } 
+	}
+	
     $scope.saveFileAndSignup = function() {
     	$.ajax({
             type: 'POST',
@@ -203,12 +212,13 @@ mainApp.controller("mainCtrl", function($scope) {
                     async: false,
                     success: function(res) {
                     	if (res.COUNT == 1) {
-                    		$scope.login.email = $scope.profile.email;
-                    		$("#log_in").click();
-                    		$("#checkid").hide();
-                    		$("#imagePreview").css('background-image', 'url(/images/icon-user.png)');
-                    		$scope.profile = {};
-                    		$scope.$apply();
+                    		if($scope.profile.sns == "google"){
+                             	$scope.auth2 = gapi.auth2.getAuthInstance();
+                             	$scope.auth2.signOut().then(function() {
+                             		$scope.auth2.disconnect();	
+                             	}); 	
+                         	}
+                    		location.href = '/';
                     	} else {
                     		if(res.RESULT_CODE == "E") {
                     			if(res.RESULT_MSG == "No Same Password") {
@@ -242,12 +252,12 @@ mainApp.controller("mainCtrl", function($scope) {
                 	} else {
                 		var customer = res.customer_info || {};
                 		$("#imagePreview").css("background-image", 'url('+customer.kakao_account.profile.thumbnail_image_url+')');
-                        $scope.profile.img = customer.kakao_account.profile.thumbnail_image_url;
+                		$scope.profile.img = customer.kakao_account.profile.thumbnail_image_url;
                         $scope.profile.name = customer.kakao_account.profile.nickname;
                         $scope.profile.email = customer.kakao_account.email;
                         $scope.profile.sns = "kakao";
                         $scope.profile.token = customer.token;
-                        $scope.showSignUpForm($scope.profile);	
+                        $scope.showSignUpForm($scope.profile);		
                 	}
                 },
             });
@@ -262,9 +272,8 @@ mainApp.controller("mainCtrl", function($scope) {
     };
 
     $scope.showSignUpForm = function(profile){	
-        $(".signup_form").css('margin-top', '15px');
-    	
-    	$("#login-fieldset").toggleClass("hidden", true);
+    	$(".signup_form").css('margin-top', '15px');
+        $("#login-fieldset").toggleClass("hidden", true);
         $("#login-form-submit").toggleClass("hidden", true);
         $("#lost-password-link").toggleClass("hidden", true);
         $("#sign_up").toggleClass("active-button", false);
@@ -282,8 +291,14 @@ mainApp.controller("mainCtrl", function($scope) {
         checkEmail($scope.profile.email);
         $scope.$apply();
     };
-
-
+    $scope.selected_address = function(address, lat, lng) {
+    	$("#address").removeClass('valid');
+		$scope.profile.address = address;
+		$scope.address = address; 
+		$scope.profile.lat = lat;
+		$scope.profile.lng = lng;
+		$scope.addressList = [];
+	};
     //google oauth
     $scope.google_init = function(){
         gapi.load('auth2', function() {
@@ -311,7 +326,7 @@ mainApp.controller("mainCtrl", function($scope) {
     };
 
     $scope.callbackSignupComponent = function(profile){
-        $scope.showSignUpForm(profile);
+    	$scope.showSignUpForm(profile);
     };
 
     $scope.showPreview = function(event){
@@ -337,6 +352,101 @@ mainApp.controller("mainCtrl", function($scope) {
     	
     	return obj;
     }
+    
+    $scope.login = function(){
+    	if(checkValidation("login")){
+   		 $.ajax({
+                type: 'POST',
+                url: '/Auth/login.json',
+                data: JSON.stringify($scope.login),
+                contentType: "application/json; charset=UTF-8",
+                async: true,
+                success: function(res) {
+                	if(res.RESULT_CODE == "E") {
+                		$("#login_msg").text(res.RESULT_MSG);
+                		$("#login_msg").show();
+                	} else {
+                		location.href = res.REDIRECT_URL || "";
+                	}
+                },
+            });
+   	   }
+    }
+    
+    $scope.signup = function(){
+    	if($("#checkid").is(':visible') && "이미 등록된 email 입니다." == $("#checkid").text()) {
+    		$("#signup_email").addClass('valid');
+    		return;
+    	}
+        if (!$(".img-container").is(':visible')) {
+            $scope.showSignUpForm($scope.profile);
+        } else {
+        	if(checkValidation("signup")){
+        		if(checkPasswordValidation()){
+        			$("#checkpwd").show();
+        			return;
+        		}
+        		$("#checkpwd").hide();
+        		
+        		if($("#title-thumbnail").val() == '') {
+        			$.ajax({
+                        type: 'POST',
+                        url: '/Auth/signup.json',
+                        contentType: "application/json; charset=UTF-8",
+                        data: JSON.stringify($scope.profile),
+                        async: false,
+                        success: function(res) {
+                        	if (res.COUNT == 1) {
+                        		if($scope.profile.sns == "google"){
+                                 	$scope.auth2 = gapi.auth2.getAuthInstance();
+                                 	$scope.auth2.signOut();
+                             	}
+                        		$scope.profile = {
+                            			img: "/images/icon_user.png",
+                            	        name: "",
+                            	        email: "",
+                            	        sns: "",
+                            	        token: "",
+                            	        password: "",
+                            	        passwordcf: "",
+                            	        address: "",
+                            	        lat: 0,
+                            	        lng: 0
+                            	};
+                        		location.href = '/';
+                        	} else {
+                        		if(res.RESULT_CODE == "E") {
+                        			if(res.RESULT_MSG == "No Same Password") {
+                        				$("#checkpwd").show();
+                            			return;
+                        			} else {
+                        				checkEmail($scope.profile.email);
+                        			}
+                        		}
+                        	}
+                        },
+                    });
+        		} else {
+        			$scope.saveFileAndSignup();	
+        		}
+        	}
+        }
+    }
+
+	function setAddress(list) {
+		var retList = [];
+		for(var i = 0; i < list.length; i++) {
+			var _item = list[i];
+			var _obj = {
+			  address : _item.address.road,
+			  lat :  _item.point.x,
+			  lng : _item.point.y 
+			};
+			
+			retList.push(_obj);
+		}
+		return retList;
+	}
 
     function checkValidation(form){
     	var _flag = true;
@@ -344,13 +454,28 @@ mainApp.controller("mainCtrl", function($scope) {
     		$("#signup-fieldset .signup").each(function(){
     			var _val = $(this).val() || "";
     			if (_val == "") {
-    				$(this).addClass('valid');
+    				if(_val2 == true) {
+    				   $(".avatar-preview").addClass('valid');
+    				} else {
+    					$(this).addClass('valid');	
+    				}
     				_flag = false;
     			}
     		});
-    		
+    		var _val2 = $(".checkImgup").css('background-image').indexOf('/images/icon-user.png') > 0;
+    		if(_val2 == true) {
+				$(".avatar-preview").addClass('valid');
+				_flag = false;
+			} 
+    		if($scope.profile.lng == 0 && $scope.profile.lat == 0) {
+    			$("#address").addClass('valid');
+    			_flag = false;
+    		} else {
+    			$("#address").removeClass('valid');
+    		}
     	} else {
     		$("#login-fieldset .login").each(function(){
+    			$(this).removeClass('valid');
     			var _val = $(this).val() || "";
     			if (_val == "") {
     				$(this).addClass('valid');

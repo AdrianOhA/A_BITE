@@ -7,9 +7,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.ObjectUtils;
 
+import com.abite.common.service.CommonApiService;
 import com.abite.common.service.Pager;
 import com.abite.web.mapper.RecipeMapper;
 
@@ -30,6 +33,15 @@ public class RecipeService {
 	@Autowired
 	private FileService fileService;
 	
+	@Autowired
+	private CommonApiService apiService;
+	
+	@Value("#{constConfig[WORLD_API_DOMAIN]}")
+	private String world_domain;
+	
+	@Value("#{constConfig[WORLD_API_KEY]}")
+	private String world_apikey;
+	
 
 	public List<HashMap<String, Object>> getComments(HashMap<String, Object> param) throws Exception {
 		return recipeMapper.getComments(param);
@@ -48,9 +60,16 @@ public class RecipeService {
 		Pager pager = new Pager(pageno, rowCount, count);
 		
 		param.put("beginRownum", pager.getBeginRownum());
-		
 		List<HashMap<String, Object>> recipeList = recipeMapper.getRecipeList(param);
 		
+		if(!ObjectUtils.isEmpty(param.get("pageno2"))) {
+			int _pageno = (int) param.get("pageno2");
+			Pager pager2 = new Pager(_pageno, rowCount, count);
+			param.put("StartRownum", pager2.getBeginRownum());
+			List<HashMap<String, Object>> recipeLocationList = recipeMapper.getRecipeLocationList(param);
+			map.put("pager2", pager2);
+			map.put("locationList", recipeLocationList);
+		}
 		map.put("pager", pager);
 		map.put("list", recipeList);
 		
@@ -71,9 +90,10 @@ public class RecipeService {
 
 	public HashMap<String, Object> getRecipeInfo(int recipeNo) throws Exception {
 		HashMap<String, Object> recipe = recipeMapper.getRecipeInfo(recipeNo);
-		
-		recipe.put("INGREDIENTS",  recipeMapper.getRecipeIngredients(recipeNo));
-		recipe.put("DETAILS",  recipeMapper.getRecipeDtl(recipeNo));
+		if(recipe != null) {
+			recipe.put("INGREDIENTS",  recipeMapper.getRecipeIngredients(recipeNo));
+			recipe.put("DETAILS",  recipeMapper.getRecipeDtl(recipeNo));	
+		}
 		return recipe;
 	}
 	
@@ -124,6 +144,15 @@ public class RecipeService {
 		
 	}
 	
+
+	public Map<String, Object> searchAddress(HashMap<String, Object> param) throws Exception {
+		String systemUrl = world_domain + "/req/search?service=search&request=search&version=2.0&type=address&category=road&format=json&errorformat=json";
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("crs", "EPSG:3857");
+		map.put("key", world_apikey);
+		map.put("query", (String) param.get("address"));
+	    return apiService.callApi("GET", map, systemUrl);
+	}
 
 	public List<HashMap<String, Object>> getCurrRecipeList() throws Exception {
 		List<HashMap<String, Object>> currRecipeList = recipeMapper.getCurrRecipeList();

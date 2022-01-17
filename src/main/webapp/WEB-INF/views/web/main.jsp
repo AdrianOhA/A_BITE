@@ -36,7 +36,7 @@
 			<div class="row align-items-center" ng-repeat="rank in categoryRanks track by $index">
 				<div class="col-12 col-md-6" ng-show="$index % 2 == 0">
 					<div class="big-post-thumbnail mb-50">
-						<img ng-src="{{rank.THUMBNAIL}}" alt="" style="width: 540;height: 530px;" />
+						<img ng-src="{{rank.THUMBNAIL}}" alt="" style="width: 540;height: 530px;flex-shrink: 0;min-width: 100%;min-height: 100%;" />
 					</div>
 				</div>
 				<div class="col-12 col-md-6">
@@ -44,8 +44,8 @@
 						<a href="#" class="post-tag">THE BEST<br>{{rank.CATEGORY}}</a> <a href="#"
 							class="post-title">{{rank.TITLE}}</a>
 						<div class="post-meta">
-							<a href="#" class="post-date"> {{rank.SELL_PAY}}</a> <a href="#"
-								class="post-author">{{rank.SELL_CNT}}</a>
+							<a href="#" class="post-date">가격: {{rank.SELL_PAY}}</a> <a href="#"
+								class="post-author">남은 수량: {{rank.SELL_CNT}}</a>
 						</div>
 						<p>{{rank.INFO}}<br>{{rank.TIP}}</p>
 						<a href="#" class="btn bueno-btn">상세보기</a>
@@ -53,7 +53,7 @@
 				</div>
 				<div class="col-12 col-md-6" ng-show="$index % 2 == 1">
 					<div class="big-post-thumbnail mb-50">
-						<img  ng-src="{{rank.THUMBNAIL}}" alt="" style="width: 540;height: 530px;" />
+						<img  ng-src="{{rank.THUMBNAIL}}" alt="" style="width: 540;height: 530px;flex-shrink: 0;min-width: 100%;min-height: 100%;" />
 					</div>
 				</div>
 			</div>
@@ -92,9 +92,8 @@
 								<div class="author-thumbnail">
 									<img ng-src="{{recipe.USER_IMAGE}}" alt="">
 								</div>
-								<p>
- 									{{recipe.USER_INFO}}
-								</p>
+								<p></p>
+								<pre>{{recipe.USER_INFO}}</pre>
 							</div>
 							<div class="social-info">
 								<a style="cursor: pointer;" ng-click="recipeLink(recipe.USER_NO, recipe.RECIPE_NO, recipe.SELL_PAY, recipe.SELL_CNT, recipe.TITLE)"><i class="fa fa-comment cart-btn" aria-hidden="true"></i></a>
@@ -217,6 +216,9 @@ mainApp.controller("mainCtrl", function($scope, delivery) {
 	    	   if ($scope.result.pager.totalPageCount == 0) {
 				  $scope.result.pager.totalPageCount = 1;
 			   }
+	    	   res.list.filter(function(obj){
+	    		   /*  obj.USER_INFO = obj.USER_INFO.replace("\r\n", "<br>");*/ 
+	    	   });
 	       	   $scope.recipes = res.list;
 	       	   $scope.$apply();
 		   },

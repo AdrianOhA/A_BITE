@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 /**
  * web main Service (BizLogic)
@@ -31,8 +32,10 @@ public class FileService {
 		String target = (String) param.get("target");
 		String ext = (String)param.get("ext");
 		String fileName =  "";
-		int no = (int)param.get("recipeNo");
-		
+		int no = 0;
+		if(!ObjectUtils.isEmpty(param.get("recipeNo"))) {
+			no = (int)param.get("recipeNo");
+		}
 		if ("profile".equals(target)) {
 			fileName = "profile_" + System.currentTimeMillis() + ".";
 		} else if("recipe".equals(target)){

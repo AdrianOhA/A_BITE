@@ -154,4 +154,13 @@ public class WebController {
 		mv.setViewName("/web/setting");
 		return mv;
 	}	
+	
+	@RequestMapping(value="/searchAddress.json")
+	public ModelMap searchAddress(HttpServletRequest req, HttpServletResponse res, @RequestBody HashMap<String, Object> param) throws Exception
+	{
+		ModelMap map = new ModelMap();
+		logger.info("call searchAddress");
+		map.addAllAttributes(recipeService.searchAddress(param));
+		return map;
+	}	
 }

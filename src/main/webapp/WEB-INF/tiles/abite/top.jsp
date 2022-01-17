@@ -180,7 +180,7 @@
 
 <script>
 "use strict";
-var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
+var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", ["ui.bootstrap"]));
 mainApp.factory('delivery', function(){
 	var params = null;
 	function getParams(){
@@ -223,14 +223,6 @@ mainApp.controller("headerCtrl", function($scope){
    				"-ms-filter":"grayscale(50%)"
    			});
    		});
-   		
-   		$("input[name='search']").keyup(function(){
-   			if ($scope.param.condition != "") {
-   				$("input[name='search']").removeClass('valid');
-   			}
-   		});
-   		
-   		
     };
     $scope.search_menu = function(){
     	$.ajax({
@@ -257,7 +249,8 @@ mainApp.controller("headerCtrl", function($scope){
         });	
     };
     $scope.link = function(path) {
-    	if(path == '#') {
+    	var _flag = location.href.indexOf("search.do") > 0 ? false : true;
+    	if(path == '#' && _flag) {
     		if($("#search_form").is(":visible")) {
     			$("#search_form").fadeOut(1000);
     		} else {
@@ -268,11 +261,7 @@ mainApp.controller("headerCtrl", function($scope){
     	}
     };
     $scope.search_all = function(){
-    	if($scope.param.condition == "" || !$scope.param.condition) {
-    		$("input[name='search']").addClass('valid');
-    	} else {
-    		location.href = "/web/search.do?param='"+ $scope.param.condition +"'";
-    	}
+    	location.href = "/web/search.do?param='"+ $scope.param.condition +"'";
     }
 });
 </script>

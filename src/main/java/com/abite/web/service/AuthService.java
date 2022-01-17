@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.weaver.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class AuthService {
 	private String kakao_apikey;
 	@Value("#{constConfig[DOMAIN]}")
 	private String domain;
+	@Value("#{constConfig[WORLD_API_KEY]}")
+	private String worldAPIKey;
+	
 	
 	
 	public ModelMap getMember(HashMap<String, Object> param) throws Exception {
@@ -133,6 +137,7 @@ public class AuthService {
 				map.put("RESULT_MSG", "등록되지 않은 사용자 이거나, 비밀번호가 달라요!");
 			} else {
 				session.setAttribute("USER_INFO", userInfo);
+				session.setAttribute("WORLD_API_KEY", worldAPIKey);
 				map.put("RESULT_CODE", "S");
 				map.put("RESULT_MSG", "로그인 성공");
 			}

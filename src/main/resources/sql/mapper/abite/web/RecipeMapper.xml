@@ -21,17 +21,29 @@
 	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
 	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
 	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y'   
+	<if test="query != null and query != ''">
+		AND UPPER(A.TITLE) LIKE CONCAT('%', UPPER(#{query}), '%')
+	</if>   
+	<if test="category != null and category != ''">
+		AND A.CATEGORY_CD = #{category}
+	</if>
 	ORDER BY A.VIEWS_CNT DESC  
 </select>
 
 <select id="getRecipeList" parameterType="map" resultType="map">
-	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO, B.USER_INFO,
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO, B.USER_INFO, A.ADDRESS, A.LNG, A.LAT,
 	       A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
 	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME   
 	  FROM T_RECIPE A
 	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
 	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
-	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y'   
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y'
+	<if test="query != null and query != ''">
+		AND UPPER(A.TITLE) LIKE CONCAT('%', UPPER(#{query}), '%')
+	</if>   
+	<if test="category != null and category != ''">
+		AND A.CATEGORY_CD = #{category}
+	</if>
 	ORDER BY A.CREATE_DATETIME DESC  
 	<if test="rowCount gt 0">
 	LIMIT		
@@ -41,8 +53,31 @@
 </select>
 
 
+<select id="getRecipeLocationList" parameterType="map" resultType="map">
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO, B.USER_INFO, A.ADDRESS, A.LNG, A.LAT,
+	       A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
+	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME   
+	  FROM T_RECIPE A
+	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
+	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
+	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y'
+	<if test="query != null and query != ''">
+		AND UPPER(A.TITLE) LIKE CONCAT('%', UPPER(#{query}), '%')
+	</if>   
+	<if test="category != null and category != ''">
+		AND A.CATEGORY_CD = #{category}
+	</if>
+	ORDER BY A.CREATE_DATETIME DESC  
+	<if test="rowCount gt 0">
+	LIMIT		
+		#{StartRownum}
+		, #{rowCount}
+	</if>		
+</select>
+
+
 <select id="getCurrRecipeList" resultType="map">
-	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO,
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO, A.ADDRESS, A.LNG, A.LAT,
 	       A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
 	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME   
 	  FROM T_RECIPE A
@@ -54,8 +89,9 @@
 </select>
 
 <select id="getRecipe" parameterType="map" resultType="map">
-	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO,
-	       A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO, 
+	       A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE,
+	       A.LAT, A.LNG,  
 	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME   
 	  FROM T_RECIPE A
 	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
@@ -67,13 +103,18 @@
 
 
 <select id="getRecipeInfo" parameterType="int" resultType="map">
-	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO,
-		   A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, 
+	SELECT B.USER_IMAGE, B.USER_NAME, B.USER_NO, D.PRE_GRADE,
+		   A.RECIPE_NO, A.SELL_CNT, A.SELL_PAY, A.THUMBNAIL, A.TITLE, A.ADDRESS, A.LNG, A.LAT,
 	       A.TAG, C.CODE_NM AS CATEGORY, A.TIP, A.INFO, A.CREATE_DATETIME,
 	       A.VIEWS_CNT   
 	  FROM T_RECIPE A
 	  JOIN T_MEMBER B ON A.USER_NO = B.USER_NO
 	  JOIN T_CODE C ON C.CODE_GROUP = 'CATEGORY' AND C.CODE_CD = A.CATEGORY_CD 
+	  LEFT JOIN (
+	  	SELECT SUM(GRADE)/ COUNT(RECIPE_NO) AS PRE_GRADE, RECIPE_NO
+		  FROM t_comments D
+		WHERE D.RECIPE_NO = #{recipeNo}
+	  ) D ON D.RECIPE_NO = A.RECIPE_NO
 	WHERE A.USE_YN = 'Y' AND A.OPEN_YN = 'Y' AND A.RECIPE_NO = #{recipeNo}  
 	ORDER BY A.VIEWS_CNT DESC
 	LIMIT 1  
@@ -128,8 +169,8 @@
 </select>
 
 <insert id="addRecipe" parameterType="map" useGeneratedKeys="true"> 
-	INSERT INTO T_RECIPE (USER_NO, SELL_CNT, SELL_PAY, THUMBNAIL, TITLE, TAG, CATEGORY_CD, TIP, INFO, OPEN_YN, CREATE_DATETIME, CHANGE_DATETIME)
-	VALUES(#{userNo}, #{sellCnt}, #{sellPay}, #{thumbnail}, #{title}, #{tag}, #{category}, #{tip}, #{info}, #{openYN}, now(), now())
+	INSERT INTO T_RECIPE (USER_NO, SELL_CNT, SELL_PAY, THUMBNAIL, TITLE, TAG, CATEGORY_CD, TIP, INFO, ADDRESS, LAT, LNG, OPEN_YN, CREATE_DATETIME, CHANGE_DATETIME)
+	VALUES(#{userNo}, #{sellCnt}, #{sellPay}, #{thumbnail}, #{title}, #{tag}, #{category}, #{tip}, #{info}, #{address}, #{lat}, #{lng}, #{openYN}, now(), now())
 	<selectKey keyProperty="recipeNo" resultType="Integer" order="AFTER">
 		SELECT LAST_INSERT_ID()
 	</selectKey>
@@ -165,6 +206,15 @@
 	       </if>
 	       <if test="info != null and info != ''">
 	       INFO = #{info},
+	       </if>
+	       <if test="address != null and address != ''">
+	       ADDRESS = #{address},
+	       </if>
+	       <if test="lat != null and lat != ''">
+	       LAT = #{lat},
+	       </if>
+	       <if test="lng != null and lng != ''">
+	       LNG = #{lng},
 	       </if>
 	       <if test="openYN != null and openYN != ''">
 	       OPEN_YN = #{openYN},

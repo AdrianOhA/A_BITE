@@ -45,7 +45,7 @@ body {
 
 form{
 	background:#fff;
-    height: 600px;
+    height: 650px;
     padding: 50px;
     padding-left: 10px;
     padding-right: 10px;
@@ -233,7 +233,7 @@ fieldset input:focus {
 
 .valid {
     outline:;
-    border: 1px solid rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.2) !important;
     border-radius: 5em;
     margin: 9px 0;
 }
@@ -260,7 +260,7 @@ fieldset input:focus {
 	position: relative;
     bottom:0;
     width: 70%;
-    height: 4em;
+    height: 2.5em;
     border: none;
     border-radius: 10em;
     background: #7B6341;
@@ -367,6 +367,19 @@ a{
   border-radius: 100px;
 }
 
+.address-info{
+   position: absolute;
+   top:320px;
+   width: 450px;
+}
+.title{
+	color:#fff;
+	font-weight: 500;
+}
+
+.dropdown-menu{
+	background:#7e6c52;text-align: left;padding-left:10px;
+}
 
 /*MEDIA QUERIES     */
 
@@ -407,13 +420,18 @@ a{
 	    height: 15px;
 	}
     
-    form{
+    .login-form{
         padding: 50px;
-        height: 530px;
+        height: 525px;
+    }
+    
+    .sign-form{
+        padding: 50px;
+        height: 570px;
     }
     
     .panel-switch{
-        margin-top: 30px;
+        margin-top: 0px;
     }
 
     .panel-switch button{
@@ -438,12 +456,12 @@ a{
 	    background: rgba(255, 255, 255, 0.2);
 	    border: none;
 	    border-radius: 5em;
-	    height: 20px;
-	    width: 90%;
+	    height: 20px !important;
+	    width: 90% !important;
 	    margin: 10px 0;
-	    padding: 10px;
-	    padding-top: 15px;
-	    padding-bottom: 15px;
+	    padding: 5px;
+	    padding-top: 10px;
+	    padding-bottom: 10px;
 	    text-indent: 10px;
 	    color: #000;
 	    font-weight: 600;
@@ -459,6 +477,14 @@ a{
 	    border: 1px solid rgba(0, 0, 0, 0.2);
 	    border-radius: 5em;
 	    margin: 9px 0;
+	}
+	
+	.dropdown_list{
+		
+	}
+	.address-info{
+	   top:35%;
+	   width: 337px;
 	}
 } 
 

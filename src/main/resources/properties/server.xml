@@ -16,5 +16,7 @@
 <entry key="KAKAO_AUTH_DOMAIN">https://kauth.kakao.com</entry>
 <entry key="KAKAO_API_DOMAIN">https://kapi.kakao.com</entry>
 <entry key="KAKAO_API_KEY">5f85b8bbdad232cf4d9c4fb2bd07dad9</entry>
+<entry key="WORLD_API_DOMAIN">http://api.vworld.kr</entry>
+<entry key="WORLD_API_KEY">4BB33335-E2DB-394E-BE10-B49296581231</entry>
 
 </properties>

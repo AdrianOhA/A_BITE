@@ -2,12 +2,17 @@
 <script type="text/javascript" src="/js/jquery-2.2.4.min.js"></script>
 
 <script type="text/javascript" src="/js/angular_1.6.9.min.js"></script>
+<script type="text/javascript" src="/js/ui-bootstrap-tpls-1.1.2.js"></script>
+
 <!-- Popper js -->
 <script type="text/javascript" src="/js/popper.min.js"></script>
-
+<script type="text/javascript" src="http://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=${WORLD_API_KEY}&domain=http://localhost:8080"></script>
 
 <!-- Bootstrap js -->
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+
+
 
 <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
 <script type="text/javascript" src="/js/isotope.pkgd.min.js"></script>
@@ -17,6 +22,7 @@
 <script type="text/javascript" src="/js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="/js/jquery.waypoints.min.js"></script>
 <script type="text/javascript" src="/js/jquery-ui-v1.12.1.js"></script>
+
 
 <script type="text/javascript" src="/js/topbar-virtual.js"></script>
 <!-- Active js -->

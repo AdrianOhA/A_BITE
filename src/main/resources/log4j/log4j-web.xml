@@ -59,17 +59,17 @@
 	    <appender-ref ref="appender-console" />
 	</logger>
 
-	<logger name="org.apache.commons.digester">
+	<logger name="org.apache.commons.digester" additivity="false">
 		<level value="info"/>
 	    <appender-ref ref="appender-console" />
 	</logger>
 
-	<logger name="org.apache.commons.beanutils">
+	<logger name="org.apache.commons.beanutils" additivity="false">
 		<level value="info"/>
 	    <appender-ref ref="appender-console" />
 	</logger>
 
-	<logger name="org.springframework">
+	<logger name="org.springframework" additivity="false">
 		<level value="info"/>
 	    <appender-ref ref="appender-console" />
 	</logger>

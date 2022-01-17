@@ -13,13 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.abite.common.interceptor.CommonInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class CommonApiService {
-	
+	private static final Logger logger = LoggerFactory.getLogger(CommonApiService.class);
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> callApi(String method, HashMap<String, String> param, String urlInfo) {
 
@@ -56,7 +59,8 @@ public class CommonApiService {
             con.setUseCaches(false);
             con.setDoOutput(true);
             con.setDoInput(true);
-
+            
+            
             wr = new DataOutputStream(con.getOutputStream());
             if(!"kapi".contains(surl)) {
             	wr.write(postData);

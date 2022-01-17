@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecipeMapper {
 	List<HashMap<String, Object>> getRecipeList(HashMap<String, Object> map);
+	List<HashMap<String, Object>> getRecipeLocationList(HashMap<String, Object> map);
 	List<HashMap<String, Object>> getCategoryRanks();
 	List<HashMap<String, Object>> getRecipeIngredients(int recipeNo);
 	List<HashMap<String, Object>> getRecipeDtl(int recipeNo);
