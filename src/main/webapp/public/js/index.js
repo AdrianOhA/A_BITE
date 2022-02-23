@@ -2,7 +2,7 @@
 var mainApp = window.mainApp || (window.mainApp = angular.module("ABite_App", []));
 mainApp.controller("mainCtrl", function($scope) {
     $scope.init = function(msg) {
-    	$scope.login = {
+    	$scope.loginForm = {
     		email : "",
     		password: ""
     	};
@@ -38,7 +38,7 @@ mainApp.controller("mainCtrl", function($scope) {
         	if($scope.profile.sns != null && $scope.profile.sns != '') {
         		$scope.showSignUpForm($scope.profile);
         	} else {
-        		 $scope.login = {
+        		 $scope.loginForm = {
         			email : "",
         		    password: ""
         		 };
@@ -358,7 +358,7 @@ mainApp.controller("mainCtrl", function($scope) {
    		 $.ajax({
                 type: 'POST',
                 url: '/Auth/login.json',
-                data: JSON.stringify($scope.login),
+                data: JSON.stringify($scope.loginForm),
                 contentType: "application/json; charset=UTF-8",
                 async: true,
                 success: function(res) {

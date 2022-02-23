@@ -225,8 +225,8 @@
             		res.msgList.forEach(function(obj, idx){
             			var _recipeNo = obj.target.split("_")[1];
             			var _target = obj.target.split('_')[0];
-            			
             			var _msgList = obj.chatList;
+            			
             			$scope.set_chat_list(_target, _recipeNo, _msgList);
             			if($scope.total_notread > 0) {
             				$("#total_notread").text($scope.total_notread);
@@ -286,7 +286,11 @@
 		
 		_msgList.filter(function(msg){
 			if(msg.writer != _curr_id) {
-				msg.target_img = _targetInfo.USER_IMAGE; 
+				if(_targetInfo.USER_IMAGE != "" ){
+					msg.target_img = _targetInfo.USER_IMAGE;	
+				} else {
+					msg.target_img = "/images/unknown_person.png";
+				}
 			}
 			msg.targetname = _targetInfo.USER_NAME;
 		});
@@ -301,13 +305,21 @@
 			not_read_cnt: not_reads.length 
 		}
 		
+		
 		if(recipe_info) {
 			_obj.username = recipe_info.TITLE;
 			_obj.avatar = recipe_info.THUMBNAIL;	
 			_obj.sellPay = recipe_info.SELL_PAY;
 			_obj.sellCnt = recipe_info.SELL_CNT;
 			_obj.title = recipe_info.TITLE;
+		} else {
+			_obj.username  = "탈퇴한 사용자";
+			_obj.avatar = "";
+			_obj.sellPay = "X";
+			_obj.sellCnt = "X";
+			_obj.title = "삭제된 게시글 입니다.";
 		}
+		
 		$scope.chats.push(_obj);
 		
 		$scope.total_notread = 0;
@@ -326,11 +338,24 @@
 	       async: false,
 	       contentType: "application/json; charset=UTF-8",
 	       success: function(res) {
-	    	   _targetInfo = res.userInfo;
+	    	   _targetInfo = res.userInfo || expireMember(target);
 		   }
 	    });	
 		return _targetInfo;
 	};
+	
+	function expireMember(target){
+		var obj = {
+			USER_ID : target,
+			USER_NAME : "탈퇴한 사용자",
+			USER_IMAGE : "",
+			USER_INFO : "탈퇴한 사용자",
+			USER_ADDR: "알수 없음",
+			LAT : 0,
+			LNG : 0
+		};
+		return obj;
+	}
 	
 	function ixy() {
 	    $(".message-wrap").css({

@@ -42,8 +42,8 @@
 				</div>
 			
 				<fieldset id="login-fieldset">
-					<input class="login animated fadeInUp animate2" name="email" type="textbox" required placeholder="이메일" value="" ng-model="login.email">
-					<input class="login animated fadeInUp animate3" name="password" type="password" required placeholder="비밀번호" value="" ng-model="login.password">
+					<input class="login animated fadeInUp animate2" name="email" type="textbox" required placeholder="이메일" value="" ng-model="loginForm.email">
+					<input class="login animated fadeInUp animate3" name="password" type="password" required placeholder="비밀번호" value="" ng-model="loginForm.password">
 					<span id="login_msg" style="display: none;color:red;"  class="small_font"></span>
 				</fieldset>
 				<fieldset id="signup-fieldset-sns" class="hidden animated fadeInUp animate2">
