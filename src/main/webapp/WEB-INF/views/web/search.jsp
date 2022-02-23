@@ -259,9 +259,9 @@ mainApp.controller("searchCtrl", function($scope) {
 	       	   
 	       	   var _locationList = res.locationList || [];
 	       	   for(var i = 0; i < _locationList.length; i++) {
-  	     	     var _loc = _locationList[i]; 
+  	     	     var _loc = _locationList[i] || {}; 
 	     	     if( _loc.LAT &&  _loc.LNG) {
-	     	    	loc.km  = getDistanceFromLatLonInKm(parseFloat(currLAT), parseFloat(currLNG), _loc.LAT, _loc.LNG );
+	     	    	_loc.km  = getDistanceFromLatLonInKm(parseFloat(currLAT), parseFloat(currLNG), _loc.LAT, _loc.LNG );
 	     	     }
 		       }
 	       	   $scope.locationList = _locationList;
