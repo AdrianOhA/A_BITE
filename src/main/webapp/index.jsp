@@ -31,7 +31,7 @@
 		<div class="panel shadow1 form_center">
 			<div class="panel-switch animated fadeIn  tabs">
 				<input type="radio" name="tabs" id="sign_up"> 
-				<label  for="sign_up" class=""><img src="/images/add_user.png" style="width: 20px;height: 20px;">회원가입</label>
+				<label  for="sign_up" class=""><img src="/images/add_user.png" style="width: 20px;height: 20px;">시작하기</label>
 				<input type="radio" name="tabs" id="log_in" checked="checked">
 				<label  for="log_in" class=""><img src="/images/sign-in.png" style="width: 22px;height: 21px;">로그인</label>
 			</div>

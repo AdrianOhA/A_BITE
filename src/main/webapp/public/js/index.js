@@ -306,7 +306,7 @@ mainApp.controller("mainCtrl", function($scope) {
                         $scope.profile.email = customer.kakao_account.email;
                         $scope.profile.sns = "kakao";
                         $scope.profile.token = customer.token;
-                        $scope.showSignUpForm($scope.profile);		
+                        $scope.signup(false);		
                 	}
                 },
             });
