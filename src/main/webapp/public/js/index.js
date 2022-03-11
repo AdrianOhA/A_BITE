@@ -42,10 +42,12 @@ mainApp.controller("mainCtrl", function($scope) {
         			email : "",
         		    password: ""
         		 };
+        		 
         		 $("#title-thumbnail").toggleClass("hidden", true);
                  $(".reset_login").toggleClass("hidden", true);
                  $("#title-login").toggleClass("hidden", true);
                  $("#title-signup").toggleClass("hidden", false);
+                 $("#title_logo").toggleClass("hidden", false);
                  $("#login-fieldset").toggleClass("hidden", true);
                  $("#login-form-submit").toggleClass("hidden", true);
                  $("#lost-password-link").toggleClass("hidden", true);
@@ -77,7 +79,7 @@ mainApp.controller("mainCtrl", function($scope) {
         		img: "/images/icon_user.png",
         	    name: "",
         	    email: "",
-        	    sns: "",
+        	    sns: "DEFAULT",
         	    token: "",
         	    password: "",
         	    passwordcf: "",
@@ -91,6 +93,7 @@ mainApp.controller("mainCtrl", function($scope) {
             $("#signup-fieldset").toggleClass("hidden", true);
             $("#title-login").toggleClass("hidden", false);
             $("#title-signup").toggleClass("hidden", true);
+            $("#title_logo").toggleClass("hidden", false);
             $("#login-fieldset").toggleClass("hidden", false);
             $("#login-form-submit").toggleClass("hidden", false);
             $("#lost-password-link").toggleClass("hidden", false);
@@ -109,7 +112,7 @@ mainApp.controller("mainCtrl", function($scope) {
         });
 
         $("#login-form-submit").click(function() {
-        	$scope.login();
+        	$scope.login(true);
         });
         
         $(".signup, .login").keyup(function(){
@@ -150,24 +153,29 @@ mainApp.controller("mainCtrl", function($scope) {
         			}
         		} else {
         			if($("#login-fieldset").is(":visible") == true) {
-        				$scope.login();
+        				$scope.login(true);
         			}
         		}
         	}
         });
     };
 	$scope.search_address = function(event){
-	   if(event.keyCode == 13) {
+		if(event.keyCode == 13) {
 		   $scope.addressList = [];
 		   var _address = $scope.address || "";
 	       if (_address != null && _address != "") {
-	    	   $.ajax({
+	    	   $("#loadding_mask").show();
+	    	   
+			   $.ajax({
 	   			type : 'POST',
 	   			url : '/web/searchAddress.json',
 	   			contentType : "application/json; charset=UTF-8",
 	   			async: false,
 	   			data : JSON.stringify({address: _address}),
 	   			success : function(res) {
+	   				setInterval(() => {
+	   					$("#loadding_mask").hide();	
+					}, 1);
 	   				if(res.response && res.response.result) {
 		   				$scope.addressList = setAddress(res.response.result.items);
 	   				}
@@ -180,6 +188,7 @@ mainApp.controller("mainCtrl", function($scope) {
 		   $scope.addressList = [];
 		   var _address = $scope.address || "";
 	       if (_address != null && _address != "") {
+	    	   $("#loadding_mask").show();
 	    	   $.ajax({
 	   			type : 'POST',
 	   			url : '/web/searchAddress.json',
@@ -187,6 +196,9 @@ mainApp.controller("mainCtrl", function($scope) {
 	   			async: false,
 	   			data : JSON.stringify({address: _address}),
 	   			success : function(res) {
+	   				setInterval(() => {
+	   					$("#loadding_mask").hide();	
+					}, 1);
 	   				if(res.response && res.response.result) {
 		   				$scope.addressList = setAddress(res.response.result.items);
 	   				}
@@ -195,44 +207,81 @@ mainApp.controller("mainCtrl", function($scope) {
 	      } 
 	}
 	
-    $scope.saveFileAndSignup = function() {
-    	$.ajax({
-            type: 'POST',
-            url: '/File/fileUpload.json',
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify($scope.getfile()),
-            async: false,
-            success: function(res) {
-            	$scope.profile.img = "/images/" + res.fileName;
-            	$.ajax({
-                    type: 'POST',
-                    url: '/Auth/signup.json',
-                    contentType: "application/json; charset=UTF-8",
-                    data: JSON.stringify($scope.profile),
-                    async: false,
-                    success: function(res) {
-                    	if (res.COUNT == 1) {
-                    		if($scope.profile.sns == "google"){
-                             	$scope.auth2 = gapi.auth2.getAuthInstance();
-                             	$scope.auth2.signOut().then(function() {
-                             		$scope.auth2.disconnect();	
-                             	}); 	
-                         	}
-                    		location.href = '/';
-                    	} else {
-                    		if(res.RESULT_CODE == "E") {
-                    			if(res.RESULT_MSG == "No Same Password") {
-                    				$("#checkpwd").show();
-                        			return;
-                    			} else {
-                    				checkEmail($scope.profile.email);
-                    			}
-                    		}
-                    	}
-                    },
-                });
-            },
-        });
+    $scope.saveFileAndSignup = function(flag) {
+    	$scope.profile.flag = flag;
+    	if(flag) {
+        	$.ajax({
+                type: 'POST',
+                url: '/File/fileUpload.json',
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify($scope.getfile()),
+                async: false,
+                success: function(res) {
+                	$scope.profile.img = "/images/" + res.fileName;
+                	$scope.profile.sns = "DEFAULT";
+                	$.ajax({
+                        type: 'POST',
+                        url: '/Auth/signup.json',
+                        contentType: "application/json; charset=UTF-8",
+                        data: JSON.stringify($scope.profile),
+                        async: false,
+                        success: function(res) {
+                        	if (res.COUNT == 1) {
+                        		$scope.loginForm.email = $scope.profile.email;
+                        		$scope.profile = {
+                    	        		img: "/images/icon_user.png",
+                    	        	    name: "",
+                    	        	    email: "",
+                    	        	    sns: "DEFAULT",
+                    	        	    token: "",
+                    	        	    password: "",
+                    	        	    passwordcf: "",
+                    	        	    address: "",
+                    	        	    lat: 0,
+                    	        	    lng: 0
+                    	        };
+                    			$("#log_in").click();	
+                        	} else {
+                        		if(res.RESULT_CODE == "E") {
+                        			if(res.RESULT_MSG == "No Same Password") {
+                        				$("input[name=password_confirm]").css('margin-bottom', '10px');
+                        				$("#checkpwd").show();
+                            			return;
+                        			} else {
+                        				checkEmail($scope.profile.email);
+                        			}
+                        		}
+                        	}
+                        },
+                    });
+                },
+            });
+    	} else{
+    		console.log($scope.profile);
+    		$.ajax({
+                type: 'POST',
+                url: '/Auth/signup.json',
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify($scope.profile),
+                async: false,
+                success: function(res) {
+                	if (res.COUNT == 1) {
+                		$("#reset_login").click();
+                		location.href = res.REDIRECT_URL || "";
+                	} else {
+                		if(res.RESULT_CODE == "E") {
+                			if(res.RESULT_MSG == "No Same Password") {
+                				$("input[name=password_confirm]").css('margin-bottom', '10px');
+                				$("#checkpwd").show();
+                    			return;
+                			} else {
+                				checkEmail($scope.profile.email);
+                			}
+                		}
+                	}
+                },
+            });
+    	}
     };
 
     $scope.getCode = function(){
@@ -278,6 +327,7 @@ mainApp.controller("mainCtrl", function($scope) {
         $("#lost-password-link").toggleClass("hidden", true);
         $("#sign_up").toggleClass("active-button", false);
         $("#title-signup").toggleClass("hidden", true);
+        $("#title_logo").toggleClass("hidden", true);
         $("#log_in").removeAttr("disabled");
         $("#log_in").toggleClass("active-button", true);
         $("#sign_up").prop("disabled", true);
@@ -289,7 +339,6 @@ mainApp.controller("mainCtrl", function($scope) {
         $("#signup-form-submit").toggleClass("hidden", false);
         $("#title-thumbnail").toggleClass("hidden", false);
         checkEmail($scope.profile.email);
-        $scope.$apply();
     };
     $scope.selected_address = function(address, lat, lng) {
     	$("#address").removeClass('valid');
@@ -315,7 +364,8 @@ mainApp.controller("mainCtrl", function($scope) {
                     $scope.profile.img = gProfile.getImageUrl();
                     $("#imagePreview").css("background-image", 'url('+gProfile.getImageUrl()+')');
                     $scope.profile.sns = "google";
-                    $scope.callbackSignupComponent($scope.profile);
+                    /*$scope.callbackSignupComponent($scope.profile);*/
+                    $scope.signup(false);
                 }
             });
         });
@@ -353,8 +403,35 @@ mainApp.controller("mainCtrl", function($scope) {
     	return obj;
     }
     
-    $scope.login = function(){
-    	if(checkValidation("login")){
+
+    $scope.login2 = function(e, flag){
+    	if(e.keyCode == 13) {
+    	$scope.loginForm.flag = flag;
+    	
+    	if(checkValidation("login") || !flag){
+   		 $.ajax({
+                type: 'POST',
+                url: '/Auth/login.json',
+                data: JSON.stringify($scope.loginForm),
+                contentType: "application/json; charset=UTF-8",
+                async: true,
+                success: function(res) {
+                	if(res.RESULT_CODE == "E") {
+                		$("#login_msg").text(res.RESULT_MSG);
+                		$("#login_msg").show();
+                	} else {
+                		location.href = res.REDIRECT_URL || "";
+                	}
+                },
+            });
+   	   	 }
+    	}
+    }
+    
+    
+    $scope.login = function(flag){
+    	$scope.loginForm.flag = flag;
+    	if(checkValidation("login") || !flag){
    		 $.ajax({
                 type: 'POST',
                 url: '/Auth/login.json',
@@ -373,64 +450,28 @@ mainApp.controller("mainCtrl", function($scope) {
    	   }
     }
     
-    $scope.signup = function(){
+    $scope.signup = function(flag){
     	if($("#checkid").is(':visible') && "이미 등록된 email 입니다." == $("#checkid").text()) {
     		$("#signup_email").addClass('valid');
     		return;
     	}
-        if (!$(".img-container").is(':visible')) {
-            $scope.showSignUpForm($scope.profile);
-        } else {
-        	if(checkValidation("signup")){
+    	if(flag) {
+    		$scope.profile.sns = "DEFAULT"
+    	}
+    	if($scope.profile.sns == "DEFAULT") {
+    		if(checkValidation("signup")){
         		if(checkPasswordValidation()){
+        			$("input[name=password_confirm]").css('margin-bottom', '10px');
         			$("#checkpwd").show();
         			return;
         		}
+        		$("input[name=password_confirm]").css('margin-bottom', '30px');
         		$("#checkpwd").hide();
-        		
-        		if($("#title-thumbnail").val() == '') {
-        			$.ajax({
-                        type: 'POST',
-                        url: '/Auth/signup.json',
-                        contentType: "application/json; charset=UTF-8",
-                        data: JSON.stringify($scope.profile),
-                        async: false,
-                        success: function(res) {
-                        	if (res.COUNT == 1) {
-                        		if($scope.profile.sns == "google"){
-                                 	$scope.auth2 = gapi.auth2.getAuthInstance();
-                                 	$scope.auth2.signOut();
-                             	}
-                        		$scope.profile = {
-                            			img: "/images/icon_user.png",
-                            	        name: "",
-                            	        email: "",
-                            	        sns: "",
-                            	        token: "",
-                            	        password: "",
-                            	        passwordcf: "",
-                            	        address: "",
-                            	        lat: 0,
-                            	        lng: 0
-                            	};
-                        		location.href = '/';
-                        	} else {
-                        		if(res.RESULT_CODE == "E") {
-                        			if(res.RESULT_MSG == "No Same Password") {
-                        				$("#checkpwd").show();
-                            			return;
-                        			} else {
-                        				checkEmail($scope.profile.email);
-                        			}
-                        		}
-                        	}
-                        },
-                    });
-        		} else {
-        			$scope.saveFileAndSignup();	
-        		}
-        	}
-        }
+        		$scope.saveFileAndSignup(flag);
+        	}	
+    	} else{
+    		$scope.saveFileAndSignup(flag);
+    	}
     }
 
 	function setAddress(list) {
@@ -498,6 +539,7 @@ mainApp.controller("mainCtrl", function($scope) {
     	if(_id) {
     		var regExp = /^[0-9a-zA-Z]([-.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 검증에 사용할 정규식 변수 regExp에 저장
         	if (_id.match(regExp) == null) {
+        		$("#signup_email").css('margin-bottom', '10px');
         		$("#checkid").css('color', 'red');
         		$("#checkid").text("email 형식이 맞지 않아요!");
         		$("#checkid").show();
@@ -512,11 +554,13 @@ mainApp.controller("mainCtrl", function($scope) {
                 async: true,
                 success: function(res) {
                 	if(res.COUNT == 0) {
+                		$("#signup_email").css('margin-bottom', '10px');
                 		$("#checkid").css('color', 'black');
                 		$("#signup_email").removeClass('valid');
                 		$("#checkid").text("사용 가능합니다.");
                 		$("#checkid").show();
                 	} else {
+                		$("#signup_email").css('margin-bottom', '10px');
                 		$("#checkid").css('color', 'red');
                 		$("#checkid").text("이미 등록된 email 입니다.");
                 		$("#checkid").show();

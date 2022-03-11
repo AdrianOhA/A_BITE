@@ -3,13 +3,14 @@ package com.abite.web.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.weaver.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,13 +116,25 @@ public class AuthService {
 	}
 	
 
-	public Map<String, Object> signup(HashMap<String, Object> param) throws Exception{
+	public Map<String, Object> signup(HttpServletRequest req, HashMap<String, Object> param) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean flag = !"E".equals(checkValidation(param, map).get("RESULT_CODE"));
+		String sns = (String)param.get("sns");
+		long cnt = (int)map.get("CNT");
 		
 		if(flag) {
-			long cnt = memberMapper.addMember(param);
+			if(!"DEFAULT".equals(sns)) {
+				String password = generatePassword(8).toString();
+				param.put("password", password);
+			}
+			if((int)map.get("CNT") != 1) {
+				cnt = memberMapper.addMember(param);	
+			}
 			map.put("COUNT", cnt);
+			boolean chkFlag = (boolean)param.get("flag");
+			if(!chkFlag) {
+				login(param, req.getSession());
+			}
 		}
 		return map;
 	}
@@ -130,8 +143,16 @@ public class AuthService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean flag = !"E".equals(checkLoginValidation(param, map).get("RESULT_CODE"));
 		
+		boolean chkFlag = (boolean)param.get("flag");
+		
 		if(flag) {
-			Map<String, Object> userInfo = memberMapper.getMemberInfo(param);
+			Map<String, Object> userInfo = null;
+			if(chkFlag) {
+				userInfo = memberMapper.getMemberInfo(param);	
+			} else {
+				userInfo = memberMapper.getAutoMemberInfo(param);
+			}
+			
 			if(ObjectUtils.isEmpty(userInfo)) {
 				map.put("RESULT_CODE", "E");
 				map.put("RESULT_MSG", "등록되지 않은 사용자 이거나, 비밀번호가 달라요!");
@@ -160,8 +181,8 @@ public class AuthService {
 			map.put("RESULT_MSG", "email is empty");
 			return map;
 		}
-		
-		if(StringUtils.isEmpty(password)) {
+		boolean flag = (boolean)param.get("flag");
+		if(StringUtils.isEmpty(password) && flag) {
 			map.put("RESULT_CODE", "E");
 			map.put("RESULT_MSG", "password is empty");
 			return map;
@@ -182,31 +203,40 @@ public class AuthService {
 		String email = (String)param.get("email");
 		String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$"; 
 		Pattern p = Pattern.compile(regex); 
-		Matcher m = p.matcher(email); 
-		if(!m.matches()) { 
+		Matcher m = p.matcher(email);
+		String sns = (String)param.get("sns");
+		
+		if(!m.matches() && "DEFAULT".equals(sns)) { 
 			map.put("RESULT_CODE", "E");
 			map.put("RESULT_MSG", "email 형식이 맞지 않아요!");
 			return map;
 			
 		} 
-		
-		String password = (String)param.get("password");
-		String passwordcf =(String)param.get("passwordcf");
-		if (!password.equals(passwordcf)) {
-			map.put("RESULT_CODE", "E");
-			map.put("RESULT_MSG", "No Same Password");
-			return map;
+		if ("DEFAULT".equals(sns)) {
+			String password = (String)param.get("password");
+			String passwordcf =(String)param.get("passwordcf");
+			if (!password.equals(passwordcf)) {
+				map.put("RESULT_CODE", "E");
+				map.put("RESULT_MSG", "No Same Password");
+				return map;
+			}
 		}
 		
 		int count = memberMapper.exsistMember(param);
 		
 		if (count > 0) {
-			map.put("RESULT_CODE", "E");
-			map.put("RESULT_MSG", "이미 등록된 email 입니다.");
+			if("DEFAULT".equals(sns)) {
+				map.put("RESULT_CODE", "E");
+				map.put("RESULT_MSG", "이미 등록된 email 입니다.");	
+			} else {
+				map.put("RESULT_CODE", "S");
+				map.put("RESULT_MSG", "사용 가능합니다.");
+			}
 		} else {
 			map.put("RESULT_CODE", "S");
 			map.put("RESULT_MSG", "사용 가능합니다.");
 		}
+		map.put("CNT", count);
 		
 		return map;
 	}
@@ -214,4 +244,25 @@ public class AuthService {
 	public List<HashMap<String, Object>> getCategoryPercent(int userNo) throws Exception {
 		return memberMapper.getCategoryPercent(userNo);
 	}
+	
+
+   private static char[] generatePassword(int length) {
+      String capitalCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+      String specialCharacters = "!@#$";
+      String numbers = "1234567890";
+      String combinedChars = capitalCaseLetters + lowerCaseLetters + specialCharacters + numbers;
+      Random random = new Random();
+      char[] password = new char[length];
+
+      password[0] = lowerCaseLetters.charAt(random.nextInt(lowerCaseLetters.length()));
+      password[1] = capitalCaseLetters.charAt(random.nextInt(capitalCaseLetters.length()));
+      password[2] = specialCharacters.charAt(random.nextInt(specialCharacters.length()));
+      password[3] = numbers.charAt(random.nextInt(numbers.length()));
+   
+      for(int i = 4; i< length ; i++) {
+         password[i] = combinedChars.charAt(random.nextInt(combinedChars.length()));
+      }
+      return password;
+   }
 }

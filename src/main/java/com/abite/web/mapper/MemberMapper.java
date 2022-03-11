@@ -25,4 +25,5 @@ public interface MemberMapper {
 	long addMember(HashMap<String, Object> map);
 	
 	Map<String, Object> getMemberInfo(HashMap<String, Object> map);
+	Map<String, Object> getAutoMemberInfo(HashMap<String, Object> map);
 }

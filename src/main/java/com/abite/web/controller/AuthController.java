@@ -105,7 +105,7 @@ public class AuthController {
 	{
 		ModelMap ret = new ModelMap();
 		logger.info("signup form : "+ param);
-		ret.addAllAttributes(service.signup(param));
+		ret.addAllAttributes(service.signup(req, param));
 		return ret;
 	}
 	

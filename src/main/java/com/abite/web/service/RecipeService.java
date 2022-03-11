@@ -150,6 +150,7 @@ public class RecipeService {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("crs", "EPSG:3857");
 		map.put("key", world_apikey);
+		map.put("size", "30");
 		map.put("query", (String) param.get("address"));
 	    return apiService.callApi("GET", map, systemUrl);
 	}
