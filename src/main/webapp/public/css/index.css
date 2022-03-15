@@ -186,7 +186,7 @@ fieldset{
 }
 .loadBody {
    position: absolute;
-   top: 40%;
+   top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
    display: flex;
@@ -195,8 +195,8 @@ fieldset{
    width: 20em;
 }
 .logoSlot {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 100%;
   animation: logoLoading 1s ease-in-out infinite alternate;
   background: #7B6341;
@@ -204,7 +204,7 @@ fieldset{
 }
 .loadTxt {
   margin-top: 50px;
-  font-size: 30px;
+  font-size: 23px;
   color: #fff;
   transform-origin: 50% 50%;
 

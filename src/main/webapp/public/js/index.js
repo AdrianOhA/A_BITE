@@ -129,6 +129,7 @@ mainApp.controller("mainCtrl", function($scope) {
         });
 
         $("#reset_login").click(function() {
+        	console.log($scope.profile);
         	if ($scope.profile.sns == "kakao") {
                 location.href = "https://kauth.kakao.com/oauth/logout?client_id=5f85b8bbdad232cf4d9c4fb2bd07dad9&logout_redirect_uri=http://localhost:8080/"
             } else if($scope.profile.sns == "google"){
@@ -257,7 +258,6 @@ mainApp.controller("mainCtrl", function($scope) {
                 },
             });
     	} else{
-    		console.log($scope.profile);
     		$.ajax({
                 type: 'POST',
                 url: '/Auth/signup.json',
@@ -267,6 +267,7 @@ mainApp.controller("mainCtrl", function($scope) {
                 success: function(res) {
                 	if (res.COUNT == 1) {
                 		$("#reset_login").click();
+                		$("#loadding_mask").show();
                 		location.href = res.REDIRECT_URL || "";
                 	} else {
                 		if(res.RESULT_CODE == "E") {
